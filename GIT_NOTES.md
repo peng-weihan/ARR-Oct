@@ -22,6 +22,8 @@ Ignored files remain on disk:
 The largest retained file is `HEART-BENCH-dataset/data/characters.parquet`
 (approximately 23.9 MiB). It is retained as benchmark data, rather than treated as
 a disposable cache. PDFs used by the paper and `main.pdf` are retained.
+The dataset's inherited Hugging Face LFS attributes have been replaced with
+ordinary Git binary attributes for Parquet files; no Git LFS setup is required.
 
 Some research utilities, including the evidence-review script, refer to sibling
 directories in the larger `human-like` workspace; a clone of this repository
