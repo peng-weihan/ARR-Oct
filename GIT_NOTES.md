@@ -10,8 +10,9 @@ locally outside this repository at:
 
 `../.git-backups/20260924-160531/arr-Oct/69c7ffb776a8821cc0f99c65/.git`
 
-The original remote configuration is kept in that backup; this repository has no
-remote configured. The backup is not included when cloning this repository.
+The original Overleaf remote configuration is kept in that backup. This repository
+uses `git@github.com:peng-weihan/arr-Oct.git` as its GitHub `origin`.
+The backup is not included when cloning this repository.
 
 Ignored files remain on disk:
 
