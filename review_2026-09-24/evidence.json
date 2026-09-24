@@ -1,0 +1,1112 @@
+{
+  "scope": "Local files only. Local predictions are not assumed to be the final submission run; author must establish provenance.",
+  "paper_sha256": "922cd63785db77456c25c7fa5dbba54dab734500e7fc663bbb7f93a50462e8c7",
+  "manifest_sha256": "b825b48f4923423300da1e0d16fab1ee00e76f6bf0aec1e8d7c88f88272d3879",
+  "main_inputs": [
+    {
+      "path": "agent-personality-benchmark/experiments/results/baseline_model_only/deepseek-v3.2/predictions_baseline.json",
+      "sha256": "516861b7614797de55448ba7de05b6bb8467f97bfc2b5ccd0a698f9be3406e74",
+      "correct": 192,
+      "n": 673
+    },
+    {
+      "path": "agent-personality-benchmark/experiments/results/baseline_model_only/deepseek-v4-flash/predictions_baseline.json",
+      "sha256": "c717a63aa7f692601e96e4880b5568808099ffb921d5fc5378f254067f6e34ea",
+      "correct": 187,
+      "n": 673
+    },
+    {
+      "path": "agent-personality-benchmark/experiments/results/baseline_model_only/deepseek-v4-pro/predictions_baseline.json",
+      "sha256": "ef4dae32c1138c9fe1b3f1463510dfdc9d8bf8bc7c2350c01976bc648ded48a0",
+      "correct": 196,
+      "n": 673
+    },
+    {
+      "path": "agent-personality-benchmark/experiments/results/baseline_model_only/qwen3.5-35b-a3b/predictions_baseline.json",
+      "sha256": "7acab7c02d6dd58d714bbc1b595821dce688360ecb99f304e7269fa590498de8",
+      "correct": 171,
+      "n": 673
+    },
+    {
+      "path": "agent-personality-benchmark/experiments/results/baseline_model_only/qwen3.5-122b-a10b/predictions_baseline.json",
+      "sha256": "1f078115666784cb7de39f5d66ab87b4ac828126ea3993b3db7d754ef951dc05",
+      "correct": 178,
+      "n": 673
+    },
+    {
+      "path": "agent-personality-benchmark/experiments/results/baseline_model_only/qwen3.5-397b-a17b/predictions_baseline.json",
+      "sha256": "a8ee0ea11f671c2fc64f058f84b72da6ad3d0b62e3cb5e97f600227701c2327c",
+      "correct": 185,
+      "n": 673
+    },
+    {
+      "path": "agent-personality-benchmark/experiments/results/baseline_model_only/gpt-5.4-mini/predictions_baseline.json",
+      "sha256": "3cc124b701fdd0dc2b7a68ca7c75815b57584758582991cec66fc97a6c6ed05a",
+      "correct": 194,
+      "n": 673
+    },
+    {
+      "path": "agent-personality-benchmark/experiments/results/baseline_model_only/gpt-5.4/predictions_baseline.json",
+      "sha256": "44800dffdd8c2002b437a8054ca9c9f8dda88ea477f64ffa2d2336c5ed0841ba",
+      "correct": 187,
+      "n": 673
+    },
+    {
+      "path": "agent-personality-benchmark/experiments/results/baseline_model_only/claude-haiku-4-5/predictions_baseline.json",
+      "sha256": "6d22b932c573359f061f374c2096d13c8d3436188a6d1c474c7c0390be7d7fd9",
+      "correct": 165,
+      "n": 673
+    },
+    {
+      "path": "agent-personality-benchmark/experiments/results/baseline_model_only/claude-sonnet-4-6/predictions_baseline.json",
+      "sha256": "c1f006b08f80d6a13c8d8e75a28ac1555392b4e9f0a4d97bbd6410183e02af73",
+      "correct": 173,
+      "n": 673
+    },
+    {
+      "path": "agent-personality-benchmark/experiments/results/baseline_model_only/gemini-3-flash-preview/predictions_baseline.json",
+      "sha256": "97fa1704c0075c0fd3a7d48e1f7439a11552664c4ae37cf4ce9e768e50cd9061",
+      "correct": 170,
+      "n": 673
+    },
+    {
+      "path": "agent-personality-benchmark/experiments/results/baseline_model_only/gemini-3.1-pro-preview/predictions_baseline.json",
+      "sha256": "038eb7f96d1178b1096bad40a56c9c36d4d9d09bb7652e1aac60b44cc383e495",
+      "correct": 178,
+      "n": 673
+    },
+    {
+      "path": "agent-personality-benchmark/experiments/results/naive_rag/deepseek-v3.2/predictions_top30.json",
+      "sha256": "d26bdcf0eef84e6d2f0193247ddc1c9161a3a789738bd75c412d6e8bdc47e05b",
+      "correct": 277,
+      "n": 673
+    },
+    {
+      "path": "agent-personality-benchmark/experiments/results/naive_rag/deepseek-v4-flash/predictions_top30.json",
+      "sha256": "f0ea83c0a9dfcb0a6c1e281616a614c332672eeae2be3a4dee9e688cd3120684",
+      "correct": 234,
+      "n": 673
+    },
+    {
+      "path": "agent-personality-benchmark/experiments/results/naive_rag/deepseek-v4-pro/predictions_top30.json",
+      "sha256": "8e9688d053a5659ddcd5cbcfbcb5214883b0c4f4414fe9b5245af366e7a38db9",
+      "correct": 274,
+      "n": 673
+    },
+    {
+      "path": "agent-personality-benchmark/experiments/results/naive_rag/qwen3.5-35b-a3b/predictions_top30.json",
+      "sha256": "e48e5df780321414307c7a1ad9c3033719cded4d5bb57ed67c5e3bb6d221e60c",
+      "correct": 249,
+      "n": 673
+    },
+    {
+      "path": "agent-personality-benchmark/experiments/results/naive_rag/qwen3.5-122b-a10b/predictions_top30.json",
+      "sha256": "c8912a4d1c8ef238a1d387f2022053aef3720c42e1a7a3724ba0647a568c97be",
+      "correct": 263,
+      "n": 673
+    },
+    {
+      "path": "agent-personality-benchmark/experiments/results/naive_rag/qwen3.5-397b-a17b/predictions_top30.json",
+      "sha256": "c046a473ff30973c703e12afc5cd75cdbf074dedfa00ab933da328b38045b99f",
+      "correct": 271,
+      "n": 673
+    },
+    {
+      "path": "agent-personality-benchmark/experiments/results/naive_rag/gpt-5.4-mini/predictions_top30.json",
+      "sha256": "7d7970bcb61a2f3e1b53cfe3629bb23dba56577fc27308837c9ab7d4f2d6dbf6",
+      "correct": 222,
+      "n": 673
+    },
+    {
+      "path": "agent-personality-benchmark/experiments/results/naive_rag/gpt-5.4/predictions_top30.json",
+      "sha256": "c26b8d0215c98a8d624a3c5edcd852b64f6f8eb6b04f3180c66ada02da4c72f7",
+      "correct": 250,
+      "n": 673
+    },
+    {
+      "path": "agent-personality-benchmark/experiments/results/naive_rag/claude-haiku-4-5/predictions_top30.json",
+      "sha256": "3730d1ee1098d133c9b5c04938847e9f9563da661f98d787761f33afc05181ea",
+      "correct": 240,
+      "n": 673
+    },
+    {
+      "path": "agent-personality-benchmark/experiments/results/naive_rag/claude-sonnet-4-6/predictions_top30.json",
+      "sha256": "87da99e5a99e1d0b54c2b6cffbca76e6825395c7c78b708b8356fc8da0ccfc66",
+      "correct": 270,
+      "n": 673
+    },
+    {
+      "path": "agent-personality-benchmark/experiments/results/naive_rag/gemini-3-flash-preview/predictions_top30.json",
+      "sha256": "27026332fd3fca378e44c46eb96cd25c1b9ddacb712cdd4ca8dafad72d94af53",
+      "correct": 379,
+      "n": 673
+    },
+    {
+      "path": "agent-personality-benchmark/experiments/results/naive_rag/gemini-3.1-pro-preview/predictions_top30.json",
+      "sha256": "5c0de439ccc4f01f2ab9aa1599a6a85bdf82d215da32571131e38e1d379ea469",
+      "correct": 426,
+      "n": 673
+    },
+    {
+      "path": "agent-personality-benchmark/experiments/results/mem0/deepseek-v3.2/predictions_top150.json",
+      "sha256": "de9739c2266f1983ff1865dad345fa0ed1bd49782be0e43b65c25ad92f099174",
+      "correct": 286,
+      "n": 673
+    },
+    {
+      "path": "agent-personality-benchmark/experiments/results/mem0/deepseek-v4-flash/predictions_top150.json",
+      "sha256": "77197116c196193756f8c8d751de7f091b64c3d12e27599aaaf24ca75a262105",
+      "correct": 226,
+      "n": 673
+    },
+    {
+      "path": "agent-personality-benchmark/experiments/results/mem0/deepseek-v4-pro/predictions_top150.json",
+      "sha256": "cc20a355454bde1f7a0c07f5f891de71d0c11e117ae7b2e8b1f5294c7151b95b",
+      "correct": 250,
+      "n": 673
+    },
+    {
+      "path": "agent-personality-benchmark/experiments/results/mem0/qwen3.5-35b-a3b/predictions_top150.json",
+      "sha256": "1198c2ec182d889b8a15f64bd83b2717d99e1573b7fc08759a6cdd41e555658a",
+      "correct": 250,
+      "n": 673
+    },
+    {
+      "path": "agent-personality-benchmark/experiments/results/mem0/qwen3.5-122b-a10b/predictions_top150.json",
+      "sha256": "828a3d24af68a390b559dc262c476deb5b9e00305ad6987157092f7662ccd4bf",
+      "correct": 265,
+      "n": 673
+    },
+    {
+      "path": "agent-personality-benchmark/experiments/results/mem0/qwen3.5-397b-a17b/predictions_top150.json",
+      "sha256": "f02256ea842a8049a3b63b861d4f91975fa08075b20919677dfa5f1f1c889ca7",
+      "correct": 273,
+      "n": 673
+    },
+    {
+      "path": "agent-personality-benchmark/experiments/results/mem0/gpt-5.4-mini/predictions_top150.json",
+      "sha256": "ac17b0015f660f319b3b3c5b9e8e9f8344da392f982df5481aa160be8ca36a32",
+      "correct": 231,
+      "n": 673
+    },
+    {
+      "path": "agent-personality-benchmark/experiments/results/mem0/gpt-5.4/predictions_top150.json",
+      "sha256": "464d04b666e64b07fb966b8987839f045ea94b0cf9e4565fe3fb52151014911e",
+      "correct": 246,
+      "n": 673
+    },
+    {
+      "path": "agent-personality-benchmark/experiments/results/mem0/claude-haiku-4-5/predictions_top150.json",
+      "sha256": "74938eebd904444281dfab51705e077f7dccef6017ba2b7eae8f4f9b80ff2281",
+      "correct": 244,
+      "n": 673
+    },
+    {
+      "path": "agent-personality-benchmark/experiments/results/mem0/claude-sonnet-4-6/predictions_top150.json",
+      "sha256": "1195c675fa9f174561a378243ede53d750408c5072fd30ecffbe5a01088c552c",
+      "correct": 262,
+      "n": 673
+    },
+    {
+      "path": "agent-personality-benchmark/experiments/results/mem0/gemini-3-flash-preview/predictions_top150.json",
+      "sha256": "548818a041b71def74cc45cf91e12d00e34ee3751fc91fcb88bf86040453e116",
+      "correct": 364,
+      "n": 673
+    },
+    {
+      "path": "agent-personality-benchmark/experiments/results/mem0/gemini-3.1-pro-preview/predictions_top150.json",
+      "sha256": "8811c05cb05c27d0c57834bb55f827ab7db73032739752e5b52d18740c176a85",
+      "correct": 420,
+      "n": 673
+    },
+    {
+      "path": "agent-personality-benchmark/experiments/results/personadb/deepseek-v3.2/predictions_top30.json",
+      "sha256": "687023448a5323ecd994ff5b37268bcff809a3cbf67ca329e5dd85c8d1c6dbc7",
+      "correct": 288,
+      "n": 673
+    },
+    {
+      "path": "agent-personality-benchmark/experiments/results/personadb/deepseek-v4-flash/predictions_top30.json",
+      "sha256": "d3f8eaf7db4306cbc5fafffaf7b21ebb902664e8e54f4669598cad447c6e880d",
+      "correct": 221,
+      "n": 673
+    },
+    {
+      "path": "agent-personality-benchmark/experiments/results/personadb/deepseek-v4-pro/predictions_top30.json",
+      "sha256": "de86d27750e8cda29441654dbdebc03147708060161ddcff95b6fde9581815a0",
+      "correct": 247,
+      "n": 673
+    },
+    {
+      "path": "agent-personality-benchmark/experiments/results/personadb/qwen3.5-35b-a3b/predictions_top30.json",
+      "sha256": "a5392fd42ec8cd8441933a80d037150d864b5905e356207b6c331e64fba891c3",
+      "correct": 246,
+      "n": 673
+    },
+    {
+      "path": "agent-personality-benchmark/experiments/results/personadb/qwen3.5-122b-a10b/predictions_top30.json",
+      "sha256": "605d49e95baaf66e3ea8ee66d95219dd2aa40dd64c099a30a8b1eea5e76e925b",
+      "correct": 262,
+      "n": 673
+    },
+    {
+      "path": "agent-personality-benchmark/experiments/results/personadb/qwen3.5-397b-a17b/predictions_top30.json",
+      "sha256": "b589263ae7b01967ade445253753a5f824de55eb87af2f266fe9124d739b94ff",
+      "correct": 272,
+      "n": 673
+    },
+    {
+      "path": "agent-personality-benchmark/experiments/results/personadb/gpt-5.4-mini/predictions_top30.json",
+      "sha256": "5940259cbfacf943eafab1ae9595d932f6f5fdfcb1a2e4fbb8612a7168a2e3f0",
+      "correct": 217,
+      "n": 673
+    },
+    {
+      "path": "agent-personality-benchmark/experiments/results/personadb/gpt-5.4/predictions_top30.json",
+      "sha256": "d68ff37c107e44b731a747dcfb52d55e04ee9746465a90a451259dd0a1c24af2",
+      "correct": 236,
+      "n": 673
+    },
+    {
+      "path": "agent-personality-benchmark/experiments/results/personadb/claude-haiku-4-5/predictions_top30.json",
+      "sha256": "7204a41c7ee4895f7257d4f3fa3d237745e259d70fa0ea3ac39132ad716a93d2",
+      "correct": 253,
+      "n": 673
+    },
+    {
+      "path": "agent-personality-benchmark/experiments/results/personadb/claude-sonnet-4-6/predictions_top30.json",
+      "sha256": "aea11a4ceb315bef827c70b76a4f27b5ac78290ad00506f019cf1bb23cf20b22",
+      "correct": 270,
+      "n": 673
+    },
+    {
+      "path": "agent-personality-benchmark/experiments/results/personadb/gemini-3-flash-preview/predictions_top30.json",
+      "sha256": "4c4de0e63762c25ee701f8afeba92ecad9c4422471ca8a7c03abe0b8e6668c68",
+      "correct": 353,
+      "n": 673
+    },
+    {
+      "path": "agent-personality-benchmark/experiments/results/personadb/gemini-3.1-pro-preview/predictions_top30.json",
+      "sha256": "548f45086a7199298159626361be356f8df66d0b2098afbe45c5cee04accbb0b",
+      "correct": 420,
+      "n": 673
+    }
+  ],
+  "persistent_failure": {
+    "definition": "All 12 models wrong in each of 3 memory settings",
+    "count": 34,
+    "question_ids": [
+      "Q_CHAR_01_SCN_AGE_30_TRANSITION_5",
+      "Q_CHAR_01_SCN_ENTERING_ADULT_WORLD_5",
+      "Q_CHAR_01_SCN_ENTERING_MIDLIFE_4",
+      "Q_CHAR_02_SCN_ENTERING_ADULT_WORLD_8",
+      "Q_CHAR_02_SCN_SCHOOL_AGE_4",
+      "Q_CHAR_03_SCN_AGE_30_TRANSITION_7",
+      "Q_CHAR_03_SCN_SCHOOL_AGE_6",
+      "Q_CHAR_04_SCN_EARLY_ADULT_TRANSITION_4",
+      "Q_CHAR_04_SCN_ENTERING_ADULT_WORLD_2",
+      "Q_CHAR_04_SCN_MIDLIFE_TRANSITION_3",
+      "Q_CHAR_04_SCN_MIDLIFE_TRANSITION_7",
+      "Q_CHAR_04_SCN_SETTLING_DOWN_3",
+      "Q_CHAR_05_SCN_AGE_30_TRANSITION_4",
+      "Q_CHAR_05_SCN_AGE_30_TRANSITION_8",
+      "Q_CHAR_05_SCN_EARLY_ADULT_TRANSITION_3",
+      "Q_CHAR_05_SCN_EARLY_ADULT_TRANSITION_4",
+      "Q_CHAR_05_SCN_ENTERING_MIDLIFE_1",
+      "Q_CHAR_05_SCN_SCHOOL_AGE_3",
+      "Q_CHAR_06_SCN_ADOLESCENCE_7",
+      "Q_CHAR_06_SCN_ENTERING_MIDLIFE_4",
+      "Q_CHAR_07_SCN_AGE_30_TRANSITION_1",
+      "Q_CHAR_08_SCN_ADOLESCENCE_3",
+      "Q_CHAR_09_SCN_AGE_30_TRANSITION_1",
+      "Q_CHAR_09_SCN_ENTERING_ADULT_WORLD_3",
+      "Q_CHAR_09_SCN_ENTERING_ADULT_WORLD_8",
+      "Q_CHAR_10_SCN_AGE_30_TRANSITION_3",
+      "Q_CHAR_10_SCN_AGE_30_TRANSITION_7",
+      "Q_CHAR_10_SCN_ENTERING_MIDLIFE_3",
+      "Q_CHAR_10_SCN_ENTERING_MIDLIFE_7",
+      "Q_CHAR_10_SCN_MIDLIFE_TRANSITION_8",
+      "Q_CHAR_10_SCN_SCHOOL_AGE_1",
+      "Q_CHAR_10_SCN_SCHOOL_AGE_4",
+      "Q_CHAR_11_SCN_AGE_30_TRANSITION_7",
+      "Q_CHAR_11_SCN_MIDLIFE_TRANSITION_1"
+    ],
+    "naive_rag_converged_at_least_6": 32,
+    "convergence_percent": 94.11764705882354
+  },
+  "paper_ablation": [
+    {
+      "model": "DeepSeek-V3.2",
+      "values": {
+        "C0": 43.2,
+        "C1": 38.9,
+        "C2": 19.9,
+        "C3": 37.8
+      }
+    },
+    {
+      "model": "DeepSeek-V4-Flash",
+      "values": {
+        "C0": 34.7,
+        "C1": 30.6,
+        "C2": 24.4,
+        "C3": 30.1
+      }
+    },
+    {
+      "model": "DeepSeek-V4-Pro",
+      "values": {
+        "C0": 41.5,
+        "C1": 35.9,
+        "C2": 22.2,
+        "C3": 36.8
+      }
+    },
+    {
+      "model": "Qwen3.5-35B-A3B",
+      "values": {
+        "C0": 32.4,
+        "C1": 30.2,
+        "C2": 20.5,
+        "C3": 29.1
+      }
+    },
+    {
+      "model": "Qwen3.5-122B-A10B",
+      "values": {
+        "C0": 33.5,
+        "C1": 31.2,
+        "C2": 23.3,
+        "C3": 30.1
+      }
+    },
+    {
+      "model": "Qwen3.5-397B-A17B",
+      "values": {
+        "C0": 34.7,
+        "C1": 31.9,
+        "C2": 23.3,
+        "C3": 30.9
+      }
+    },
+    {
+      "model": "GPT-5.4-mini",
+      "values": {
+        "C0": 32.4,
+        "C1": 29.2,
+        "C2": 20.5,
+        "C3": 28.7
+      }
+    },
+    {
+      "model": "GPT-5.4",
+      "values": {
+        "C0": 31.8,
+        "C1": 28.1,
+        "C2": 19.3,
+        "C3": 28.8
+      }
+    },
+    {
+      "model": "Claude-Haiku-4.5",
+      "values": {
+        "C0": 31.8,
+        "C1": 25.7,
+        "C2": 24.4,
+        "C3": 26.1
+      }
+    },
+    {
+      "model": "Claude-Sonnet-4.6",
+      "values": {
+        "C0": 41.5,
+        "C1": 34.7,
+        "C2": 24.4,
+        "C3": 33.8
+      }
+    },
+    {
+      "model": "Gemini-3-Flash",
+      "values": {
+        "C0": 56.3,
+        "C1": 48.4,
+        "C2": 23.9,
+        "C3": 47.9
+      }
+    },
+    {
+      "model": "Gemini-3.1-Pro",
+      "values": {
+        "C0": 65.3,
+        "C1": 53.6,
+        "C2": 26.1,
+        "C3": 53.8
+      }
+    }
+  ],
+  "incompatible_with_single_run_n176": [
+    {
+      "model": "DeepSeek-V3.2",
+      "condition": "C1",
+      "paper_percent": 38.9,
+      "nearest_correct": 68,
+      "nearest_percent": 38.63636363636363
+    },
+    {
+      "model": "DeepSeek-V3.2",
+      "condition": "C3",
+      "paper_percent": 37.8,
+      "nearest_correct": 67,
+      "nearest_percent": 38.06818181818182
+    },
+    {
+      "model": "DeepSeek-V4-Flash",
+      "condition": "C1",
+      "paper_percent": 30.6,
+      "nearest_correct": 54,
+      "nearest_percent": 30.681818181818183
+    },
+    {
+      "model": "DeepSeek-V4-Pro",
+      "condition": "C1",
+      "paper_percent": 35.9,
+      "nearest_correct": 63,
+      "nearest_percent": 35.79545454545455
+    },
+    {
+      "model": "DeepSeek-V4-Pro",
+      "condition": "C3",
+      "paper_percent": 36.8,
+      "nearest_correct": 65,
+      "nearest_percent": 36.93181818181818
+    },
+    {
+      "model": "Qwen3.5-35B-A3B",
+      "condition": "C1",
+      "paper_percent": 30.2,
+      "nearest_correct": 53,
+      "nearest_percent": 30.113636363636363
+    },
+    {
+      "model": "Qwen3.5-35B-A3B",
+      "condition": "C3",
+      "paper_percent": 29.1,
+      "nearest_correct": 51,
+      "nearest_percent": 28.977272727272727
+    },
+    {
+      "model": "Qwen3.5-397B-A17B",
+      "condition": "C1",
+      "paper_percent": 31.9,
+      "nearest_correct": 56,
+      "nearest_percent": 31.818181818181817
+    },
+    {
+      "model": "Qwen3.5-397B-A17B",
+      "condition": "C3",
+      "paper_percent": 30.9,
+      "nearest_correct": 54,
+      "nearest_percent": 30.681818181818183
+    },
+    {
+      "model": "GPT-5.4-mini",
+      "condition": "C1",
+      "paper_percent": 29.2,
+      "nearest_correct": 51,
+      "nearest_percent": 28.977272727272727
+    },
+    {
+      "model": "GPT-5.4-mini",
+      "condition": "C3",
+      "paper_percent": 28.7,
+      "nearest_correct": 51,
+      "nearest_percent": 28.977272727272727
+    },
+    {
+      "model": "GPT-5.4",
+      "condition": "C1",
+      "paper_percent": 28.1,
+      "nearest_correct": 49,
+      "nearest_percent": 27.84090909090909
+    },
+    {
+      "model": "GPT-5.4",
+      "condition": "C3",
+      "paper_percent": 28.8,
+      "nearest_correct": 51,
+      "nearest_percent": 28.977272727272727
+    },
+    {
+      "model": "Claude-Haiku-4.5",
+      "condition": "C1",
+      "paper_percent": 25.7,
+      "nearest_correct": 45,
+      "nearest_percent": 25.568181818181817
+    },
+    {
+      "model": "Claude-Sonnet-4.6",
+      "condition": "C3",
+      "paper_percent": 33.8,
+      "nearest_correct": 59,
+      "nearest_percent": 33.52272727272727
+    },
+    {
+      "model": "Gemini-3-Flash",
+      "condition": "C1",
+      "paper_percent": 48.4,
+      "nearest_correct": 85,
+      "nearest_percent": 48.29545454545455
+    },
+    {
+      "model": "Gemini-3-Flash",
+      "condition": "C3",
+      "paper_percent": 47.9,
+      "nearest_correct": 84,
+      "nearest_percent": 47.72727272727273
+    },
+    {
+      "model": "Gemini-3.1-Pro",
+      "condition": "C1",
+      "paper_percent": 53.6,
+      "nearest_correct": 94,
+      "nearest_percent": 53.40909090909091
+    },
+    {
+      "model": "Gemini-3.1-Pro",
+      "condition": "C3",
+      "paper_percent": 53.8,
+      "nearest_correct": 95,
+      "nearest_percent": 53.97727272727273
+    }
+  ],
+  "local_ablation": [
+    {
+      "model": "deepseek-v3.2",
+      "condition": "C0",
+      "path": "nips/rebuttal_experiments/experiment_04_counterfactual_memory/outputs/formal/correct_character_correct_scenario/deepseek-v3.2/predictions_top30.json",
+      "exists": true,
+      "n": 176,
+      "correct": 76,
+      "sha256": "19e17b54f9b9f2559df319fceaeb7cafeafc4922d2eb8223377b1e9ae58d3392",
+      "percent": 43.18181818181818,
+      "aligned_to_local_C0": true
+    },
+    {
+      "model": "deepseek-v3.2",
+      "condition": "C1",
+      "path": "nips/rebuttal_experiments/experiment_04_counterfactual_memory/outputs/formal/same_character_wrong_scenario/deepseek-v3.2/predictions_top30.json",
+      "exists": true,
+      "n": 176,
+      "correct": 72,
+      "sha256": "193583feb90f93902be4f0f994b5cf0584ab602f815e1a8ffaff276c818cd6a4",
+      "percent": 40.90909090909091,
+      "aligned_to_local_C0": true
+    },
+    {
+      "model": "deepseek-v3.2",
+      "condition": "C2",
+      "path": "nips/rebuttal_experiments/experiment_04_counterfactual_memory/outputs/formal/wrong_character_same_scenario/deepseek-v3.2/predictions_top30.json",
+      "exists": true,
+      "n": 176,
+      "correct": 35,
+      "sha256": "bf7304bcba470d7adba8b31a4e5f7c8cb68951f59eaa7980b6913a29f5b0148c",
+      "percent": 19.886363636363637,
+      "aligned_to_local_C0": true
+    },
+    {
+      "model": "deepseek-v3.2",
+      "condition": "C3",
+      "path": "nips/rebuttal_experiments/experiment_04_counterfactual_memory/outputs/formal/random_memory/deepseek-v3.2/predictions_top30.json",
+      "exists": true,
+      "n": 176,
+      "correct": 64,
+      "sha256": "b0a2b503eda680da55c7ae7a35edb114161d89eb9be52a71e435d094e90a2885",
+      "percent": 36.36363636363637,
+      "aligned_to_local_C0": true
+    },
+    {
+      "model": "deepseek-v4-flash",
+      "condition": "C0",
+      "path": "nips/rebuttal_experiments/experiment_04_counterfactual_memory/outputs/formal/correct_character_correct_scenario/deepseek-v4-flash/predictions_top30.json",
+      "exists": true,
+      "n": 176,
+      "correct": 61,
+      "sha256": "0d842bd6d71b5647336c957561690808b648892aca19d7a0fdbe99d066d061ed",
+      "percent": 34.65909090909091,
+      "aligned_to_local_C0": true
+    },
+    {
+      "model": "deepseek-v4-flash",
+      "condition": "C1",
+      "path": "nips/rebuttal_experiments/experiment_04_counterfactual_memory/outputs/formal/same_character_wrong_scenario/deepseek-v4-flash/predictions_top30.json",
+      "exists": true,
+      "n": 176,
+      "correct": 75,
+      "sha256": "7b7745b778819b3cc1405fb0799df9218267df486b646a0e51e9318a5f6bd9d2",
+      "percent": 42.61363636363637,
+      "aligned_to_local_C0": true
+    },
+    {
+      "model": "deepseek-v4-flash",
+      "condition": "C2",
+      "path": "nips/rebuttal_experiments/experiment_04_counterfactual_memory/outputs/formal/wrong_character_same_scenario/deepseek-v4-flash/predictions_top30.json",
+      "exists": true,
+      "n": 176,
+      "correct": 43,
+      "sha256": "3fade59371f7a94cce4b5ca60fb201cdebb7a18d3da56d6eb8afc68728971435",
+      "percent": 24.431818181818183,
+      "aligned_to_local_C0": true
+    },
+    {
+      "model": "deepseek-v4-flash",
+      "condition": "C3",
+      "path": "nips/rebuttal_experiments/experiment_04_counterfactual_memory/outputs/formal/random_memory/deepseek-v4-flash/predictions_top30.json",
+      "exists": true,
+      "n": 176,
+      "correct": 73,
+      "sha256": "202f795d7599d85d0949113a1e328a7be5d36c1ea6ea839ee46ccc36bc193449",
+      "percent": 41.47727272727273,
+      "aligned_to_local_C0": true
+    },
+    {
+      "model": "deepseek-v4-pro",
+      "condition": "C0",
+      "path": "nips/rebuttal_experiments/experiment_04_counterfactual_memory/outputs/formal/correct_character_correct_scenario/deepseek-v4-pro/predictions_top30.json",
+      "exists": true,
+      "n": 176,
+      "correct": 73,
+      "sha256": "1388ef36a06987dd342c950b35f00a35aa5c55b0513daae5f47bbf4bb8b2f796",
+      "percent": 41.47727272727273,
+      "aligned_to_local_C0": true
+    },
+    {
+      "model": "deepseek-v4-pro",
+      "condition": "C1",
+      "path": "nips/rebuttal_experiments/experiment_04_counterfactual_memory/outputs/formal/same_character_wrong_scenario/deepseek-v4-pro/predictions_top30.json",
+      "exists": true,
+      "n": 176,
+      "correct": 79,
+      "sha256": "f74c63f46ab260d28aebb012de5899ad53c619d2e90c316839412f5522279e6a",
+      "percent": 44.88636363636363,
+      "aligned_to_local_C0": true
+    },
+    {
+      "model": "deepseek-v4-pro",
+      "condition": "C2",
+      "path": "nips/rebuttal_experiments/experiment_04_counterfactual_memory/outputs/formal/wrong_character_same_scenario/deepseek-v4-pro/predictions_top30.json",
+      "exists": true,
+      "n": 176,
+      "correct": 39,
+      "sha256": "ecffd5681b99d8ed49ecd2e812f17f868df0db26cc81f73cde69dc9258affa3e",
+      "percent": 22.15909090909091,
+      "aligned_to_local_C0": true
+    },
+    {
+      "model": "deepseek-v4-pro",
+      "condition": "C3",
+      "path": "nips/rebuttal_experiments/experiment_04_counterfactual_memory/outputs/formal/random_memory/deepseek-v4-pro/predictions_top30.json",
+      "exists": true,
+      "n": 176,
+      "correct": 79,
+      "sha256": "d356a91271412a96a3ea19e979c0d23aa090ad13f891b68d9a24931332d5382b",
+      "percent": 44.88636363636363,
+      "aligned_to_local_C0": true
+    },
+    {
+      "model": "qwen3.5-35b-a3b",
+      "condition": "C0",
+      "path": "nips/rebuttal_experiments/experiment_04_counterfactual_memory/outputs/formal/correct_character_correct_scenario/qwen3.5-35b-a3b/predictions_top30.json",
+      "exists": true,
+      "n": 176,
+      "correct": 57,
+      "sha256": "36116f1a5d25cda4e80c3d2bda56c6927c3a8695a4bf22cf2739b6178a31c160",
+      "percent": 32.38636363636363,
+      "aligned_to_local_C0": true
+    },
+    {
+      "model": "qwen3.5-35b-a3b",
+      "condition": "C1",
+      "path": "nips/rebuttal_experiments/experiment_04_counterfactual_memory/outputs/formal/same_character_wrong_scenario/qwen3.5-35b-a3b/predictions_top30.json",
+      "exists": true,
+      "n": 176,
+      "correct": 55,
+      "sha256": "14021daccc2d66ef5d99942d60ded4047f7b0753741b776266e874fe7e45c9c2",
+      "percent": 31.25,
+      "aligned_to_local_C0": true
+    },
+    {
+      "model": "qwen3.5-35b-a3b",
+      "condition": "C2",
+      "path": "nips/rebuttal_experiments/experiment_04_counterfactual_memory/outputs/formal/wrong_character_same_scenario/qwen3.5-35b-a3b/predictions_top30.json",
+      "exists": true,
+      "n": 176,
+      "correct": 36,
+      "sha256": "656df09934a7583faa5d026fb872008c3f8783f6c0504f8a62e2bf3d88b85027",
+      "percent": 20.454545454545453,
+      "aligned_to_local_C0": true
+    },
+    {
+      "model": "qwen3.5-35b-a3b",
+      "condition": "C3",
+      "path": "nips/rebuttal_experiments/experiment_04_counterfactual_memory/outputs/formal/random_memory/qwen3.5-35b-a3b/predictions_top30.json",
+      "exists": true,
+      "n": 176,
+      "correct": 54,
+      "sha256": "80a0284cd08256454e97e700a4ffe4327c8a948629e7d278e639c7e4479fffda",
+      "percent": 30.681818181818183,
+      "aligned_to_local_C0": true
+    },
+    {
+      "model": "qwen3.5-122b-a10b",
+      "condition": "C0",
+      "path": "nips/rebuttal_experiments/experiment_04_counterfactual_memory/outputs/formal/correct_character_correct_scenario/qwen3.5-122b-a10b/predictions_top30.json",
+      "exists": true,
+      "n": 176,
+      "correct": 59,
+      "sha256": "876f49924d08f9388bb23a56e132adc39cd3e245fbe45fda42011acb36c7ea18",
+      "percent": 33.52272727272727,
+      "aligned_to_local_C0": true
+    },
+    {
+      "model": "qwen3.5-122b-a10b",
+      "condition": "C1",
+      "path": "nips/rebuttal_experiments/experiment_04_counterfactual_memory/outputs/formal/same_character_wrong_scenario/qwen3.5-122b-a10b/predictions_top30.json",
+      "exists": true,
+      "n": 176,
+      "correct": 55,
+      "sha256": "f574e03beb372bf516d1da81d08113c38d3aadb8ce11d1198441e555f43af2d9",
+      "percent": 31.25,
+      "aligned_to_local_C0": true
+    },
+    {
+      "model": "qwen3.5-122b-a10b",
+      "condition": "C2",
+      "path": "nips/rebuttal_experiments/experiment_04_counterfactual_memory/outputs/formal/wrong_character_same_scenario/qwen3.5-122b-a10b/predictions_top30.json",
+      "exists": true,
+      "n": 176,
+      "correct": 41,
+      "sha256": "0f19da9b69a404710a5a92ae238a567c1e017afe6be1dd4bccb64f458cd9d39b",
+      "percent": 23.295454545454547,
+      "aligned_to_local_C0": true
+    },
+    {
+      "model": "qwen3.5-122b-a10b",
+      "condition": "C3",
+      "path": "nips/rebuttal_experiments/experiment_04_counterfactual_memory/outputs/formal/random_memory/qwen3.5-122b-a10b/predictions_top30.json",
+      "exists": true,
+      "n": 176,
+      "correct": 64,
+      "sha256": "4ef7eb16433d32f943ccfa9c9fd15eb8b7fba075257fb13da4275664a2059817",
+      "percent": 36.36363636363637,
+      "aligned_to_local_C0": true
+    },
+    {
+      "model": "qwen3.5-397b-a17b",
+      "condition": "C0",
+      "path": "nips/rebuttal_experiments/experiment_04_counterfactual_memory/outputs/formal/correct_character_correct_scenario/qwen3.5-397b-a17b/predictions_top30.json",
+      "exists": true,
+      "n": 176,
+      "correct": 61,
+      "sha256": "d0f62959e80839d47e43b0cb3473d4c90386bf809c7d9038fb52657c8ab96e9e",
+      "percent": 34.65909090909091,
+      "aligned_to_local_C0": true
+    },
+    {
+      "model": "qwen3.5-397b-a17b",
+      "condition": "C1",
+      "path": "nips/rebuttal_experiments/experiment_04_counterfactual_memory/outputs/formal/same_character_wrong_scenario/qwen3.5-397b-a17b/predictions_top30.json",
+      "exists": true,
+      "n": 176,
+      "correct": 65,
+      "sha256": "ffe35248631766752a796c031d59f09f042810eca72ae26946fc3e48d9710be6",
+      "percent": 36.93181818181818,
+      "aligned_to_local_C0": true
+    },
+    {
+      "model": "qwen3.5-397b-a17b",
+      "condition": "C2",
+      "path": "nips/rebuttal_experiments/experiment_04_counterfactual_memory/outputs/formal/wrong_character_same_scenario/qwen3.5-397b-a17b/predictions_top30.json",
+      "exists": true,
+      "n": 176,
+      "correct": 41,
+      "sha256": "2fb63a4c48427483f1def869373584a21bc9baa7181c2ec5fd4bcd1b89f9e0eb",
+      "percent": 23.295454545454547,
+      "aligned_to_local_C0": true
+    },
+    {
+      "model": "qwen3.5-397b-a17b",
+      "condition": "C3",
+      "path": "nips/rebuttal_experiments/experiment_04_counterfactual_memory/outputs/formal/random_memory/qwen3.5-397b-a17b/predictions_top30.json",
+      "exists": true,
+      "n": 176,
+      "correct": 58,
+      "sha256": "0aa09f5d6c8ecd0acf488b092e0d8b6dc8e4a4599f339483e761e685f100e60a",
+      "percent": 32.95454545454545,
+      "aligned_to_local_C0": true
+    },
+    {
+      "model": "gpt-5.4-mini",
+      "condition": "C0",
+      "path": "nips/rebuttal_experiments/experiment_04_counterfactual_memory/outputs/formal/correct_character_correct_scenario/gpt-5.4-mini/predictions_top30.json",
+      "exists": true,
+      "n": 176,
+      "correct": 57,
+      "sha256": "712d18b8cc9c584d1ddcd7096c20f37e62242a1d7e98eb3ac0aa42fce26b53b8",
+      "percent": 32.38636363636363,
+      "aligned_to_local_C0": true
+    },
+    {
+      "model": "gpt-5.4-mini",
+      "condition": "C1",
+      "path": "nips/rebuttal_experiments/experiment_04_counterfactual_memory/outputs/formal/same_character_wrong_scenario/gpt-5.4-mini/predictions_top30.json",
+      "exists": true,
+      "n": 176,
+      "correct": 69,
+      "sha256": "c72a266c0606553b244d8ec3426de458d321f79a5ec57e1783191ff3b2779e3f",
+      "percent": 39.20454545454545,
+      "aligned_to_local_C0": true
+    },
+    {
+      "model": "gpt-5.4-mini",
+      "condition": "C2",
+      "path": "nips/rebuttal_experiments/experiment_04_counterfactual_memory/outputs/formal/wrong_character_same_scenario/gpt-5.4-mini/predictions_top30.json",
+      "exists": true,
+      "n": 176,
+      "correct": 36,
+      "sha256": "5757df1a79fa1d8529060cf2ba74b4ee68a31403e2bdc8493212e940809eee77",
+      "percent": 20.454545454545453,
+      "aligned_to_local_C0": true
+    },
+    {
+      "model": "gpt-5.4-mini",
+      "condition": "C3",
+      "path": "nips/rebuttal_experiments/experiment_04_counterfactual_memory/outputs/formal/random_memory/gpt-5.4-mini/predictions_top30.json",
+      "exists": true,
+      "n": 176,
+      "correct": 59,
+      "sha256": "b2fbf8793d9eaf4e15e71ea698a3a4a0ef7e94809f23f2055867d73b4eb45580",
+      "percent": 33.52272727272727,
+      "aligned_to_local_C0": true
+    },
+    {
+      "model": "gpt-5.4",
+      "condition": "C0",
+      "path": "nips/rebuttal_experiments/experiment_04_counterfactual_memory/outputs/formal/correct_character_correct_scenario/gpt-5.4/predictions_top30.json",
+      "exists": true,
+      "n": 176,
+      "correct": 56,
+      "sha256": "54e131b069a47c7cda1286fbe29e80dee4ab5cca0c0925744002b4af5e51b2be",
+      "percent": 31.818181818181817,
+      "aligned_to_local_C0": true
+    },
+    {
+      "model": "gpt-5.4",
+      "condition": "C1",
+      "path": "nips/rebuttal_experiments/experiment_04_counterfactual_memory/outputs/formal/same_character_wrong_scenario/gpt-5.4/predictions_top30.json",
+      "exists": true,
+      "n": 176,
+      "correct": 67,
+      "sha256": "80adba3f5d2572d180ef60115d0d9bbcd4c55fda48fff5b664003d7366df398d",
+      "percent": 38.06818181818182,
+      "aligned_to_local_C0": true
+    },
+    {
+      "model": "gpt-5.4",
+      "condition": "C2",
+      "path": "nips/rebuttal_experiments/experiment_04_counterfactual_memory/outputs/formal/wrong_character_same_scenario/gpt-5.4/predictions_top30.json",
+      "exists": true,
+      "n": 176,
+      "correct": 34,
+      "sha256": "14628edbf52a2e6a693e32e6bd5af7e666008e9105b81ab4896b68539486fd6f",
+      "percent": 19.318181818181817,
+      "aligned_to_local_C0": true
+    },
+    {
+      "model": "gpt-5.4",
+      "condition": "C3",
+      "path": "nips/rebuttal_experiments/experiment_04_counterfactual_memory/outputs/formal/random_memory/gpt-5.4/predictions_top30.json",
+      "exists": true,
+      "n": 176,
+      "correct": 66,
+      "sha256": "9665482379ca1604429779e42d9368daab8be806b477f4816f1cdca90fb6493b",
+      "percent": 37.5,
+      "aligned_to_local_C0": true
+    },
+    {
+      "model": "claude-haiku-4-5",
+      "condition": "C0",
+      "path": "nips/rebuttal_experiments/experiment_04_counterfactual_memory/outputs/formal/correct_character_correct_scenario/claude-haiku-4-5/predictions_top30.json",
+      "exists": true,
+      "n": 176,
+      "correct": 56,
+      "sha256": "d85c141151c9ba9bb4b1d9b7d7d09c6000a2775eb494c982af76903e26e45ac9",
+      "percent": 31.818181818181817,
+      "aligned_to_local_C0": true
+    },
+    {
+      "model": "claude-haiku-4-5",
+      "condition": "C1",
+      "path": "nips/rebuttal_experiments/experiment_04_counterfactual_memory/outputs/formal/same_character_wrong_scenario/claude-haiku-4-5/predictions_top30.json",
+      "exists": true,
+      "n": 176,
+      "correct": 47,
+      "sha256": "bbb751c92cee4a7dbdd2363a6d6c71275b57fc15b72bb927328e83464886c0ed",
+      "percent": 26.704545454545453,
+      "aligned_to_local_C0": true
+    },
+    {
+      "model": "claude-haiku-4-5",
+      "condition": "C2",
+      "path": "nips/rebuttal_experiments/experiment_04_counterfactual_memory/outputs/formal/wrong_character_same_scenario/claude-haiku-4-5/predictions_top30.json",
+      "exists": true,
+      "n": 176,
+      "correct": 43,
+      "sha256": "ac21b495fb1eca81e68e9f9b389bf498d0fecfb485f79a6e218815c3eed0eedc",
+      "percent": 24.431818181818183,
+      "aligned_to_local_C0": true
+    },
+    {
+      "model": "claude-haiku-4-5",
+      "condition": "C3",
+      "path": "nips/rebuttal_experiments/experiment_04_counterfactual_memory/outputs/formal/random_memory/claude-haiku-4-5/predictions_top30.json",
+      "exists": true,
+      "n": 176,
+      "correct": 52,
+      "sha256": "79aed3fb0d5dc1811b1d2bb96332b68c44cb1bb596449bdb267d60be31302b30",
+      "percent": 29.545454545454547,
+      "aligned_to_local_C0": true
+    },
+    {
+      "model": "claude-sonnet-4-6",
+      "condition": "C0",
+      "path": "nips/rebuttal_experiments/experiment_04_counterfactual_memory/outputs/formal/correct_character_correct_scenario/claude-sonnet-4-6/predictions_top30.json",
+      "exists": true,
+      "n": 176,
+      "correct": 73,
+      "sha256": "e42338139ae2132a9bbff357d9260846f81dfdb6ddb768688e7ff6b889fabbf5",
+      "percent": 41.47727272727273,
+      "aligned_to_local_C0": true
+    },
+    {
+      "model": "claude-sonnet-4-6",
+      "condition": "C1",
+      "path": "nips/rebuttal_experiments/experiment_04_counterfactual_memory/outputs/formal/same_character_wrong_scenario/claude-sonnet-4-6/predictions_top30.json",
+      "exists": true,
+      "n": 176,
+      "correct": 84,
+      "sha256": "3b3abaf707814a14741389da35f2ceb34e050095416647b05d0ea4cdb577d5d7",
+      "percent": 47.72727272727273,
+      "aligned_to_local_C0": true
+    },
+    {
+      "model": "claude-sonnet-4-6",
+      "condition": "C2",
+      "path": "nips/rebuttal_experiments/experiment_04_counterfactual_memory/outputs/formal/wrong_character_same_scenario/claude-sonnet-4-6/predictions_top30.json",
+      "exists": true,
+      "n": 176,
+      "correct": 43,
+      "sha256": "13d45ee499a1e50cd42a630208ff291434e45b371afefb939c6542af931c7999",
+      "percent": 24.431818181818183,
+      "aligned_to_local_C0": true
+    },
+    {
+      "model": "claude-sonnet-4-6",
+      "condition": "C3",
+      "path": "nips/rebuttal_experiments/experiment_04_counterfactual_memory/outputs/formal/random_memory/claude-sonnet-4-6/predictions_top30.json",
+      "exists": true,
+      "n": 176,
+      "correct": 82,
+      "sha256": "4143f5d164217462fb7e17bf444fb549f79bcd3ecf68844a3cd157fda9da0bb5",
+      "percent": 46.59090909090909,
+      "aligned_to_local_C0": true
+    },
+    {
+      "model": "gemini-3-flash-preview",
+      "condition": "C0",
+      "path": "nips/rebuttal_experiments/experiment_04_counterfactual_memory/outputs/formal/correct_character_correct_scenario/gemini-3-flash-preview/predictions_top30.json",
+      "exists": true,
+      "n": 176,
+      "correct": 99,
+      "sha256": "22f0dad26e1b8380fb63b87244919901abba552c8754717c0f352b0c48b2b587",
+      "percent": 56.25,
+      "aligned_to_local_C0": true
+    },
+    {
+      "model": "gemini-3-flash-preview",
+      "condition": "C1",
+      "path": "nips/rebuttal_experiments/experiment_04_counterfactual_memory/outputs/formal/same_character_wrong_scenario/gemini-3-flash-preview/predictions_top30.json",
+      "exists": true,
+      "n": 176,
+      "correct": 94,
+      "sha256": "5f2e812f8bc0cf37ee889cc9e2132d7e9d41a9f9cb4c81f9ae49551bc5122844",
+      "percent": 53.40909090909091,
+      "aligned_to_local_C0": true
+    },
+    {
+      "model": "gemini-3-flash-preview",
+      "condition": "C2",
+      "path": "nips/rebuttal_experiments/experiment_04_counterfactual_memory/outputs/formal/wrong_character_same_scenario/gemini-3-flash-preview/predictions_top30.json",
+      "exists": true,
+      "n": 176,
+      "correct": 42,
+      "sha256": "8bab16c743d78f9a1f87f37d980f6b2fb0176f827f97eb3a0d5eef7d1cac8488",
+      "percent": 23.863636363636363,
+      "aligned_to_local_C0": true
+    },
+    {
+      "model": "gemini-3-flash-preview",
+      "condition": "C3",
+      "path": "nips/rebuttal_experiments/experiment_04_counterfactual_memory/outputs/formal/random_memory/gemini-3-flash-preview/predictions_top30.json",
+      "exists": false
+    },
+    {
+      "model": "gemini-3.1-pro-preview",
+      "condition": "C0",
+      "path": "nips/rebuttal_experiments/experiment_04_counterfactual_memory/outputs/formal/correct_character_correct_scenario/gemini-3.1-pro-preview/predictions_top30.json",
+      "exists": true,
+      "n": 176,
+      "correct": 115,
+      "sha256": "7316bbab0bd19a6280ff2684ffd6dca207e78bebf12baf7540f92f645f4cb707",
+      "percent": 65.3409090909091,
+      "aligned_to_local_C0": true
+    },
+    {
+      "model": "gemini-3.1-pro-preview",
+      "condition": "C1",
+      "path": "nips/rebuttal_experiments/experiment_04_counterfactual_memory/outputs/formal/same_character_wrong_scenario/gemini-3.1-pro-preview/predictions_top30.json",
+      "exists": true,
+      "n": 176,
+      "correct": 112,
+      "sha256": "e099ffba5c7671bf081bbc1b6fda6c7b22406c7024fa1c4a47410bd932d330a2",
+      "percent": 63.63636363636363,
+      "aligned_to_local_C0": true
+    },
+    {
+      "model": "gemini-3.1-pro-preview",
+      "condition": "C2",
+      "path": "nips/rebuttal_experiments/experiment_04_counterfactual_memory/outputs/formal/wrong_character_same_scenario/gemini-3.1-pro-preview/predictions_top30.json",
+      "exists": true,
+      "n": 176,
+      "correct": 46,
+      "sha256": "5c24ac714aa3ba6312c591ed17c7a88f29615a6f726f96ce49d8cc64b86ea209",
+      "percent": 26.136363636363637,
+      "aligned_to_local_C0": true
+    },
+    {
+      "model": "gemini-3.1-pro-preview",
+      "condition": "C3",
+      "path": "nips/rebuttal_experiments/experiment_04_counterfactual_memory/outputs/formal/random_memory/gemini-3.1-pro-preview/predictions_top30.json",
+      "exists": true,
+      "n": 176,
+      "correct": 119,
+      "sha256": "a91c018e9be14684b823242f0b4b0e0172602587927a885f3f1889d9571a3273",
+      "percent": 67.61363636363636,
+      "aligned_to_local_C0": true
+    }
+  ],
+  "audit_reliability": {
+    "assumptions": "Same complete 176x3 nominal rating matrix; standard Fleiss kappa and nominal Krippendorff alpha",
+    "relation": "alpha = 1 - (528-1)/528 * (1-kappa)",
+    "if_kappa_exactly_0_81_alpha": 0.8103598484848485
+  }
+}

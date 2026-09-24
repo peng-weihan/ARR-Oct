@@ -1,0 +1,39 @@
+# Operating-system and Python caches.
+.DS_Store
+Thumbs.db
+__pycache__/
+*.py[cod]
+.venv/
+venv/
+
+# Local credentials and machine configuration.
+.env
+.env.*
+!.env.example
+!.env.*.example
+.claude/
+.codex/
+*.pem
+*.key
+
+# Duplicate dataset bundles; retain HEART-BENCH-dataset/ itself.
+*.zip
+*.tar
+*.tar.gz
+*.tgz
+
+# Temporary compilation / rendering / trial outputs.
+tmp/
+output/
+*.aux
+*.bbl
+*.blg
+*.log
+*.fdb_latexmk
+*.fls
+*.synctex.gz
+*.xdv
+*.toc
+*.out
+
+# Keep main.pdf, historical submission PDFs, figure PDFs, source, data and reviews.

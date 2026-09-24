@@ -1,0 +1,546 @@
+\documentclass{article}
+
+% if you need to pass options to natbib, use, e.g.:
+%     \PassOptionsToPackage{numbers, compress}{natbib}
+% before loading neurips_2026
+
+% The authors should use one of these tracks.
+% Before accepting by the NeurIPS conference, select one of the options below.
+% 0. "default" for submission
+% \usepackage{neurips_2026}
+\usepackage[eandd]{neurips_2026}
+% the "default" option is equal to the "main" option, which is used for the Main Track with double-blind reviewing.
+% 1. "main" option is used for the Main Track
+%  \usepackage[main]{neurips_2026}
+% 2. "position" option is used for the Position Paper Track
+%  \usepackage[position]{neurips_2026}
+% 3. "eandd" option is used for the Evaluations & Datasets Track
+ % \usepackage[eandd]{neurips_2026}
+ % if you want to opt-in for a de-anomymized submission (not recommended, but OK):
+ %\usepackage[eandd, nonanonymous]{neurips_2026}
+% 4. "creativeai" option is used for the Creative AI Track
+%  \usepackage[creativeai]{neurips_2026}
+% 5. "sglblindworkshop" option is used for the Workshop with single-blind reviewing
+ % \usepackage[sglblindworkshop]{neurips_2026}
+% 6. "dblblindworkshop" option is used for the Workshop with double-blind reviewing
+%  \usepackage[dblblindworkshop]{neurips_2026}
+
+% After being accepted, the authors should add "final" behind the track to compile a camera-ready version.
+% 1. Main Track
+ % \usepackage[main, final]{neurips_2026}
+% 2. Position Paper Track
+%  \usepackage[position, final]{neurips_2026}
+% 3. Evaluations & Datasets Track
+ % \usepackage[eandd, final]{neurips_2026}
+% 4. Creative AI Track
+%  \usepackage[creativeai, final]{neurips_2026}
+% 5. Workshop with single-blind reviewing
+%  \usepackage[sglblindworkshop, final]{neurips_2026}
+% 6. Workshop with double-blind reviewing
+%  \usepackage[dblblindworkshop, final]{neurips_2026}
+% Note. For the workshop paper template, both \title{} and \workshoptitle{} are required, with the former indicating the paper title shown in the title and the latter indicating the workshop title displayed in the footnote.
+% For workshops (5., 6.), the authors should add the name of the workshop, "\workshoptitle" command is used to set the workshop title.
+% \workshoptitle{WORKSHOP TITLE}
+
+% "preprint" option is used for arXiv or other preprint submissions
+ % \usepackage[preprint]{neurips_2026}
+
+% to avoid loading the natbib package, add option nonatbib:
+%    \usepackage[nonatbib]{neurips_2026}
+
+\usepackage[utf8]{inputenc} % allow utf-8 input
+\usepackage[T1]{fontenc}    % use 8-bit T1 fonts
+\usepackage{hyperref}       % hyperlinks
+\usepackage{url}            % simple URL typesetting
+\usepackage{booktabs}       % professional-quality tables
+\usepackage{amsfonts}       % blackboard math symbols
+\usepackage{nicefrac}       % compact symbols for 1/2, etc.
+\usepackage{microtype}      % microtypography
+\usepackage{xcolor}         % colors
+\usepackage{tabularx}
+\usepackage{enumitem}
+\usepackage{float}
+\usepackage{listings}
+\usepackage{xcolor}
+\usepackage{tcolorbox}
+\tcbuselibrary{breakable}
+\usepackage{fvextra}
+\usepackage{xspace}
+\usepackage{enumitem}
+\usepackage{amsmath}
+\usepackage{pifont}
+\usepackage{colortbl}
+\usepackage{makecell}
+\usepackage{caption}  % for \captionof in minipage
+\usepackage{wrapfig}  % for wrap figures/tables
+
+% 引入插图宏包（如果你还没加的话）
+\usepackage{graphicx}
+
+% 自定义一个图标命令
+% \raisebox{-0.2\height} 的作用是让图标稍微往下沉一点，和文字的基线对齐
+% height=1.5em 控制图标的大小，em 是相对单位，会跟着标题字号自动适配
+\newcommand{\heartbenchicon}{%
+  \raisebox{-0.2\height}{\includegraphics[height=1.5em]{figures/heart-bench-logo.png}}% 请将 logo.png 替换为你的文件名
+  \hspace{0.3em} % 控制图标和后面文字之间的空白距离
+}
+
+% benchmark comparison table colours & commands
+\definecolor{BenchHeaderBg}{RGB}{40, 100, 175}
+\definecolor{BenchAltRow}{RGB}{230, 240, 252}
+\definecolor{BenchOursRow}{RGB}{195, 240, 205}
+
+\newcommand{\cmark}{\textcolor{green!60!black}{\ding{51}}}
+\newcommand{\xmark}{\textcolor{red!70!black}{\ding{55}}}
+\newcommand{\pmark}{\textcolor{orange!80!black}{\textbf{\textasciitilde}}}
+\newcommand{\bhead}[1]{\textcolor{white}{\textbf{\small #1}}}
+
+\newcommand{\todoc}[2]{{\textcolor{#1}{\textbf{[#2]}}}}
+\newcommand{\todo}[1]{\todoblue{#1}} % 默认使用蓝色 todo
+
+\newcommand{\todoblue}[1]{\todoc{blue}{\textbf{#1}}}
+\newcommand{\todored}[1]{\todoc{red}{\textbf{#1}}}
+\newcommand{\todoorange}[1]{\todoc{orange}{\textbf{#1}}}
+\newcommand{\todopurple}[1]{\todoc{pruple}{\textbf{#1}}}
+
+\newcommand{\peng}[1]{\todoblue{peng: #1}}
+\newcommand{\zhang}[1]{\todoblue{zhang: #1}}
+\newcommand{\shi}[1]{\todoorange{shi: #1}}
+\newcommand{\gu}[1]{\todored{gu: #1}}
+
+\newcommand{\feng}[1]{\todopurple{Feng: #1}}
+
+
+
+\newcommand{\ourbench}[0]{\textsc{HEART-Bench}\xspace}
+
+% Note. For the workshop paper template, both \title{} and \workshoptitle{} are required, with the former indicating the paper title shown in the title and the latter indicating the workshop title displayed in the footnote. 
+\title{\heartbenchicon \ourbench: Do LLM Agents Exhibit Human-like Psychology?}
+%\title{MentalAIBench: Evaluating Emotional Intelligence of Large Language Models from Psychology}
+
+% The \author macro works with any number of authors. There are two commands
+% used to separate the names and addresses of multiple authors: \And and \AND.
+%
+% Using \And between authors leaves it to LaTeX to determine where to break the
+% lines. Using \AND forces a line break at that point. So, if LaTeX puts 3 of 4
+% authors names on the first line, and the last on the second line, try using
+% \AND instead of \And before the third author name.
+
+\author{%
+  David S.~Hippocampus\thanks{Use footnote for providing further information
+    about author (webpage, alternative address)---\emph{not} for acknowledging
+    funding agencies.} \\
+  Department of Computer Science\\
+  Cranberry-Lemon University\\
+  Pittsburgh, PA 15213 \\
+  \texttt{hippo@cs.cranberry-lemon.edu} \\
+  % examples of more authors
+  % \And
+  % Coauthor \\
+  % Affiliation \\
+  % Address \\
+  % \texttt{email} \\
+  % \AND
+  % Coauthor \\
+  % Affiliation \\
+  % Address \\
+  % \texttt{email} \\
+  % \And
+  % Coauthor \\
+  % Affiliation \\
+  % Address \\
+  % \texttt{email} \\
+  % \And
+  % Coauthor \\
+  % Affiliation \\
+  % Address \\
+  % \texttt{email} \\
+}
+
+\begin{document}
+
+\maketitle
+
+\begin{abstract}
+While LLM agents have demonstrated remarkable task-oriented abilities such as planning, reasoning, and action, few works have treated them as complete human personalities where emotional dimensions hold equal importance. In this paper, we introduce a novel benchmark to systematically assess whether LLM agents can simulate coherent, human-like psychology. Specifically, our benchmark constructs 11 diverse human characters grounded in orthogonal Big Five personality traits, with each profile deeply integrated with 1,000 structured autobiographical-style episodic memories distributed across theory-grounded developmental life stages. To rigorously evaluate the psychological manifestations of LLMs, we designed a curated suite of 64 decision-making scenarios, guided by the DIAMONDS taxonomy. By subjecting agents to varying scenarios, the benchmark evaluates whether they can consolidate their innate personality traits and autobiographical memories to make behavioral decisions that are consistent with their specific psychological profiles. After systematic human validation and filtering, we obtained a benchmark consisting of 673 multiple-choice questions (MCQs). We believe this benchmark provides a principled and scalable testbed for studying human-like emotions, personality consistency, and value alignment in LLM-based agents.
+
+% 1,000 rich episodic memories spanning distinct developmental life stages
+%Across diverse situations, the benchmark evaluates whether agents can infer and consolidate coherent personality traits and value orientations from their autobiograpical memories, and accordingly make context-appropriate behavioral decisions that are consistent with their inferred psychological profiles.
+\end{abstract}
+
+\section{Introduction}
+\label{sec:Introduction}
+
+The rapid advancement of Large Language Models (LLMs) has driven remarkable breakthroughs across numerous domains \cite{anthropic2026claudeopus47,openai2026gpt55,google2026gemini31pro}. However, existing research predominantly concentrates on task-oriented accuracy and conversational reasoning capabilities, rarely treating AI agents as complete human personalities where emotional dimensions hold equal importance. This raises a question: \emph{Do LLM agents exhibit human-like psychological characteristics, such as emotions and value-orientations?} This question might seem far-fetched, yet answering it has profound implications: As LLMs become increasingly integrated into entertainment \cite{chen2024persona,tseng2024two}, companionship \cite{maples2024loneliness,phang2025investigating}, and persona-cloning \cite{wei2025ai, lee2026creating} that simulate individual users, user expectations for these systems have shifted from task-oriented assistance toward persistent, personalized, and psychologically consistent interaction that more closely resembles human-like interaction patterns. When these capabilities are realized and effectively integrated, such systems may begin to exhibit early forms of affective intelligence \cite{marcus2000affective}, enabling more human-like personality consistency and long-term identity coherence. This represents a critical step toward higher-level artificial Emotional Intelligence (EI) \cite{salovey1990emotional}.
+% As LLMs become increasingly integrated into entertainment \cite{tseng2024two}, social networking \cite{?}, and emotional companionship \cite{chen2024persona}, user expectations for anthropomorphic AI agents have evolved from merely task assistant to providing long-term emotional companionship. When these capabilities are realized and effectively synergized, AI agents may acquire the foundational prerequisites for more advanced forms of affective intelligence—a critical milestone in the pursuit of higher artificial Emotional Intelligence (EI) \cite{?}.
+
+Despite these evolving expectations, the current landscape of evaluation frameworks remains heavily constrained. Existing benchmarks primarily measure short- and long-term conversational context, explicit reasoning, memory recall, and end-to-end question-answering accuracy. While these efforts establish a foundational assessment framework for cognitive capabilities, merely advancing "conversation" and "memory" is insufficient. In the domain of evaluating the human-like psychology of AI agents, standardized evaluation frameworks are still in their early stages of development.
+
+To bridge this gap, we introduce \ourbench (\textbf{H}uman-like \textbf{E}motion and \textbf{A}gent \textbf{R}eaction \textbf{T}est), a novel benchmark specifically designed to quantify the human-like psychology of AI Agents. Our benchmark aims to facilitate the development of ``high-EI'' AI agents and significantly enhance the user experience in human-AI interactions.
+Specifically, our benchmark simulates 11 diverse human characters. Each character is grounded in a foundational five-dimensional personality framework (e.g., the Big Five personality traits) and is intricately associated with 1,000 episodes of autobiographical memory~\cite{singer1995seeing} spanning distinct life stages. To rigorously evaluate the psychological manifestations of LLMs, we designed 64 evaluation scenarios woven into these key life milestones. Each (character, scenario) tuple is annotated by psychology experts with the expected behavioural decision, and the resulting annotations are assembled into multiple-choice questions (MCQs) in which the target character's response is the ground truth and other characters' responses to the same scenario serve as distractors. After systematic expert validation and filtering, HEART-BENCH contains 673 multiple-choice evaluation instances in total. During the evaluation process, the model is exposed to scenario triggers that elicit emotional responses, requiring the LLM to reason over the character’s basic publicly available settings and prior memories, and to select appropriate behavioral decisions.
+% The rapid advancement of Large Language Models (LLMs) has driven remarkable breakthroughs across numerous domains. However, existing research predominantly concentrates on task-oriented accuracy and conversational reasoning capabilities, rarely treating AI agents as complete human personalities where emotional dimensions hold equal importance. This raises an open question:\textcolor{blue}{ \emph{Do LLM agents exhibit human-like psychological characteristics, such as emotions and inherent values?}} This question sounds highly forward-looking, yet answering it has profound implications: As LLMs become increasingly integrated into entertainment, social networking, and emotional companionship, user expectations for anthropomorphic AI agents have evolved from simply "conversing like a human" to providing "long-term, memory-grounded emotional companionship." When these capabilities are fully realized and effectively synergized, AI agents will possess the foundational prerequisites for generating "human-like consciousness"—a critical milestone in the pursuit of higher artificial Emotional Intelligence (EI).
+
+% Despite these evolving expectations, the current landscape of evaluation frameworks remains heavily constrained. Existing benchmarks primarily measure short- and long-term conversational context, explicit reasoning, memory recall, and end-to-end question-answering accuracy. While these efforts establish a foundational assessment framework for cognitive capabilities, merely advancing "conversation" and "memory" is insufficient. A pervasive lack of genuine "human touch" and empathy remains a significant bottleneck during long-term human-AI interactions. In the specific domain of evaluating the human-like psychology of AI agents, there is currently a complete void of standardized evaluation frameworks.
+
+% To bridge this gap, we introduce \ourbench, a novel benchmark specifically designed to quantify the "human-like psychology of AI Agents." Our benchmark aims to facilitate the development of ``high-EI'' AI agents and significantly enhance the user experience in human-AI interactions.
+% Specifically, our benchmark simulates 20 diverse human characters. Each character is grounded in a foundational five-dimensional personality framework (e.g., the Big Five personality traits) and is intricately associated with 1,000 memory episodes spanning distinct life stages. To rigorously evaluate the psychological manifestations of LLMs, we designed 50 evaluation scenarios woven into these key life milestones. During the evaluation process, the models are subjected to emotion-eliciting queries, requiring the LLM to reason over the characters' prior memory up to that age and infer the appropriate behavioral decision. 
+
+%Our benchmark involves XXXX characters and XXXX scenarios, each is structured, psychologically informed. \gu{Give an overall description of the benchmark}. We constructs each \gu{Add description about characters} scenario using a hierarchical schema that explicitly models developmental stages, contextual environments, emotional dynamics, and decision-critical events. In particular, we incorporate psychological dimensions inspired by the DIAMONDS framework\cite{} in psychology to characterize situational structure and intensity, enabling fine-grained control over cognitive and emotional demands.
+
+%Each scenario simulates a realistic interaction loop in which an agent must interpret contextual information, integrate long-term memory, and make value-consistent decisions under uncertainty. This design allows us to move beyond surface-level recall tasks toward evaluating whether agents can maintain coherent identity, adapt to evolving contexts, and exhibit consistent value-oriented behavior over time.
+
+
+We benchmark twelve frontier LLMs---spanning the GPT, Claude, Gemini, DeepSeek, and Qwen families—under three interactive settings (Naive-RAG~\cite{lewis2020retrieval}, Mem0~\cite{chhikara2025mem0}, and PersonaDB~\cite{sun2025persona}), together with a vanilla LLM baseline. Across all settings, even the strongest model (Gemini-3.1-Pro) achieves at most
+63.3\% accuracy, while most models remain below 40\%, highlighting a clear performance bottleneck. We believe this benchmark provides a principled and scalable testbed for studying human-like emotion, personality consistency, and value alignment in LLM-based agents.
+
+We summarize our contributions as follows:
+\begin{itemize}[leftmargin=2em]
+    \item We propose \ourbench{}, a high-quality benchmark comprising 11 validated characters and 64 challenging scenarios, accompanied by expert annotations and 673 multiple-choice questions.
+    \item We provide a systematic evaluation framework to evaluate LLMs' human-like psychology. 
+    \item We evaluate multiple LLMs in varying agentic settings. Results show that the ability of LLMs to exhibit human-like psychology remains limited.
+\end{itemize}
+
+
+% \begin{table}[t]
+% \centering
+% \small
+% \caption{Comparison of \ourbench with related benchmarks across key dimensions.
+% \cmark~yes;~~\xmark~no;~~\pmark~partial.
+% \emph{Lifespan coverage}: explicit multi-stage developmental design (e.g., childhood, adolescence, adulthood) grounded in developmental psychology—multi-session dialogue time spans do not qualify.}
+% \label{tab:benchmark_comparison}
+% \begin{tabular}{lccccc}
+% \toprule
+% \textbf{Benchmark} &
+% \textbf{\makecell{Big-Five\\grounded}} &
+% \textbf{\makecell{Lifespan\\coverage}} &
+% \textbf{\makecell{Episodic\\memory}} &
+% \textbf{\makecell{Scenario\\eval.}} &
+% \textbf{\makecell{Expert\\annot.}} \\
+\begin{table}[t]
+\centering
+\footnotesize
+\caption{Comparison of \ourbench with related benchmarks across six dimensions (see Appendix~\ref{app:benchmark_dims} for dimension definitions).
+\cmark~yes;~~\xmark~no;~~\pmark~partial.}
+\label{tab:benchmark_comparison}
+\resizebox{\textwidth}{!}{
+\begin{tabular}{lcccccc}
+\toprule
+\textbf{Benchmark} &
+\textbf{Big-Five grounded} &
+\textbf{Lifespan coverage} &
+\textbf{Episodic memory} &
+\textbf{Scenario eval.} &
+\textbf{Expert annot.} &
+\textbf{\makecell{Trait-driven\\decision}} \\
+\midrule
+%KnowMeBench~\cite{wu2026knowme}          & \xmark & \pmark & \pmark & \pmark & \cmark & \xmark \\
+\rowcolor{BenchAltRow}
+CharacterEval~\cite{tu2024charactereval} & \xmark & \xmark & \xmark & \cmark & \pmark & \xmark \\
+PersonaHub~\cite{ge2024scaling}       & \xmark & \xmark & \xmark & \cmark & \xmark & \xmark \\
+\rowcolor{BenchAltRow}
+LoCoMo~\cite{maharana2024evaluating}     & \xmark & \xmark & \cmark & \cmark & \xmark & \xmark \\
+%LongMemEval~\cite{wu2024longmemeval}     & \xmark & \xmark & \cmark & \cmark & \xmark & \xmark \\
+CloneMem~\cite{hu2026clonemem}           & \cmark & \pmark & \cmark & \xmark & \xmark & \xmark \\
+\rowcolor{BenchAltRow}
+%RealMem~\cite{bian2026realmem}           & \xmark & \pmark & \cmark & \cmark & \xmark & \xmark \\
+PersonaLens~\cite{zhao2025personalens}   & \xmark & \xmark & \pmark & \cmark & \pmark & \xmark \\
+PersonaMem~\cite{jiang2025personamem}    & \xmark & \xmark & \pmark & \cmark & \xmark & \xmark \\
+\midrule
+\rowcolor{BenchOursRow}
+\textbf{\ourbench}       & \cmark & \cmark & \cmark & \cmark & \cmark & \cmark \\
+\bottomrule
+\end{tabular}
+}
+\vspace{-10pt}
+\end{table}
+
+
+\section{Related Work}
+
+%\subsection{Role-Playing and Persona-Aware Agent Systems}
+% \subsection{Psychology-Grounded Benchmarks}
+
+%\subsection{Persona-Aware Agent Systems}
+%\shi{A bit too long now}
+%\peng{shrink after later}
+\subsection{Personality Modeling in LLM Agents}
+The Big Five (OCEAN) framework~\cite{mccrae1992introduction} is the dominant operationalization of stable individual differences in personality psychology, with well-established predictive validity across cultures~\cite{mccrae1997personality} and the lifespan~\cite{roberts2007power}. A key theoretical insight is that personality is not a fixed behavioral template but a dynamic disposition. Fleeson's whole-trait theory~\cite{fleeson2001toward} frames each trait as a density distribution of behavioral states that shifts with situational demands, while Conway \& Pleydell-Pearce~\cite{conway2000construction} show that autobiographical memories are organized hierarchically around self-relevant goals, binding identity to lived experience. Young's schema therapy~\cite{young2006schema} further documents how early maladaptive schemas—crystallized at developmentally critical periods—propagate their influence on emotional reactivity and decision-making throughout adulthood. These core insights from personality and clinical psychology remain largely unincorporated in existing LLM persona work.
+
+
+
+Current LLM persona systems fall into two broad lines. The first encodes personality as a static profile injected at inference time: Character-LLM~\cite{shao2023character} and PersonaLLM~\cite{jiang2024personallm} condition generation on fixed role descriptions or trait vectors, PersonaAgent~\cite{zhang2025personaagent} extends this with Big Five-conditioned behavioral adaptation, and RGMem~\cite{tian2025rgmem} further modulates expression based on contextual relationships. The second line prioritizes memory infrastructure—MemGPT~\cite{packer2023memgpt}, HippoRAG~\cite{gutierrez2024hipporag}, Mem0~\cite{chhikara2025mem0}, and A-MEM~\cite{xu2025mem} provide scalable long-term retrieval substrates. While these offer necessary engineering foundations, neither line addresses the core psychological question: how does a character's trait profile shape which experiences are encoded, how mood-congruent processes~\cite{bower1981} color their emotional valence, and how this accumulated life history produces coherent, personality-driven responses in novel situations.
+
+
+\subsection{Benchmarks for Psychology-Grounded Agent Evaluation}
+\textbf{Psychometric evaluation of LLMs.}
+A growing body of work examines whether LLMs can exhibit human-like personality profiles. Safdari et al.~\cite{serapio2023personality} show that prompted LLMs can simulate Big Five questionnaire responses with reasonable reliability, while subsequent studies apply MBTI or Big Five scales to characterize model behavior. However, these approaches use psychometric instruments as \emph{input stimuli}—probing how models respond to trait questionnaires—rather than as \emph{evaluation criteria} for whether behavioral decisions in rich, naturalistic contexts are consistent with a given personality profile. They also treat personality as a static, context-free attribute, overlooking its developmental dimension: McAdams's narrative identity theory~\cite{mcadams2001psychology} establishes that personality is expressed through the life story an individual constructs over time, and Pasupathi et al.~\cite{pasupathi2007developing} show that self-relevant narration actively shapes trait expression across life stages. Psychometric snapshots capture neither of these longitudinal dynamics.\\
+\textbf{Persona and memory benchmarks.}
+Conversational persona benchmarks typically supply a personality description via system prompt and then test factual or stylistic consistency. Long-horizon benchmarks such as LoCoMo~\cite{maharana2024evaluating} and LongMemEval~\cite{wu2024longmemeval} extend this to multi-session dialogues, but personality remains a static backdrop: the focus is on what agents recall, not on how trait profiles shape the encoding and emotional interpretation of experience. More recent work incorporates richer sources—CloneMem~\cite{hu2026clonemem} uses heterogeneous data (diaries, social media) grounded in Big Five personas; RealMem~\cite{bian2026realmem} tracks goal consistency across project-oriented sessions; KnowMeBench~\cite{wu2026knowme} probes preference inference from personal narratives. These are meaningful steps, yet their primary evaluation targets remain closer to recall, preference inference, or goal-consistency tracking than to trait-grounded behavioural decision-making under controlled psychological scenarios.\\
+\textbf{Data substrates and evaluation depth.}
+A shared limitation is the quality of underlying data. Most benchmarks rely on synthetic chat logs or sandboxed interactions, which lack the sensory concreteness and introspective density that characterize genuine autobiographical memory~\cite{rubin2006basic}. Such shallow substrates constrain what evaluation can detect: without episodic content structured around perceptual, affective, and somatic dimensions, benchmarks cannot distinguish agents that reason from stable psychological principles from those that merely pattern-match on surface cues. The absence of lifespan-grounded coverage further means that no existing benchmark can assess whether personality remains coherent across developmental transitions—the longitudinal consistency that McAdams~\cite{mcadams2001psychology} identifies as the hallmark of integrated personal identity\gu{Compared to these related works, what are the strengths and differences of ours?}.
+
+Table~\ref{tab:benchmark_comparison} summarizes how \ourbench differs from representative prior benchmarks across six dimensions central to psychology-grounded evaluation.
+
+\begin{figure}[t]
+    \centering
+    \includegraphics[width=1\linewidth]{figures/pipeline.pdf}
+    \caption{The pipeline has four stages: character construction for generating stable personas and scenario construction to elicit behavioral differences. This is followed by ground-truth annotation to define expected responses, and finally conversion into MCQ format for model evaluation.}
+    \label{fig:pipeline}
+    \vspace{-10pt}
+\end{figure}
+
+\section{\ourbench}
+\subsection{Overview}
+
+Figure~\ref{fig:pipeline} illustrates the full pipeline of \ourbench. The benchmark comprises two components---an 11-persona \emph{character set} grounded in the Big Five~\cite{mccrae1992introduction} and Schwartz's value theory~\cite{schwartz1992universals}, with each character equipped with $1{,}000$ long-horizon memories, and a \emph{scenario suite} of 64 character-agnostic situations that span the eight DIAMONDS~\cite{rauthmann2014diamonds} dimensions across the lifespan. Each (character, scenario) tuple is annotated and validated by experts with the expected behavioural decision, and the resulting annotations are assembled into multiple-choice questions in which the target character's response is the ground truth and other characters' responses to the same scenario serve as distractors. After systematic human validation and filtering, \ourbench contains $673$ multiple-choice evaluation instances in total.
+
+\subsection{Characters Construction}
+\label{sec:character}
+
+% ---- Formal Notation ----
+To construct AI characters capable of demonstrating genuine psychological depth, we define a character as a psychologically grounded entity: \(c=(\mathbf{p}, \{m_i\}_{i=1}^{T})\). Here,
+$\mathbf{p} = (O, C, E, A, N) \in [0,1]^5$ denotes a Big Five trait vector, and \(\{m_i\}_{i=1}^{T})\) represents a lifelong sequence of autobiographical memories~\cite{singer1995seeing}. 
+% An episodic memory \(m_i\) is a structured tuple
+% \begin{equation}
+%   m_i \;=\; \bigl\langle\,\tau,\; x_{\mathrm{ctx}},\; x_{\mathrm{sum}},\; x_{\mathrm{full}},\;
+%           \mathbf{r},\; \psi\,\bigr\rangle,
+%   \label{eq:memory}
+% \end{equation}
+% with $\tau \in [6, 50]$ the age at encoding, $x_{\mathrm{ctx}}$ a compact situational setting, $x_{\mathrm{sum}}$ a one-sentence gist, $x_{\mathrm{full}}$ the full first-person narrative, $\mathbf{r}$ retrieval-index fields (triggers and relevance tags), and $\psi$ psychological annotations (psych conclusion, behaviour policy, emotion signature). The complete ten-field schema is detailed in Appendix~\ref{app:stats}.
+Rather than relying on superficial prompts, we engineer these characters through a rigorous, three-stage developmental pipeline.\\
+% ---- Stage A ----
+%\paragraph{Stage 1: Psychological Blueprinting.}
+\textbf{Stage 1: Character Profiling.}
+The foundation of our benchmark requires clean attribution: if an AI agent behaves a certain way, we must be able to trace it back to a specific psychological trait without confounding variables. Unlike prior persona-based benchmarks that inject loosely defined personality descriptions at inference time~\citep{shao2023character,jiang2024personallm}, we adopt a principled Big Five orthogonal design~\citep{mccrae1992introduction} in which each character is anchored to a single dominant trait at an extreme value, enabling controlled, interpretable comparisons across characters.
+Concretely, we isolate each of the five OCEAN dimensions by creating one high-extreme ($p = 0.95$) and one low-extreme ($p = 0.10$) profile per trait, alongside one neutral baseline ($p = 0.50$ on all dimensions). This yields $|\mathcal{C}| = 11$ archetypes (summarized in Table~\ref{tab:characters}) with a strict pairwise $\ell_\infty$ separation: $\forall\, i \neq j,\ \|\mathbf{p}_i - \mathbf{p}_j\|_\infty \geq 0.45$.
+This separation ensures that behavioural differences between any two characters are primarily attributable to a single dominant trait, substantially reducing the risk of confounded comparisons.
+
+\begin{wraptable}{r}{0.42\linewidth}
+\vspace{-12pt}
+\centering
+\captionof{table}{Statistics of \ourbench.}
+\label{tab:dataset_overview}
+\small
+\begin{tabular}{lc}
+\toprule
+\textbf{Statistic} & \textbf{Value} \\
+\midrule
+Characters           & 11 \\
+Memories / character & 1{,}000 \\
+Length / character   & $\sim$1.4M tokens \\
+Life stages          & 8 (ages 6--50) \\
+Scenarios            & 64 \\
+MCQ                  & 673 \\
+\bottomrule
+\end{tabular}
+\vspace{-10pt}
+\end{wraptable}
+
+
+To maintain ecological validity, each character is assigned an occupation congruent with their dominant trait (e.g., a high-Neuroticism freelance creator versus a low-Neuroticism community general practitioner). Furthermore, each profile encodes a distinct "self-value logic" and eight core behavioral patterns, which act as strict constraints for downstream memory generation (see Appendix~\ref{app:stage_a} for full character specifications and Appendix~\ref{app:prompt_character} for the generation prompt).
+
+% ---- Stage B ----
+\textbf{Stage 2: Synthesizing Autobiographical Memories.}
+While the Big Five trait vectors provide the static skeleton of a character's profile, genuine human psychology is dynamically shaped by cumulative life experiences. In narrative psychology, \textbf{autobiographical memories}~\cite{singer1995seeing} serve as the bedrock of identity—they dictate how an individual interprets the present, evaluates threats, and makes future decisions. To transform our AI characters into agents with true psychological depth, we populate their lifespans with 1,000 episodic memories, each structured around Rubin's Basic Systems Model~\cite{rubin2006basic} (Figure~\ref{fig:rubin}). Rather than a sterile log of actions, every narrative organically weaves together five perceptual-cognitive dimensions: \textit{sensory detail}, \textit{dialogue reconstruction}, \textit{inner monologue}, \textit{somatic response}, and \textit{aftermath} (full definitions in Appendix~\ref{app:stage_c}).
+
+
+\begin{wrapfigure}{r}{0.42\linewidth}
+\vspace{-10pt}
+\centering
+\includegraphics[width=0.85\linewidth]{figures/rubin_model.pdf}
+\caption{Rubin's Basic Systems Model~\cite{rubin2006basic} as applied to Episodic Narrative
+  generation. Each narrative organically integrates all five dimensions;
+  their presence is verified in the Quality Audit stage (Appendix~\ref{app:stage_d}).}
+\label{fig:rubin}
+\vspace{-10pt}
+\end{wrapfigure}
+
+
+To ground memories in age-appropriate experiences, we map the character's lifespan onto eight developmental macro-stages $\mathcal{S} = \{s_1, \ldots, s_8\}$ by integrating Erikson's psychosocial stages~\cite{erikson1963childhood} (ages 6--18) with Levinson's adult seasons~\cite{levinson1986conception,levinson1978seasons} (ages 18--50; see Appendix~\ref{app:stats}). Memory quota is then distributed across $T = 45$ one-year age bins via a salience weight $w_t$, namely $q_t = \lfloor d \cdot w_t / \sum_j w_j \rfloor$, where $w_t$ is elevated at critical transitions (Adolescence, Early Adult Transition, Age-30 Re-appraisal) and decreases toward midlife~\cite{conway2000construction, young2006schema, singer1995seeing}, yielding a naturally dense, human-like memory distribution (Table~\ref{tab:stage_dist}).
+
+% \begin{table}[h]
+% \centering
+% \caption{Life-stage schema integrating Erikson~\cite{erikson1963} and Levinson~\cite{levinson1978,levinson1986}.}
+% \label{tab:stages}
+% \setlength{\tabcolsep}{5pt}
+% \begin{tabular}{llll}
+% \toprule
+% \textbf{Stage} & \textbf{Age} & \textbf{Source} & \textbf{Core task} \\
+% \midrule
+% School age            & 6--12  & Erikson S4   & Industry vs.\ Inferiority \\
+% Adolescence           & 12--18 & Erikson S5   & Identity vs.\ Role Confusion \\
+% Early adult trans.\   & 18--22 & Levinson     & Leaving family; world entry \\
+% Entering adult world  & 22--28 & Levinson     & Career; intimate relations \\
+% Age-30 transition     & 28--33 & Levinson     & Life-structure re-appraisal \\
+% Settling down         & 33--40 & Levinson     & Consolidation; mentoring \\
+% Midlife transition    & 40--45 & Levinson     & Finitude; identity crisis \\
+% Entering midlife      & 45--50 & Levinson+E7  & Generativity; legacy \\
+% \bottomrule
+% \end{tabular}
+% \end{table}
+
+All memories are generated using Claude Sonnet 4.6, with the system prompt injecting $\mathbf{p}_i$, the life-stage context, and diversity constraints across five scenario domains (workplace, interpersonal, health, creative, daily life). Full generation details are in Appendix~\ref{app:stage_c}; the complete system prompt is in Appendix~\ref{app:prompt_memory}.\\
+\textbf{Stage 3: Quality Audit}
+Large-scale LLM generation inevitably introduces semantic drift and logical contradictions that rigid formatting validators cannot detect. To guarantee the high fidelity of the memory corpus, we implement a rigorous heuristic auditing framework. Each generated memory is evaluated against six automated defect criteria (details in Appendix~\ref{app:stage_d}). A memory $m$ successfully passes the audit if and only if it violates zero criteria.
+% The three primary failure modes we filter for are:
+% \textit{perspective drift}—violating the first-person narrative constraint; \textit{duplication}—Near-duplicate episodic generation within the same developmental age window. This is detected using a cosine similarity threshold of $> 0.85$ over TF-IDF vector representations of the narratives; and \textit{age-context mismatch} (e.g., adult-domain vocabulary or themes in memory assigned to childhood stages $\leq 12$).
+Memories that fail the audit enter a targeted, closed-loop repair mechanism. %To maintain efficiency and preserve valid context, the system does not regenerate the entire episode; instead, only the specifically defective field is reprompted with an issue-targeted corrective instruction. The pipeline allows up to three autonomous repair attempts per memory before flagging it for manual escalation.
+Once fully validated, the memories undergo final integration. They are deduplicated by \texttt{id}, sorted chronologically by age ($\tau$), and compiled into a continuous, 1,000-entry timeline per character. Finally, to prevent demographic confounding variables from skewing downstream LLM evaluations, we sanitize the dataset by replacing all specific character identifiers with gender-neutral labels (e.g., \textit{Role A})~\citep{sun2019mitigating}. The complete schema specification and final corpus statistics are detailed in Appendix~\ref{app:stats}.
+
+\subsection{Scenarios Construction}
+\label{sec:scenario}
+
+%We construct a set of scenarios to evaluate whether LLMs can exhibit human-like, persona-consistent behavior under diverse contexts. 
+A scenario serves as a structured psychological situation that triggers the AI agent to make a behavioural decision (see Appendix~\ref{app:ExampleofScenario} for a complete example). 
+% ---- Formal Notation ----
+Formally, a scenario is defined as a tuple
+  \(
+  s = \bigl\langle\,
+    m,\;
+    \mathcal{C}_{\mathrm{env}},\; \mathcal{C}_{\mathrm{narrative}},\; e_{\mathrm{trigger}}
+  \,\bigr\rangle,
+  \)
+where $m$ is the developmental and semantic metadata bundling identifiers, scenario name, category, target life stage, age range ($\tau \in [6,50]$), agent description, and intensity level; $\mathcal{C}_{\mathrm{env}}$ describes the environmental context (e.g., location, time, and atmosphere); $\mathcal{C}_{\mathrm{narrative}}$ specifies the narrative background; and $e_{\mathrm{trigger}}$ represents the decision-triggering event that forces the character to make a behavioral decision. Crucially, all scenarios are character-agnostic, written as universal situational descriptions that apply uniformly across the entire character set. This design isolates the agent's internal personality as the sole independent variable, enabling controlled, fair cross-persona comparisons of behavioral responses under identical external stimuli. Note that, despite this character-agnostic design, a small number of character--scenario pairs remain inherently incompatible (e.g., a romantic-partner scenario assigned to a character who is not in a romantic relationship); we explicitly disable such pairs during instance assembly.\\
+\textbf{Stage 1: Human-Guided Blueprinting.} 
+To ensure structural diversity, clinical experts manually draft the foundational summaries for all scenarios, utilizing the \textbf{DIAMONDS}~\cite{rauthmann2014diamonds} framework to systematically map out the psychological situation space. We design exactly 8 scenarios per developmental life stage, yielding 64 scenarios across the eight stages in total. These summaries span a highly diverse set of socio-environmental contexts—including family dynamics, school and academic pressures, workplace politics, intimate relationships, and public spaces. Each summary establishes the core situational tension and psychological stakes while strictly maintaining the character-agnostic constraint.\\
+\textbf{Stage 2: LLM-Assisted Expansion.}
+We leverage Claude Opus 4.6~\cite{anthropic2026opus46} to expand the expert-drafted summaries into fully realized, high-fidelity scenarios based on a four-component schema (metadata, environmental setting, narrative context, trigger event), enforcing structural consistency across developmental metadata, psychological grounding, and environmental context. The full schema and a complete worked example are given in Appendix~\ref{app:scenario_schema}.\\
+% For example, a human-designed summary for adolescence intellectual challenge becomes a detailed scenario titled "The Classroom Dissent," where a 15-year-old student discovers contradictions between their teacher's historical account and recent academic research they read independently. The scenario specifies the classroom setting ("quiet, dull, slightly oppressive atmosphere"), provides rich narrative context about the authority dynamics, and culminates in the teacher directly asking the student to share their thoughts, requiring a decision on whether to challenge authority with evidence-based disagreement (see Appendix~\ref{app:ExampleofScenario}).
+\textbf{Stage 3: Expert Validation.} The generated scenarios are validated by two doctoral-level psychology researchers along two complementary lenses: the \textbf{DIAMONDS}~\cite{rauthmann2014diamonds} taxonomy verifies that each of its eight situational characteristics is exercised across both ends of its intensity range, and \textbf{Schwartz's value circumplex}~\cite{schwartz1992universals} verifies that the central tensions align with theoretically opposing value pairs on the circumplex. The resulting rating distribution and value-conflict spectrum confirm a broad, non-degenerate engagement of the psychological situation space (validation protocol and full coverage distributions in Appendix~\ref{app:scenario_validation}).
+
+\subsection{Creating Evaluation Instances}
+\label{sec:CreatingEvaluationInstances}
+\begin{figure}[t]
+\vspace{-10pt}
+\centering
+\includegraphics[width=1\linewidth]{figures/case_study.pdf}
+\caption{An Example Data in \ourbench. Options differ in pragmatic realization by personality traits, requiring reasoning about behavior–personality alignment beyond surface semantics.}
+\label{fig:case_study}
+\vspace{-15pt}
+\end{figure}
+Having built the character and scenario sets, we create test instances through a systematic expert annotation and validation process. An evaluation instance is formulated as a multiple-choice question (MCQs), indicating the behavioural response of a character in a specific scenario. \\
+\textbf{Stage 1: Automated Annotation with LLMs.}
+For each (character, scenario) pair, we annotate the ground-truth behavioural response in two steps: memory activation, a coarse-to-fine retrieval over the character's $1{,}000$ episodic memories that retains the top $50$ most relevant entries; and response generation, in which a single annotation model is conditioned jointly on the character's full personality profile (Big Five traits, Schwartz value orientations, and self-narrative) and the activated memories, so that the generated \textit{final decision} is grounded in both \emph{who the character is} and \emph{what the character has lived through}. Full pipeline details, including the underlying annotation models, the corresponding system prompts, and an example annotation, are provided in Appendix~\ref{app:annotation}.\\
+\textbf{Stage 2: Expert Validation.}
+A four-expert team---three primary annotators with $5{+}$ years of personality-assessment experience and one senior arbitrator with dual expertise in psychology and computer science---then validates every annotation under a consensus-then-arbitration rule. The protocol first discards (character, scenario) pairs that any annotator deems fundamentally unsuitable, then for each surviving pair adopts the LLM annotation directly when all three primary annotators rate it \textit{acceptable as-is}, and otherwise escalates to the arbitrator. In total, $31$ pairs were discarded and $673$ expert-validated gold annotations remain; over half of the surviving cases passed unanimously without arbitration, and the per-token edit rate over the LLM-generated content is approximately $15\%$. Full validation rules and rating scale are detailed in Appendix~\ref{app:annotation_protocol}.\\
+\textbf{Stage 3: Test Instance Assembly.}
+Following validation, the resulting 673 expert-verified annotations form the foundation for constructing the test instances. For a given scenario, the target character's validated response serves as the correct option, while three distractors are drawn from the validated responses of the other ten characters to the same scenario, with Claude-Sonnet-4.6 selecting the three that are neither semantically too similar to the target (which would make the question ambiguous) nor obviously irrelevant (which would make the correct option trivially identifiable). The four options are randomly shuffled to remove positional bias, yielding a total of 673 MCQs. Full distractor-selection rules are in Appendix~\ref{app:mcq_assembly}.
+
+\label{gen_inst}
+
+\subsection{Example of \ourbench}
+Figure~\ref{fig:case_study} presents a representative MCQ from \ourbench under the \emph{community injustice} scenario in the \emph{settling\_down} life stage. All options share the same surface-level action---filing an individually-named complaint to the housing bureau. However, they result in systematically different pragmatic realizations of the same underlying behavior, reflecting variation in initiative, social interaction style, and affective stance induced by personality differences. This example illustrates the core challenge of \ourbench: superficially similar options may differ in their fine-grained pragmatic realizations, reflecting underlying differences in personality traits or value considerations. Correct answers thus require reasoning over the alignment between behavioral expression and underlying personality structure, rather than surface-level action semantics. In addition, \ourbench also includes cases where options differ not only in pragmatic realization but also in the coarse-grained direction of behavior, which are comparatively easier and serve as complementary evaluation instances. We provide a detailed behavioral and personality-level analysis of this example in Appendix~\ref{app:case_study}.
+
+\section{Experiments}
+
+\subsection{Experimental Setup}
+
+\textbf{Language Models}
+We evaluate how frontier LLMs perform in psychologically grounded decision-making by constructing a broad model panel covering leading open-source and closed-source families, spanning flagship and lightweight variants. On the \textbf{open-source} side, we include the \textit{DeepSeek} family (\textit{V3.2}~\cite{deepseek_v3_2_2025}, \textit{V4-Flash}, and \textit{V4-Pro}~\cite{deepseek_v4_2026}) and the \textit{Qwen3.5} series at three scales (\textit{35B-A3B}, \textit{122B-A10B}, \textit{397B-A17B})~\cite{qwen35_2026}. On the \textbf{closed-source} side, we include OpenAI's \textit{GPT-5.4-mini} and \textit{GPT-5.4}~\cite{openai2026gpt54}, Anthropic's \textit{Claude-Haiku-4.5}~\cite{anthropic2025haiku45} and \textit{Claude-Sonnet-4.6}~\cite{anthropic2026sonnet46}, and Google's \textit{Gemini-3-Flash}~\cite{google2025gemini3flash} and \textit{Gemini-3.1-Pro}~\cite{google2026gemini31pro}. All models use default decoding settings with temperature set to 0.\\
+\textbf{Interactive Settings}
+We evaluate LLMs using three interactive frameworks: Naive-RAG~\cite{lewis2020retrieval}, Mem0~\cite{chhikara2025mem0}, and PersonaDB~\cite{sun2025persona}, along with a \textit{Direct LLM} setting that serves as a reference of the model’s intrinsic persona without external memory augmentation. Naive-RAG serves as a minimal retrieval baseline, while Mem0 introduces structured consolidation of past interactions, and PersonaDB further organizes information into persona-specific fields to enable attribute-aware retrieval. Across all three frameworks we use \textit{Qwen3-Embedding-4B}~\cite{qwen3embedding} as the embedding model and we use \textit{GPT-5.4-mini}~\cite{openai2026gpt54} as the auxiliary memory-management model that drives Mem0's consolidation and PersonaDB's persona-attribute organization, so that any performance differences across frameworks reflect the retrieval/memory paradigm itself rather than incidental encoder or controller choices. For retrieval depth, we set $k{=}30$ for Naive-RAG and PersonaDB, and $k{=}150$ for Mem0. The larger budget in Mem0 compensates for its consolidation step, which decomposes each character memory into roughly five fact-level elements, making $k{=}150$ comparable in retrieved episodic content to $k{=}30$ in the other frameworks.\\
+\textbf{Evaluation Metrics}
+We adopt \textit{Accuracy} as the evaluation metric, defined as the proportion of correct MCQs that the agent selects, and report results over 673 questions.
+%$$\text{Accuracy} = \frac{\#\text{correct MCQs}}{\#\text{total MCQs}}.$$
+
+\subsection{Results and Discussion}
+We evaluate twelve frontier LLMs on the full 673-question MCQ benchmark under the three interactive settings introduced above (Naive-RAG, Mem0, and PersonaDB). For each setting, the prompt exposes only the character ID, occupation, and de-identified retrieved memories—the underlying Big~Five vector, value logic, and behavioural patterns are strictly withheld to prevent leakage of the gold annotation. Table~\ref{tab:main_results} reports overall behavioural accuracy.
+\begin{table}[t]
+\centering
+\caption{Accuracy on \ourbench across all settings. Gemini-3.1-Pro achieves the best performance among all models. The performance across the three interactive settings remains comparable.}
+\label{tab:main_results}
+\setlength{\tabcolsep}{6pt}
+\small
+\begin{tabular}{lc|ccc|c}
+\toprule
+\textbf{Model} & \textbf{Vanilla LLM} & \textbf{Naive-RAG} & \textbf{Mem0} & \textbf{PersonaDB} & \textbf{Avg.} \\
+\midrule
+\noalign{\vskip -2pt}
+\multicolumn{6}{l}{\textit{Open-source}}\\[-2pt]
+\midrule
+\quad DeepSeek-V3.2              & 0.285 & 0.412 & 0.425 & 0.428 & 0.422 \\
+\quad DeepSeek-V4-Flash          & 0.278 & 0.348 & 0.336 & 0.328 & 0.337 \\
+\quad DeepSeek-V4-Pro            & 0.291 & 0.407 & 0.372 & 0.367 & 0.382 \\
+\quad Qwen3.5-35B-A3B            & 0.254 & 0.370 & 0.372 & 0.366 & 0.369 \\
+\quad Qwen3.5-122B-A10B          & 0.264 & 0.391 & 0.394 & 0.389 & 0.391 \\
+\quad Qwen3.5-397B-A17B          & 0.275 & 0.403 & 0.406 & 0.404 & 0.404 \\
+\midrule
+\noalign{\vskip -2pt}
+\multicolumn{6}{l}{\textit{Closed-source}}\\[-2pt]
+\midrule
+\quad GPT-5.4-mini               & 0.288 & 0.330 & 0.343 & 0.322 & 0.332 \\
+\quad GPT-5.4                    & 0.278 & 0.372 & 0.366 & 0.351 & 0.363 \\
+\quad Claude-Haiku-4.5           & 0.245 & 0.357 & 0.363 & 0.376 & 0.365 \\
+\quad Claude-Sonnet-4.6          & 0.257 & 0.401 & 0.389 & 0.401 & 0.397 \\
+\quad Gemini-3-Flash             & 0.253 & 0.563 & 0.541 & 0.525 & 0.543 \\
+\quad Gemini-3.1-Pro             & 0.264 & \textbf{0.633} & \textbf{0.624} & \textbf{0.624} & \textbf{0.627} \\
+\bottomrule
+\end{tabular}
+\vspace{-10pt}
+\end{table}
+\\ \textbf{Model capability dominates over retrieval design.} The single most striking observation is the asymmetry between the model axis and the method axis. Across the twelve models evaluated under all three settings, the spread between the best- and worst-performing model exceeds 30\% (63.3\% vs 33.0\%), whereas the average gap between the best and worst retrieval method on a given model is only 1.7\% and never exceeds 4\%. The Spearman rank correlation between any pair of methods is $\rho > 0.98$. This indicates that, under our leakage-controlled prompt protocol, behavioural accuracy is bottlenecked by the model's intrinsic capability for psychologically grounded reasoning rather than by the structure of its long-term memory backend. Figure~\ref{fig:radar_configs} visualises this pattern: the three retrieval-configuration polygons nearly overlap for every model spoke, while the gap between families is pronounced.
+% \begin{figure}[t]
+% \centering
+% \includegraphics[width=0.7\linewidth, trim=0 0 0 0 clip]{figures/radar_3configs_v2.png}
+% \caption{Radar chart of behavioural accuracy for all 12 models under three retrieval configurations. Each spoke represents a model; models are grouped by family (color-coded arcs). The three polygons—Naive-RAG (solid), Mem0 (dashed), PersonaDB (dotted)—overlap closely for every model, confirming that the retrieval paradigm has little effect on rank order.}
+% \label{fig:radar_configs}
+% \end{figure}
+\\ \textbf{Naive-RAG is a simple but strong baseline.} 
+% Naive-RAG achieves the highest mean accuracy 41.7\% and wins on 5/10 shared models, including the entire Gemini family and both DeepSeek-V4 variants. This contradicts a common assumption that more elaborate memory consolidation (Mem0) or persona-structured retrieval (PersonaDB) automatically improves persona-consistent decision making. We attribute the result to two factors: (i) the benchmark scenarios are short single-turn decisions in which raw episodic context is already sufficient, and (ii) the additional summarisation/structuring stages in Mem0 and PersonaDB introduce their own information loss that the model cannot always recover from.\\
+More complex agent configurations do not yield significant improvements over the simplest Naive-RAG baseline, and in fact underperform Naive-RAG on 6 out of 12 evaluated models. This suggests that more sophisticated memory integration mechanisms (e.g., Mem0) or persona-structured retrieval approaches (e.g., PersonaDB) do not reliably enhance behavioral decision-making in large language models through improved memory representations. We attribute this phenomenon to two factors: (1) with approximately 30 episodic memories per character, the retrieved contextual information is already sufficient to encode salient aspects of personality and value orientation, shifting the performance bottleneck to the model’s ability to correctly reason over and interpret these signals; and (2) the additional summarization and structural abstraction steps introduced in Mem0 and PersonaDB may induce non-trivial information loss. In particular, an excessive focus on feature-level abstraction can obscure latent personality cues embedded in raw episodic memories, thereby weakening the utility of memory for personality- and value-grounded decision-making.
+\begin{figure}[h]
+\centering
+\begin{minipage}{0.49\textwidth}
+    \centering
+    \includegraphics[width=\linewidth]{figures/radar_3configs_v2.pdf}
+    \caption{Behavioural accuracy for all 12 models under three retrieval configurations. Each spoke represents a model; models are grouped by family (color-coded arcs). 
+    % The three polygons overlap closely across all models, confirming that the retrieval paradigm has little effect on the rank order.
+    } 
+    \label{fig:radar_configs}
+\end{minipage}
+\hfill
+\begin{minipage}{0.49\textwidth}
+    \centering
+    \includegraphics[width=\linewidth]{figures/fig_per_character_radar.pdf}
+    \caption{
+    % Per-character behavioural accuracy for the best model (Gemini-3.1-Pro, Naive-RAG). Characters defined by the same Big Five dimension are annotated with the same color. 
+    Per-character behavioural accuracy averaged across all evaluated LLMs. Characters defined by the same Big Five dimension are annotated with the same color.
+    % High-N and high-C characters consistently yield higher accuracy, suggesting that extreme personality signatures leave stronger traces in autobiographical memory that current models can exploit.
+    }
+    \label{fig:per_char_radar}
+\end{minipage}
+% \vspace{-10pt}
+\end{figure}
+% \textbf{Method preference is model-dependent.} While the ranking is stable, each method has a distinct ``preferred'' model family. Mem0 consistently wins on the Qwen3.5 family (35B/122B/397B) and on GPT-5.4-mini, suggesting that consolidated long-term memory pairs well with mid-sized mixture-of-experts models that benefit from a denser context. PersonaDB only wins on DeepSeek-V3.2 and Claude-Haiku-4.5, but is the worst configuration for DeepSeek-V4-Pro and Gemini-3-Flash (-4\%). These local interactions imply that retrieval/memory backends should be co-designed with the target model rather than treated as model-agnostic plug-ins.\\
+\begin{figure}[t]
+% \vspace{-10pt}
+\centering
+\includegraphics[width=\linewidth, trim=0 10 0 0 clip]{figures/per_stage_accuracy.pdf}
+\caption{Per-life-stage behavioural accuracy across four interactive settings. Each line represents the best-in-family model; shaded bands indicate binomial confidence intervals.}
+\vspace{-10pt}
+\label{fig:per_stage}
+\end{figure}
+\\ \textbf{Headroom and ceiling.} 
+% Even the strongest agent (Gemini-3.1-Pro + Naive-RAG) reaches only 63.3\% accuracy. The gap between Gemini-3.1-Pro and the next best model (Gemini-3-Flash, 56.3\%) is itself 7\%, and the entire mid-tier (Qwen3.5/Claude/DeepSeek-V4 family) clusters tightly between 34\% and 41\% This suggests that current LLMs handle the surface task—pattern-matching from retrieved episodes to a plausible action—but stop short of full personality-consistent decision making, leaving substantial headroom for personality- and value-aware modelling.\\
+The Gemini model family exhibits particularly strong performance, suggesting that these models may have been trained with a stronger emphasis on personality reasoning and behaviorally grounded decision-making. However, even the best-performing variants achieve only 63.3\% and 56.3\% accuracy, respectively. In contrast, all other models fall within a substantially lower range of 33\% to 42\%, indicating that the task remains highly challenging for current large language models. Overall, these results suggest that existing LLMs still struggle to infer latent personality traits and value orientations from historical episodic memories, and to maintain a consistent persona when selecting optimal behavioral actions. This limitation can be further decomposed into two aspects: (1) models fail to reliably extract implicit personality and value signals from memory-based experiences; and (2) models struggle to distinguish how different candidate actions reflect distinct persona-consistent decision policies, i.e., mapping actions to the corresponding identity- and value-aligned behavior space.
+\\ \textbf{Character-level variation reveals personality-dependent difficulty.} Figure~\ref{fig:per_char_radar} shows per-character best accuracy across retrieval configurations, revealing an overall trend that \emph{low}-extreme characters tend to be harder than their high-extreme counterparts. C-High (CHAR\_03) reaches 57.3\%, whereas C-Low (CHAR\_04, 26.7\%) and O-Low (CHAR\_10, 26.9\%) are the two hardest characters. Low-trait characters tend to express their personality through the \emph{absence} of a behavioural drive---restraint, avoidance, or emotional flatness---which produces less distinctive episodic memory content and weakens the personality signal available to the retrieval and reasoning pipeline. N-High (CHAR\_01, 32.4\%) is a notable exception: although its memories are emotionally intense, the resulting behaviour (hesitation, self-attack) is easily confused with generic anxiety responses, making it similarly hard to distinguish.
+\\ \textbf{Accuracy degrades for later life stages.} Figure~\ref{fig:per_stage} breaks down accuracy by developmental stage. Accuracy peaks at School Age (47.1\%) and generally declines toward midlife, with Age-30 Transition (37.4\%) and Midlife Transition (37.9\%) recording the lowest scores; a partial recovery at Settling Down (43.1\%) suggests that this stage's scenarios may have more stereotypical behavioral signatures that models can exploit. We attribute the declining trend to two compounding factors: later life stages involve greater contextual complexity and more nuanced value conflicts, making it harder to infer the personality-consistent option from retrieved memories alone; and the episodic memory density for midlife stages is intentionally lower under our salience-weighted quota scheme (Appendix~\ref{app:stats}), providing the retrieval pipeline with a thinner evidential base. Gemini-3.1-Pro maintains a pronounced lead across all stages, while the remaining models cluster tightly regardless of stage, confirming that the performance gap is driven by intrinsic model capability rather than stage-specific difficulty.
+% \begin{figure}[t]
+% \centering
+% \includegraphics[width=0.72\linewidth]{figures/fig_per_character_radar.png}
+% \caption{Per-character behavioural accuracy for the best-in-family model (Gemini-3.1-Pro, Naive-RAG). Each spoke represents one of the 11 characters; characters defined by the same Big Five dimension are annotated with the same color. High-N and high-C characters consistently yield higher accuracy, suggesting that extreme personality signatures leave stronger traces in episodic memory that current models can retrieve and exploit.}
+% \label{fig:per_char_radar}
+% \end{figure}
+
+\section{Conclusion}
+In this work, we presented \ourbench, the first comprehensive benchmark dedicated to assessing human-like psychology and personality consistency in LLM agents. Our benchmark jointly models (i) diverse character profiles grounded in complementary psychological dimensions, including stable personality traits and value-driven preferences, and (ii) a structured set of character-agnostic scenarios designed to systematically span a wide range of situational attributes, such as duty, adversity, social interaction, and emotional valence. Each character–scenario pair defines a decision-making task that evaluates behavioral choices grounded in the character's lived experience, providing an objective measure of genuine, human-like psychological reaction. We hope \ourbench will establish a new standard for future research into psychologically grounded evaluation and the realization of authentic, emotionally resonant AI companions.
+
+\clearpage
+\bibliographystyle{unsrt}
+\bibliography{ref}
+\newpage
+\input{checklist}
+\clearpage
+\appendix
+\input{appendix}
+\end{document}
