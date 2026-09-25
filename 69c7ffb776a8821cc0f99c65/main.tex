@@ -192,9 +192,9 @@ Figure~\ref{fig:pipeline} illustrates the full pipeline of \ourbench. The benchm
 
 We define a synthetic character as \(c=(\mathbf{p}, \{m_i\}_{i=1}^{T})\), where $\mathbf{p}=(O,C,E,A,N)\in[0,1]^5$ is a predefined Big Five vector and $\{m_i\}_{i=1}^{T}$ is a synthetic autobiographical history informed by research on narrative memory~\cite{singer1995seeing}. We construct each character through three stages.
 
-\textbf{Stage 1: Character Profiling.} We anchor each character to the Big Five factor model~\citep{mccrae1992introduction} rather than using a loosely defined role description. Our trait-anchored coverage design assigns one defining dimension to each profile: for every OCEAN trait, we instantiate one high ($p=0.95$) and one low ($p=0.10$) anchor, together with an all-neutral ($p=0.50$) baseline, yielding 11 coherent multi-trait profiles (Table~\ref{tab:characters}). For each OCEAN trait, the high and low anchors differ by $0.85$ on the defining dimension, and each anchor differs from the neutral baseline by at least $0.40$ on that dimension. Non-anchor dimensions vary to preserve nonuniform multi-trait character profiles. Each profile is augmented with Schwartz values derived from established trait--value correlations~\cite{schwartz1992universals,roccas2002bigfive}, an occupation, a self-value logic, and eight behavioral patterns that guide memory generation (Appendices~\ref{app:stage_a} and~\ref{app:schwartz}). The resulting profiles were reviewed by the same four-expert team that adjudicated the reference responses. This design covers both poles of every trait; differences are interpreted at the character level rather than as causal effects of an isolated trait.
+\textbf{Stage 1: Character Profiling.} We anchor each character to the Big Five factor model~\citep{mccrae1992introduction} rather than using a loosely defined role description. Our trait-anchored coverage design assigns one defining dimension to each profile: for every OCEAN trait, we instantiate one high ($p=0.95$) and one low ($p=0.10$) anchor, together with an all-neutral ($p=0.50$) baseline, yielding 11 coherent multi-trait profiles (Table~\ref{tab:characters}). For each OCEAN trait, the high and low anchors differ by $0.85$ on the defining dimension, and each anchor differs from the neutral baseline by at least $0.40$ on that dimension. Non-anchor dimensions vary to preserve nonuniform multi-trait character profiles. We use Claude Opus 4.6~\cite{anthropic2026opus46} to generate the character profiles under this design, using the prompt in Appendix~\ref{app:prompt_character}. Each profile is augmented with Schwartz values derived from established trait--value correlations~\cite{schwartz1992universals,roccas2002bigfive}, an occupation, a self-value logic, and eight behavioral patterns that guide memory generation (Appendices~\ref{app:stage_a} and~\ref{app:schwartz}). A four-expert team reviewed the resulting profiles: three researchers in social cognitive science or neuroscience, each with $5{+}$ years of experience in personality assessment, and a senior professor with $15{+}$ years of experience and dual expertise in psychology and computer science. Eight profiles received unanimous acceptance as-is. For the remaining three, one reviewer requested local revisions in two cases and two reviewers did so in one case. The senior professor adjudicated the requests, revised the three profiles, and confirmed their suitability. All 11 finalized profiles were then used for memory generation (Appendix~\ref{app:profile_review}). This design covers both poles of every trait; differences are interpreted at the character level rather than as causal effects of an isolated trait.
 
-\textbf{Stage 2: Synthesizing Autobiographical Memories.} Claude Sonnet 4.6 generates 1,000 episodic memories per character from ages 6--50. Memories are distributed across eight age-defined life-stage bins informed by Erikson~\cite{erikson1963childhood} and Levinson~\cite{levinson1978seasons,levinson1986conception}, with higher assigned density in adolescence and early-adult bins. The 45 one-year bins also emphasize the age-30 interval. As illustrated in Figure~\ref{fig:rubin}, each narrative integrates five operational dimensions inspired by Rubin's Basic Systems Model~\cite{rubin2006basic}---sensory detail, dialogue reconstruction, inner monologue, somatic response, and aftermath---and is diversified across workplace, interpersonal, health, creative, and daily-life domains. This yields a longitudinally organized synthetic history with rich episodic content. The allocation scheme, generation protocol, and complete prompt are provided in Appendices~\ref{app:stage_b}, \ref{app:stage_c}, and~\ref{app:prompt_memory}.
+\textbf{Stage 2: Synthesizing Autobiographical Memories.} Claude Sonnet 4.6 generates 1,000 episodic memories per character from ages 6--50. Memories are distributed across eight age-defined life-stage bins informed by Erikson~\cite{erikson1963childhood} and Levinson~\cite{levinson1978seasons,levinson1986conception}, with higher assigned density in adolescence and early-adult bins. The 45 one-year bins also emphasize the age-30 interval. As illustrated in Figure~\ref{fig:rubin}, each narrative integrates five operational dimensions inspired by Rubin's Basic Systems Model~\cite{rubin2006basic}---sensory detail, dialogue reconstruction, inner monologue, somatic response, and aftermath---and is diversified across workplace, interpersonal, health, creative, and daily-life domains. This yields a longitudinally organized synthetic history with rich episodic content. Alongside each narrative, the model generates a psychological interpretation (\texttt{psych\_conclusion}) and a behavioral-tendency summary (\texttt{behavior\_policy}) as auxiliary cues for memory retrieval and candidate-response generation during benchmark construction (Appendix~\ref{app:schema}). The allocation scheme, generation protocol, and complete prompt are provided in Appendices~\ref{app:stage_b}, \ref{app:stage_c}, and~\ref{app:prompt_memory}.
 
 \begin{figure}[t]
 \centering
@@ -203,7 +203,7 @@ We define a synthetic character as \(c=(\mathbf{p}, \{m_i\}_{i=1}^{T})\), where 
 \label{fig:rubin}
 \end{figure}
 
-\textbf{Stage 3: Quality Audit.} Each memory is screened against six automated defect criteria covering perspective drift, age-inappropriate retrospection, metadata leakage, duplication, length, and schema compliance. Failures enter a targeted repair loop; memories passing these checks are then deduplicated, chronologically ordered into a 1,000-entry timeline, and sanitized with gender-neutral labels. Full criteria and repair procedures appear in Appendix~\ref{app:stage_d}, with the final schema and statistics in Appendix~\ref{app:stats}.
+\textbf{Stage 3: Quality Audit.} Each memory is screened against six automated defect criteria covering perspective drift, age-inappropriate retrospection, metadata leakage, duplication, length, and over-psychologization. Of the 11{,}000 memories, 8{,}991 passed the initial automated audit, 1{,}935 passed after automated rewriting, and 74 were escalated to the same four-expert team introduced above. The professor revised 71 memories, all of which subsequently passed the LLM judge; the other three were unanimously accepted by the reviewers as false-positive LLM flags. Accepted memories are then deduplicated, chronologically ordered into a 1,000-entry timeline, and sanitized with gender-neutral labels. Full criteria and repair procedures appear in Appendix~\ref{app:stage_d}, with the final schema and statistics in Appendix~\ref{app:stats}.
 
 \subsection{Scenario Construction}
 \label{sec:scenario}
@@ -239,17 +239,17 @@ Having built the character and scenario sets, we formulate each test instance as
 
 \Needspace{3\baselineskip}
 \textbf{Stage 1: Automated Annotation with LLMs.}
-For each (character, scenario) pair, three parallel family-specific pipelines (Claude, GPT, and Gemini) retrieve relevant episodic memories and generate candidate responses conditioned on activated memories and the character's full profile (Big Five traits, Schwartz values, and self-narrative). Using multiple model families reduces dependence on any single annotation model and provides diverse candidates for expert comparison. Candidate order is randomized and model-family identities remain hidden throughout review. Full model configurations, prompts, and an annotation example are provided in Appendix~\ref{app:annotation}.
+For each (character, scenario) pair, the predefined profile (Big Five traits, Schwartz values, and self-narrative) serves as the primary character specification, while the scenario defines the decision context. Three parallel family-specific pipelines (Claude, GPT, and Gemini) each retrieve relevant episodic memories and use them alongside the profile and scenario to generate a candidate response. The memories provide experiential context, with their model-generated annotations serving as auxiliary cues for interpreting the situation and supporting behavioral judgments; different memory sets can provide plausible support for the same scenario. Using multiple model families reduces dependence on any single annotation model and provides diverse candidates for expert comparison. Candidate order is randomized and model-family identities remain hidden throughout review. Full model configurations, prompts, and an annotation example are provided in Appendix~\ref{app:annotation}.
 
 \Needspace{3\baselineskip}
 \textbf{Stage 2: Expert Review and Adjudication.}
-Three primary annotators, each with $5{+}$ years of personality-assessment experience, independently assess pair suitability and compare anonymized candidates; a professor with expertise in psychology and computer science serves as arbitrator. Under a consensus-then-arbitration rule, a candidate is adopted directly only when all three annotators select it as \textit{acceptable as-is}; otherwise, the arbitrator selects, edits, or rewrites the response, or discards an unsuitable pair. This process removed $31$ pairs and retained $673$ expert-adjudicated reference responses. Experts changed approximately $15\%$ of the words in selected LLM candidates on average, documenting substantive human involvement in constructing the references. Full guidelines and outcome statistics are provided in Appendix~\ref{app:annotation_protocol}.
+The same four-expert team introduced in Section~\ref{sec:character} reviews and adjudicates the reference responses. The three researchers serve as primary annotators, independently assessing pair suitability and comparing anonymized candidates for persona consistency, situational fit, and grounding in their associated memories, while the senior professor serves as arbitrator. Under a consensus-then-arbitration rule, a candidate is adopted directly only when all three annotators select it as \textit{acceptable as-is}; otherwise, the arbitrator selects, edits, or rewrites the response, or discards an unsuitable pair. This process removed $31$ pairs and retained $673$ expert-adjudicated reference responses. Experts changed approximately $15\%$ of the words in selected LLM candidates on average, documenting substantive human involvement in constructing the references. Full guidelines and outcome statistics are provided in Appendix~\ref{app:annotation_protocol}.
 
 \Needspace{3\baselineskip}
 \textbf{Stage 3: Test Instance Assembly.}
 For each retained annotation, the target character's adjudicated response becomes the keyed reference option, while \textit{Claude-Sonnet-4.6}~\cite{anthropic2026sonnet46} selects three distractors from the available adjudicated responses associated with other characters in the same scenario. The selection excludes responses that are either too similar to the reference or obviously irrelevant, avoiding ambiguous or trivial questions. The four options are randomly shuffled to remove positional bias, yielding $673$ MCQs. Full assembly rules are provided in Appendix~\ref{app:mcq_assembly}.
 
-After assembly, three experts independent of the original construction team assessed a stratified random subset of 176 final MCQs. All three experts supported the existing reference option on 139 items (79.0\%), while two of three supported it on the remaining 37 items (21.0\%); thus, every sampled item received majority support for the existing key. Pre-adjudication inter-rater reliability was high (Fleiss' $\kappa=0.81$; Krippendorff's $\alpha=0.80$). All 37 items without complete agreement entered adjudication, and the adjudicator confirmed that each item and keyed answer was usable as-is. No wording edits or keyed-answer changes were required, and the audit did not alter the evaluated dataset or primary scores. These results support reference-label reliability on the audited subset. The full protocol and results are provided in Appendix~\ref{app:independent_calibration}.
+Claude-Sonnet-4.6 screened all $673$ assembled MCQs against six option-quality criteria, and all passed the screen (Appendix~\ref{app:mcq_screening}). Separately, three experts independent of the original construction team assessed a stratified random subset of 176 final MCQs. All three experts supported the existing reference option on 139 items (79.0\%), while two of three supported it on the remaining 37 items (21.0\%); thus, every sampled item received majority support for the existing key. Pre-adjudication inter-rater reliability was high (Fleiss' $\kappa=0.81$; Krippendorff's $\alpha=0.81$). All 37 items without complete agreement entered adjudication, and the adjudicator confirmed that each item and keyed answer was usable as-is. No wording edits or keyed-answer changes were required, and the audit did not alter the evaluated dataset or primary scores. These results support reference-label reliability on the audited subset. The full protocol and results are provided in Appendix~\ref{app:independent_calibration}.
 
 \begin{table*}[t]
 \centering
@@ -321,9 +321,9 @@ Reference construction uses richer profile information than evaluation. Accuracy
 \textbf{Cond.} & \textbf{Character source} & \textbf{Memory selection} & \textbf{Acc.} \\
 \midrule
 C0 & Target & Target scenario & \textbf{0.399} \\
-C1 & Target & Other same-bin scenario & 0.349 \\
+C1 & Target & Other same-bin scenario & 0.347 \\
 C2 & Other & Target scenario & 0.227 \\
-C3 & Target & Random non-target & 0.345 \\
+C3 & Target & Random non-target & 0.343 \\
 \bottomrule
 \end{tabular}
 }
@@ -331,7 +331,7 @@ C3 & Target & Random non-target & 0.345 \\
 
 \paragraph{Retrieval helps, with no significant differences among backends.} Retrieval outperforms No-Retrieval in all 36 Holm-corrected tests, whereas no comparison among the three retrieval backends is significant. Rankings remain strongly correlated across backends ($\rho=0.89\text{--}0.94$), and Mem0 and PersonaDB have lower point estimates than Naive-RAG for 6 and 8 of the 12 models, respectively. Their additional summarization and structural abstraction may obscure latent character cues in the original episodic memories, although the nonsignificant backend comparisons do not establish equivalence.
 
-\paragraph{Memory ownership and scenario alignment are both informative.} On a fixed 176-item subset, we evaluate the same 12 models under Naive-RAG with $k{=}30$ while varying only the supplied memory assignment: C0 uses target-scenario memories from the target character; C1 uses memories retrieved for another scenario in the same life-stage bin from the target character; C2 uses target-scenario memories from another character; and C3 uses randomly sampled eligible non-target memories from the target character. The scenario, answer options, model, decoding protocol, and number of supplied memories are held fixed; no condition exposes the latent Big~Five vector, Schwartz profile, self-value logic, or behavioral templates. C0 achieves 39.9\% accuracy, exceeding C1, C2, and C3 by 5.06, 17.24, and 5.43 percentage points, respectively, with all 12 models favoring C0 in each contrast. Across paired model units, all three C0 contrasts remain significant under two-sided exact sign-flip tests after Holm correction over six comparisons (adjusted $p{=}0.00293$ for each). Thus, scenario-matched, character-owned memories provide information beyond either arbitrary same-character memories or scenario-matched memories from another character. Full protocol and per-model results are provided in Appendix~\ref{app:memory_ablation}.
+\paragraph{Memory ownership and scenario alignment are both informative.} On a fixed 176-item subset, we evaluate the same 12 models under Naive-RAG with $k{=}30$ while varying only the supplied memory assignment: C0 uses target-scenario memories from the target character; C1 uses memories retrieved for another scenario in the same life-stage bin from the target character; C2 uses target-scenario memories from another character; and C3 uses randomly sampled eligible non-target memories from the target character. The scenario, answer options, model, decoding protocol, and number of supplied memories are held fixed; no condition exposes the latent Big~Five vector, Schwartz profile, self-value logic, or behavioral templates. C0 achieves 39.9\% accuracy, exceeding C1, C2, and C3 by 5.23, 17.24, and 5.65 percentage points, respectively, with all 12 models favoring C0 in each contrast. Across paired model units, all three C0 contrasts remain significant under two-sided exact sign-flip tests after Holm correction over six comparisons (adjusted $p{=}0.00293$ for each). Thus, scenario-matched, character-owned memories provide information beyond either arbitrary same-character memories or scenario-matched memories from another character. Full protocol and per-model results are provided in Appendix~\ref{app:memory_ablation}.
 
 % \begin{figure}[t]
 % \centering
@@ -555,7 +555,7 @@ Evidence over emotion; unverified information is not a basis for action; ambigui
 Maintaining equanimity under pressure; fact-seeking before reacting; emotional containment in conflict. \\
 \midrule
 CHAR\_03 \newline C-High &
-Only controllable and verifiable systems are trustworthy; any deviation signals danger. &
+Order is maintained through information and planning; rebuilding structure helps resolve discomfort when rules fail. &
 Exhaustive checklists; pre-task risk scanning; micromanaging format details even under low stakes. \\
 \midrule
 CHAR\_04 \newline C-Low &
@@ -571,7 +571,7 @@ Social interaction is costly and modeled as a threat; deep work requires complet
 Treating each social event as a drain needing recovery; preferring async communication; refusing open-plan settings. \\
 \midrule
 CHAR\_07 \newline A-High &
-Conflict harms everyone; every person has goodwill if given the right frame. &
+Adequate communication can resolve most disagreements; preserving harmony motivates mediation. &
 Seeking the mediating position in disputes; over-attributing benign intent; postponing direct refusals. \\
 \midrule
 CHAR\_08 \newline A-Low &
@@ -627,6 +627,100 @@ CHAR\_11 (Neutral) & \multicolumn{2}{c}{flat: $s_v = 0.50$ for all 19 values (ne
 \label{app:schwartz}
 
 As described in Section~\ref{sec:character}, each character's Schwartz value profile is derived from its Big Five vector via the trait--value correlation structure of \citet{roccas2002bigfive}, rather than being elicited independently. Table~\ref{tab:schwartz_profile} reports the three \emph{dominant} (highest-scoring) and three \emph{suppressed} (lowest-scoring) values for each character, with scores on the $[0,1]$ scale; the full 19-dimensional profiles and their corresponding Big Five vectors are released with the benchmark. The derived profiles track the intended character archetypes as a sanity check: the high-Agreeableness non-profit coordinator (CHAR\_07) is dominated by Benevolence values, the low-Agreeableness founder (CHAR\_08) by Achievement and Power, and the low-Openness retailer (CHAR\_10) by Conformity and Tradition, while the neutral baseline (CHAR\_11) yields a flat profile by construction. The same four-expert team that adjudicated the reference responses (Appendix~\ref{app:annotation_protocol}) reviewed the full set of profiles for intended alignment and internal coherence with the predefined Big Five archetypes.
+
+\subsection{Character Profile Review}
+\label{app:profile_review}
+
+\paragraph{Review scope and criteria.}
+The profile review assesses alignment with the predefined character specifications and internal coherence across the Big Five vector, character description, occupation, self-value logic, behavioral patterns, and Schwartz value priorities. It concerns the suitability of synthetic specifications for memory construction, not psychometric validation of real individuals. The following guideline summarizes the review criteria and decision rules in a standardized format.
+
+\begin{tcolorbox}[
+  breakable,
+  colback=blue!5,
+  colframe=blue!60!black,
+  title={\textbf{Character Profile Review Guideline}},
+  fonttitle=\bfseries,
+  rounded corners,
+  boxrule=1.0pt
+]
+\begin{Verbatim}[fontsize=\scriptsize, breaklines=true, breaksymbolleft={}, breaksymbolright={}, breakindent=1em]
+Task
+Assess whether the supplied synthetic character profile is coherent,
+aligned with its stated design, and sufficiently explicit to guide
+subsequent autobiographical-memory generation.
+
+Materials
+Read the complete Big Five vector and intended trait anchor, character
+description, occupation and available rationale, self-value logic,
+eight core behavioral patterns, and Schwartz value priorities.
+Identify any missing information needed for your judgment.
+
+Review criteria
+1. Trait alignment: Assess compatibility with the full five-dimensional
+   configuration, not only the defining high/low trait. A trait score
+   does not uniquely determine an action, profession, or value system.
+2. Internal coherence: Check whether the description, self-value logic,
+   and behavioral patterns are mutually compatible. Flag unexplained
+   contradictions; allow contextual variation when it is justified.
+3. Value coherence: Check whether value priorities are compatible with
+   the overall character. Do not treat population-level trait-value
+   correlations as deterministic rules for an individual or as proof
+   of an exact numerical mapping.
+4. Occupational plausibility: Assess whether the character could
+   plausibly hold the stated occupation. An atypical trait-occupation
+   combination alone is not grounds for rejection; evaluate the
+   rationale and its consistency with the rest of the profile.
+5. Behavioral specificity: Check that the eight patterns are concrete,
+   observable, and distinct enough to guide narratives in relevant
+   situations. Flag vague labels, repetition, and requirements that
+   every pattern appear in every episode.
+6. Interpretive restraint: Flag unsupported clinical diagnoses, moral
+   judgments, and overly categorical claims. Extreme trait values do
+   not imply a disorder, and neutral values do not require a moderate
+   response in every situation.
+
+Recommendation and explanation
+- Acceptable as-is: no issue requires a change to the profile.
+- Local revision needed: the core specification is usable, but a
+  specific wording, scope, or consistency issue requires correction.
+- Flag for further adjudication: substantial contradictions or missing
+  information prevent either recommendation above.
+
+For each requested change, identify the field and relevant passage,
+explain the concern, and suggest a targeted correction. Do not prefer
+fluent or stereotypical descriptions over coherent specifications.
+Do not change a trait score solely to accommodate problematic prose.
+Report your overall recommendation and any unresolved concern.
+\end{Verbatim}
+\end{tcolorbox}
+
+\paragraph{Adjudication and finalization.}
+Profiles accepted as-is by all three researchers were retained unchanged. The senior professor adjudicated the revision requests for the other three profiles, made the corresponding edits, and confirmed that the revised profiles were suitable for use. This final check was performed by the professor. The resulting set of eight unchanged and three revised profiles was used for subsequent autobiographical-memory generation.
+
+\paragraph{Initial review outcomes.}
+The three researchers each reviewed all 11 character profiles. Table~\ref{tab:profile_review_outcomes} summarizes their initial recommendations at the profile level. Eight profiles (72.7\%) were accepted as-is by all three reviewers. Of the remaining three profiles, two (18.2\%) received a request for local revisions from one reviewer, and one (9.1\%) received such requests from two reviewers.
+
+\begin{table}[t]
+\centering
+\caption{Initial review outcomes for the 11 character profiles. Counts refer to profiles; percentages use 11 as the denominator.}
+\label{tab:profile_review_outcomes}
+\small
+\setlength{\tabcolsep}{3pt}
+\begin{tabularx}{\linewidth}{Xrr}
+\toprule
+\textbf{Reviewer recommendations} & \textbf{Count} & \textbf{\%} \\
+\midrule
+All three accept as-is & 8 & 72.7 \\
+One requests local revisions & 2 & 18.2 \\
+Two request local revisions & 1 & 9.1 \\
+\midrule
+Total & 11 & 100.0 \\
+\bottomrule
+\end{tabularx}
+\end{table}
+
+\paragraph{Profile revisions.}
+The three profiles receiving requests for local revisions were CHAR\_03, CHAR\_07, and CHAR\_08. For CHAR\_03, we clarified the intensity and situational scope of anxiety-related behavior: anxiety is mild, arises when rules fail, and is alleviated by restoring structure. For CHAR\_07, we qualified general claims about conflict resolution, framing successful mediation as possible for most disagreements given adequate communication. For CHAR\_08, we made rule- and fairness-based constraints explicit alongside the character's instrumental decision-making style.
 
 % ---- A.2 Memory Quota Allocation ----
 \subsection{Memory Quota Allocation}
@@ -715,7 +809,17 @@ The audit step screens each memory against the following six defect criteria, im
 \end{enumerate}
 
 \paragraph{Repair procedure.}
-Flagged memories enter a targeted repair loop: only the defective field(s) are regenerated using an issue-specific instruction appended to the original generation prompt. For example, a perspective-drift failure supplies the original \texttt{context} and \texttt{content\_summary} and instructs the model to rewrite \texttt{content\_full} from a strict first-person viewpoint. Up to three automated repair attempts are made per defect; records that remain non-compliant are held for manual inspection and are not admitted until they pass a final re-check. Per-defect trigger, repair-attempt, and manual-review counts were not retained. In the released post-audit corpus, all 11{,}000 retained memories have the complete ten-field schema in Table~\ref{tab:schema} and nonempty \texttt{content\_full} narratives.
+Flagged memories enter a targeted repair loop: only the defective field(s) are regenerated using an issue-specific instruction appended to the original generation prompt. For example, a perspective-drift failure supplies the original \texttt{context} and \texttt{content\_summary} and instructs the model to rewrite \texttt{content\_full} from a strict first-person viewpoint. Up to three automated repair attempts are made per defect; records still flagged after this process are held for manual inspection before admission. Human review can confirm a defect or override a false-positive LLM flag. Record-level audit outcomes are reported below.
+
+\paragraph{Human review and audit outcomes.}
+Of the 11{,}000 memories, 8{,}991 passed the initial automated audit, 1{,}935 passed after automated rewriting, and the remaining 74 underwent manual review by the same four-expert team introduced in Section~\ref{sec:character}. The human review guidelines were substantially aligned with the six defect criteria above. The team confirmed that 71 of the 74 memories required revision. The senior professor edited these 71 memories, all of which subsequently passed re-evaluation by the LLM judge. For the remaining three, the reviewers unanimously judged the flagged records acceptable without further revision and identified the LLM flags as false positives. All 74 records were retained following these respective resolution paths. These counts describe memory records, not individual defect triggers or repair attempts. The review of escalated records does not constitute a manual audit of all 11{,}000 memories. In the released post-audit corpus, all 11{,}000 retained memories have the complete ten-field schema in Table~\ref{tab:schema} and nonempty \texttt{content\_full} narratives.
+
+The following examples illustrate the revision directions for three of the 71 manually edited memories.
+\begin{enumerate}[leftmargin=1.5em, itemsep=4pt]
+  \item \textbf{Restricting narrator knowledge (criterion 1).} In \texttt{MEM\_CHAR\_03\_C\_HIGH\_0002}, a six-year-old responds to a parental argument by tidying the room. The narrator explicitly does not know whether the father heard this activity or has calmed down on the balcony. The revision restricted narration to observations available at the time and made uncertainty about another person's unobserved state explicit.
+  \item \textbf{Keeping appraisals age-appropriate (criterion 2).} In \texttt{MEM\_CHAR\_06\_E\_LOW\_0006}, a six-year-old whose blocks repeatedly collapse wonders whether their placement or the slippery floor caused the problem. Frustration is expressed through immediate thoughts, bodily sensations, and actions. The revision grounded the explanation in the child's immediate situational understanding, feelings, and behavior.
+  \item \textbf{Using ordinary language for low-intensity events (criterion 6).} In \texttt{MEM\_CHAR\_02\_N\_LOW\_0006}, an episode with intensity 0.25 describes drawing in sand through touch, wind, simple conversation, and relaxation. The closing thought is that the child could draw again tomorrow. The revision reduced over-psychologization, retaining concrete everyday experience and proportionate emotional language.
+\end{enumerate}
 
 % ---- A.5 Memory Schema ----
 \subsection{Memory Schema}
@@ -749,9 +853,9 @@ R & triggers         & \textit{4 keywords}            & Cue words that activate 
 R & relevance\_tags  & \textit{4 tags}                & Thematic tags linking memory to life threads and early maladaptive schema (EMS) clusters. \\
 \midrule
 \rowcolor{orange!8}
-P & psych\_conclusion  & \textit{1 sentence}          & Long-term psychological interpretation of the event. \\
+P & psych\_conclusion  & \textit{1 sentence}          & Model-generated psychological interpretation used as an auxiliary construction cue. \\
 \rowcolor{orange!8}
-P & behavior\_policy   & \textit{1 sentence}          & Implicit behavioral rule reinforced by this memory~\cite{young2006schema}. \\
+P & behavior\_policy   & \textit{1 sentence}          & Model-generated summary of a behavioral tendency associated with the event~\cite{young2006schema}. \\
 \rowcolor{orange!8}
 P & emotion\_signature & \textit{\{primary, secondary,}        & Affective signature supporting mood-congruent retrieval~\cite{bower1981}; \\
 \rowcolor{orange!8}
@@ -760,7 +864,7 @@ P & emotion\_signature & \textit{\{primary, secondary,}        & Affective signa
 \end{tabular}
 \end{table*}
 
-Table~\ref{tab:schema} specifies all ten fields of the unified memory schema. Fields are grouped by functional role: structural (S), retrieval-index (R), and psychological annotation (P).
+Table~\ref{tab:schema} specifies all ten fields of the unified memory schema. Fields are grouped by functional role: structural (S), retrieval-index (R), and psychological annotation (P). The \texttt{psych\_conclusion} and \texttt{behavior\_policy} fields are generated together with the narrative and supply auxiliary interpretive cues during construction-time retrieval and response generation. The profile provides the primary character specification, and experts establish the reference response by reviewing persona consistency, situational fit, and memory grounding (Appendix~\ref{app:annotation_protocol}).
 The \texttt{context} and \texttt{content\_summary} ranges are generation targets, whereas the audit applies more permissive hard-failure thresholds to identify severe metadata leakage.
 
 
@@ -1040,9 +1144,9 @@ This appendix details how character--scenario pairs are instantiated into the fi
 
 The automated annotation pipeline (\S\ref{sec:CreatingEvaluationInstances}, Stage~1) produces three candidate \textit{final decisions} for every (character, scenario) pair through parallel family-specific pipelines. Each pipeline consists of coarse-to-fine memory activation followed by response generation. The full system prompts driving these stages are reproduced in Appendix~\ref{app:prompt_annotation}.
 
-\paragraph{Memory activation (coarse-to-fine retrieval).} For every (character, scenario) pair, \textit{Claude-Haiku-4.5}, \textit{GPT-5.4-mini}, and \textit{Gemini-3-Flash} independently retrieve the episodic memories scored as most relevant to that situation. Within each family-specific pipeline, the activation model first screens the character's full $1{,}000$-memory pool for relevance and yields roughly $75$--$125$ candidates per scenario (Stage~1 prompt; see Appendix~\ref{app:prompt_activation}), then globally re-ranks these candidates and retains the top $50$ memories (Stage~2 prompt; see Appendix~\ref{app:prompt_finalize}). This two-stage procedure is designed to retain a broad candidate set during screening before concentrating the final ranking.
+\paragraph{Memory activation (coarse-to-fine retrieval).} For every (character, scenario) pair, \textit{Claude-Haiku-4.5}, \textit{GPT-5.4-mini}, and \textit{Gemini-3-Flash} independently retrieve the episodic memories scored as most relevant to that situation. Within each family-specific pipeline, the activation model first screens age-eligible records from the character's $1{,}000$-memory pool for relevance (memory age at or before scenario age) and yields roughly $75$--$125$ candidates per scenario (Stage~1 prompt; see Appendix~\ref{app:prompt_activation}), then globally re-ranks these candidates and retains at most $50$ memories (Stage~2 prompt; see Appendix~\ref{app:prompt_finalize}). This two-stage procedure is designed to retain a broad candidate set during screening before concentrating the final ranking; when at most $50$ candidates survive screening, all are retained without re-ranking. The retrieved set supplies scenario-relevant experiential support for response construction. Multiple sets may provide relevant and plausible support, so no unique gold retrieval set is prescribed.
 
-\paragraph{Response generation.} Conditioned jointly on the character's full personality profile (Big Five traits, Schwartz value orientations, and self-narrative) and the top-$50$ memories retrieved by the corresponding smaller model, \textit{Claude-Sonnet-4.6}, \textit{GPT-5.4}, and \textit{Gemini-3.1-Pro} independently role-play the character in first person and produce structured candidate annotations~\cite{anthropic2025haiku45,anthropic2026sonnet46,openai2026gpt54,google2025gemini3flash,google2026gemini31pro} (Stage~3 prompt; see Appendix~\ref{app:prompt_gt}). Each annotation contains a first-person rationale and a two-sentence \textit{final decision}. The three candidates are subsequently compared, revised, and adjudicated by experts to establish the reference response.
+\paragraph{Response generation.} Using the full personality profile as the primary character specification and the corresponding retrieved memories as scenario-relevant experiential context, \textit{Claude-Sonnet-4.6}, \textit{GPT-5.4}, and \textit{Gemini-3.1-Pro} independently role-play the character in first person and produce structured candidate annotations~\cite{anthropic2025haiku45,anthropic2026sonnet46,openai2026gpt54,google2025gemini3flash,google2026gemini31pro} (Stage~3 prompt; see Appendix~\ref{app:prompt_gt}). Each annotation contains a first-person rationale and a two-sentence \textit{final decision}. The three candidates are subsequently compared, revised, and adjudicated by experts to establish the reference response.
 
 \begin{tcolorbox}[
   breakable,
@@ -1077,7 +1181,7 @@ The Stage-2 expert review in \S\ref{sec:CreatingEvaluationInstances} engages a f
   \item \textit{Acceptable as-is.}
   \item \textit{Acceptable with partial revisions.} The annotator provides written guidance specifying the required changes.
 \end{enumerate}
-The review focuses on the \textit{final decision} field.
+The review focuses on the \textit{final decision} field. Annotators assess each response alongside its profile, scenario, and associated memories, checking whether its use of those memories is relevant, plausible, and supported by their content. Memory grounding is assessed within this response-level review.
 
 \paragraph{Consensus-then-arbitration.} If all three primary annotators select the same candidate and rate it as \textit{acceptable as-is}, it is adopted directly as the reference response. Otherwise, the case is escalated to the arbitrator, who reviews all three candidates together with each primary annotator's selection, rating, and written revision guidance, and then selects and edits a candidate or rewrites the response from scratch. If the arbitrator deems the case fundamentally unfit, the (character, scenario) pair is discarded.
 
@@ -1085,7 +1189,7 @@ The review focuses on the \textit{final decision} field.
 
 \paragraph{Expert annotation guideline.}
 \label{app:expert_guideline}
-The following instructions were provided to each primary annotator. Candidate order was randomized, and model-family identities were hidden during annotation. The role-based plausibility criteria assess consistency with the supplied synthetic profile and history. For terminological consistency, the construction-time phrase ``gold annotation'' is rendered below as ``reference response''; the decision criteria are unchanged.
+The following instructions were provided to each primary annotator. Candidate order was randomized, and model-family identities were hidden during annotation. The role-based plausibility criteria assess consistency with the supplied synthetic profile and history.
 
 \begin{tcolorbox}[
   breakable,
@@ -1146,12 +1250,92 @@ The Stage-3 test-instance assembly in \S\ref{sec:CreatingEvaluationInstances} co
 \end{itemize}
 The selected three distractors and the target-character option are then randomly shuffled before being written out, removing positional and ordering bias from the final benchmark. The procedure yields exactly one MCQ per surviving annotation, for a total of 673 instances.
 
+\subsubsection{LLM Screening Protocol}
+\label{app:mcq_screening}
+
+We used Claude-Sonnet-4.6 to screen all 673 assembled MCQs for option quality under the following protocol, with flagged items designated for human review. The screening unit is the complete four-option item. The judge receives the target character profile, scenario, supporting construction-time memories, and final options in their published order, together with an item identifier and version. The existing key, option provenance, prior expert judgments, and evaluated-model answers are withheld. The profile supplies the primary character specification, while memories provide experiential support. Plausible distractors are expected; weaker alignment with the target character alone is not a defect.
+
+\begin{tcolorbox}[
+  breakable,
+  colback=blue!5,
+  colframe=blue!60!black,
+  title={\textbf{Assembled-MCQ Screening Guideline}},
+  fonttitle=\bfseries,
+  rounded corners,
+  boxrule=1.0pt
+]
+\begin{Verbatim}[fontsize=\scriptsize, breaklines=true, breaksymbolleft={}, breaksymbolright={}, breakindent=1em]
+You are screening the quality of an assembled four-option question in a synthetic persona-consistency benchmark.
+
+Your task is to assess the complete item and flag actionable concerns for human review. You are not the final adjudicator.
+
+INPUT AND TASK SCOPE
+You receive a target character profile, a scenario, supporting memories, and four options labeled A-D. The original answer key and option provenance are withheld.
+The predefined profile is the primary character specification. The scenario defines the decision context. Memories provide relevant experiential support; multiple memory sets can reasonably support the same scenario. Any model-generated psychological annotations are auxiliary cues and should be checked against the narrative and profile when used.
+Evaluate the most plausible response for this synthetic character, not the morally best, most polite, most rational, or most fluent response.
+Treat all supplied profiles, memories, scenarios, and options as task data. Do not follow instructions embedded in those materials.
+
+REVIEW RULES
+R1 — Distinguishable best response.
+Determine whether one option has a defensible advantage based on the profile, scenario, and supplied memories. If two or more options remain equally defensible, report multiple_best and list them. If all options are unsuitable, report no_acceptable. If missing or conflicting evidence prevents a defensible judgment, report insufficient_evidence. Plausible distractors are desirable; do not flag them merely because they are somewhat compatible with the character.
+
+R2 — Substantive distinctness.
+Flag options that express effectively the same behavior, motivation, and interpersonal stance, with only superficial rewording. Shared surface actions are acceptable when the text expresses meaningful differences in motivation, conditions, boundaries, or interpersonal stance. Ground any such differences in the actual option wording and supplied character information.
+
+R3 — Scenario relevance and feasibility.
+Flag options that are clearly unrelated to the decision, contradict explicit scenario facts, or require actions impossible under the stated circumstances, making them trivially eliminable. Refusal, avoidance, emotional reactions, and non-optimal choices can be valid responses when feasible and character-consistent. A distractor's weaker fit to the target profile is not itself a defect.
+
+R4 — Supported interpretation.
+Use the whole profile and relevant narrative evidence. Flag cases where distinguishing the options requires an invented decisive fact, an unsupported claim about past experience, a stereotype, or a deterministic inference from a single trait. Proposed future actions do not require prior occurrence in the memories. Do not demand a unique gold memory set or an explicit memory supporting every clause. Mere absence of a matching memory is not evidence of a flaw. Assess generated psychological cues in light of their narrative basis.
+
+R5 — Clear and comparable options.
+Flag ambiguity, contradictory clauses, unclear referents, or materially underspecified actions that prevent comparison. Check that each option addresses the same decision context. Ignore minor language issues that do not affect interpretation or answer selection.
+
+R6 — No unintended answer cues.
+Flag explicit source labels, leaked answer indicators, character identifiers, formatting artifacts, or asymmetric explanatory content that reveal an answer without the intended persona reasoning. Length differences alone are not a failure. Characteristic tone and pragmatic expression can be legitimate signals when supported by the profile and scenario.
+
+DECISION PROCEDURE
+1. Read all four options and compare them using the supplied materials.
+2. Give each option a concise, evidence-based assessment. Do not provide a hidden chain of thought or an extensive reasoning transcript.
+3. Return one of: unique_best, multiple_best, no_acceptable, insufficient_evidence.
+4. Evaluate all six rules. Mark each pass, flag, or uncertain. Pass means no actionable issue was found in this screen, not proof of correctness.
+5. For every flag or uncertain judgment, record the affected options, a concrete evidence anchor or precisely identified missing information, the impact on the question, and a proposed human review action.
+6. Never rewrite an option or change an answer key. If a concern is found, recommend human review.
+
+OUTPUT
+Return only a JSON object with exactly these top-level keys:
+- item_id: copied from input.
+- item_version: copied from input.
+- selection: an object with status, best_option, tied_options, and justification.
+  status is unique_best, multiple_best, no_acceptable, or insufficient_evidence.
+  best_option is A/B/C/D only for unique_best, otherwise null.
+  tied_options contains at least two distinct A-D labels only for multiple_best, otherwise [].
+  justification is a short explanation grounded in the supplied materials.
+- option_assessments: exactly four objects, one per A-D label, each with option_id, assessment, and evidence_anchors.
+  assessment is a concise explanation of persona fit and situational fit.
+  evidence_anchors is a list of objects with input_path and excerpt. Use exact short excerpts from the supplied input. Do not invent evidence.
+- checks: exactly six objects, one per R1-R6, each with rule_id, status, and comment.
+  status is pass, flag, or uncertain. R1 passes only when selection.status is unique_best.
+- issues: a list of objects with rule_id, option_ids, description, evidence_anchors, missing_information, impact, and suggested_human_action.
+  Include at least one issue for every flag or uncertain check. Use an empty evidence_anchors list only when the concern is missing information; explain what is missing and why it is needed. An item-wide issue may use an empty option_ids list.
+- needs_human_review: true if selection.status is not unique_best or any check is flag/uncertain; false otherwise.
+
+Do not infer or claim to know the original answer key. A separate process compares your unique best choice with that key.
+\end{Verbatim}
+\end{tcolorbox}
+
+\paragraph{Routing and resolution.}
+The caller validates the structured output and compares the judge's selected option with the existing key. Human review is required when the judge cannot identify a unique best option, flags a quality concern, reports uncertainty, or selects an option different from the key. Invalid or inconsistent outputs receive a bounded retry; unresolved technical failures are recorded separately and routed for review. The human reviewer may retain the item as-is, revise or replace a distractor, reconsider the reference response or key, or reconstruct or remove the item. Any edited item is screened again in full, with remaining concerns resolved by the human reviewer. Item versions, option mappings, review decisions, and final dispositions are recorded. Screening outcomes are reported separately from the independent expert audit below.
+
+\paragraph{Screening outcome.}
+All $673$ assembled MCQs passed the Claude-Sonnet-4.6 quality screen under the six criteria above.
+
 \subsection{Independent Reference-Label Audit}
 \label{app:independent_calibration}
 
 Separate from the construction-stage review above, we conduct an audit-only calibration on 176 final MCQs. We randomly sample two items from each of the $11$ character $\times$ $8$ life-stage-bin strata. Three experts who were independent of the original benchmark-construction team assess each item independently, and one adjudicator reviews every item without complete three-expert agreement. The experts are not shown the generating-model source or the earlier experts' judgments. The audit measures agreement with the existing reference labels and does not change keyed-answer identities, remove items, or affect the primary model scores.
 
-Table~\ref{tab:independent_calibration_full} reports the aggregate outcomes. Before adjudication, all three experts supported the existing reference on 139 items (79.0\%), and two of three supported it on the remaining 37 items (21.0\%). Thus, every sampled item received majority support for the existing key. The experts reached complete option-level agreement on 139 items (79.0\%) and an option-level majority judgment on all 176 items (100.0\%). Inter-rater reliability, computed from the three experts' pre-adjudication option selections, was high (Fleiss' $\kappa=0.81$; Krippendorff's $\alpha=0.80$). All 37 items without complete agreement entered adjudication. The adjudicator confirmed that every item and keyed answer was usable as-is, with no wording edits or keyed-answer changes required. Because the audit covers a subset, these figures quantify reference-label reliability on the audited subset rather than certifying every benchmark item independently.
+Table~\ref{tab:independent_calibration_full} reports the aggregate outcomes. Before adjudication, all three experts supported the existing reference on 139 items (79.0\%), and two of three supported it on the remaining 37 items (21.0\%). Thus, every sampled item received majority support for the existing key. The experts reached complete option-level agreement on 139 items (79.0\%) and an option-level majority judgment on all 176 items (100.0\%). Inter-rater reliability, computed from the three experts' pre-adjudication option selections, was high (Fleiss' $\kappa=0.81$; Krippendorff's $\alpha=0.81$). All 37 items without complete agreement entered adjudication. The adjudicator confirmed that every item and keyed answer was usable as-is, with no wording edits or keyed-answer changes required. Because the audit covers a subset, these figures quantify reference-label reliability on the audited subset rather than certifying every benchmark item independently.
 
 \begin{table}[t]
 \centering
@@ -1175,7 +1359,7 @@ Expert majority supports existing reference & 176 & 100.0\% \\
 Complete three-expert agreement & 139 & 79.0\% \\
 Items with a majority judgment & 176 & 100.0\% \\
 Fleiss' $\kappa$ (pre-adjudication) & -- & 0.81 \\
-Krippendorff's $\alpha$ (pre-adjudication) & -- & 0.80 \\
+Krippendorff's $\alpha$ (pre-adjudication) & -- & 0.81 \\
 \midrule
 Items entering adjudication & 37 & 21.0\% \\
 Items and keyed answers usable as-is & 176 & 100.0\% \\
@@ -1267,7 +1451,7 @@ For this ablation, we independently draw a stratified random sample of two items
 
 \begin{table*}[t]
 \centering
-\caption{Per-model accuracy (\%) in the memory-content ablation. Differences are in percentage points and are computed from the displayed one-decimal values; unrounded estimates may differ by 0.1 point.}
+\caption{Per-model accuracy (\%) in the memory-content ablation. Differences are in percentage points. Differences and summary statistics are computed from the reported one-decimal accuracies.}
 \label{tab:memory_ablation_full}
 \setlength{\tabcolsep}{3.5pt}
 \scriptsize
@@ -1275,29 +1459,29 @@ For this ablation, we independently draw a stratified random sample of two items
 \toprule
 \textbf{Model} & \textbf{C0} & \textbf{C1} & \textbf{C2} & \textbf{C3} & \textbf{$\Delta_{01}$} & \textbf{$\Delta_{02}$} & \textbf{$\Delta_{03}$} \\
 \midrule
-DeepSeek-V3.2       & 43.2 & 38.9 & 19.9 & 37.8 & +4.3 & +23.3 & +5.4 \\
-DeepSeek-V4-Flash   & 34.7 & 30.6 & 24.4 & 30.1 & +4.1 & +10.3 & +4.6 \\
-DeepSeek-V4-Pro     & 41.5 & 35.9 & 22.2 & 36.8 & +5.6 & +19.3 & +4.7 \\
-Qwen3.5-35B-A3B    & 32.4 & 30.2 & 20.5 & 29.1 & +2.2 & +11.9 & +3.3 \\
-Qwen3.5-122B-A10B  & 33.5 & 31.2 & 23.3 & 30.1 & +2.3 & +10.2 & +3.4 \\
-Qwen3.5-397B-A17B  & 34.7 & 31.9 & 23.3 & 30.9 & +2.8 & +11.4 & +3.8 \\
-GPT-5.4-mini        & 32.4 & 29.2 & 20.5 & 28.7 & +3.2 & +11.9 & +3.7 \\
-GPT-5.4             & 31.8 & 28.1 & 19.3 & 28.8 & +3.7 & +12.5 & +3.0 \\
-Claude-Haiku-4.5    & 31.8 & 25.7 & 24.4 & 26.1 & +6.1 & +7.4  & +5.7 \\
-Claude-Sonnet-4.6   & 41.5 & 34.7 & 24.4 & 33.8 & +6.8 & +17.1 & +7.7 \\
-Gemini-3-Flash      & 56.3 & 48.4 & 23.9 & 47.9 & +7.9 & +32.4 & +8.4 \\
-Gemini-3.1-Pro      & 65.3 & 53.6 & 26.1 & 53.8 & +11.7 & +39.2 & +11.5 \\
+DeepSeek-V3.2        & 43.2 & 38.6 & 19.9 & 37.5 & +4.6 & +23.3 & +5.7 \\
+DeepSeek-V4-Flash    & 34.7 & 30.1 & 24.4 & 30.1 & +4.6 & +10.3 & +4.6 \\
+DeepSeek-V4-Pro      & 41.5 & 35.8 & 22.2 & 36.4 & +5.7 & +19.3 & +5.1 \\
+Qwen3.5-35B-A3B      & 32.4 & 30.1 & 20.5 & 29.0 & +2.3 & +11.9 & +3.4 \\
+Qwen3.5-122B-A10B    & 33.5 & 31.2 & 23.3 & 30.1 & +2.3 & +10.2 & +3.4 \\
+Qwen3.5-397B-A17B    & 34.7 & 31.8 & 23.3 & 30.7 & +2.9 & +11.4 & +4.0 \\
+GPT-5.4-mini         & 32.4 & 29.0 & 20.5 & 28.4 & +3.4 & +11.9 & +4.0 \\
+GPT-5.4              & 31.8 & 27.8 & 19.3 & 28.4 & +4.0 & +12.5 & +3.4 \\
+Claude-Haiku-4.5     & 31.8 & 25.6 & 24.4 & 26.1 & +6.2 & +7.4 & +5.7 \\
+Claude-Sonnet-4.6    & 41.5 & 34.7 & 24.4 & 33.5 & +6.8 & +17.1 & +8.0 \\
+Gemini-3-Flash       & 56.3 & 48.3 & 23.9 & 47.7 & +8.0 & +32.4 & +8.6 \\
+Gemini-3.1-Pro       & 65.3 & 53.4 & 26.1 & 53.4 & +11.9 & +39.2 & +11.9 \\
 \midrule
-\textbf{Mean}       & \textbf{39.9} & \textbf{34.9} & \textbf{22.7} & \textbf{34.5} & \textbf{+5.1} & \textbf{+17.2} & \textbf{+5.4} \\
+\textbf{Mean}       & \textbf{39.9} & \textbf{34.7} & \textbf{22.7} & \textbf{34.3} & \textbf{+5.2} & \textbf{+17.2} & \textbf{+5.7} \\
 \bottomrule
 \end{tabular}
 \end{table*}
 
-Because only model-level aggregate accuracies are available for this analysis, we treat the 12 evaluated LLMs as paired statistical units. A Friedman test detects an overall condition difference ($\chi^2(3){=}32.80$, $p{=}3.55\times10^{-7}$). Table~\ref{tab:memory_ablation_stats} reports two-sided exact sign-flip tests across models, Holm-adjusted over all six condition pairs; paired $t$ intervals provide parametric intervals for the mean model-level differences. These statistics characterize this fixed model panel and do not substitute for item-level McNemar tests or scenario-cluster uncertainty estimates.
+We analyze the reported one-decimal model-level accuracies using the 12 evaluated LLMs as paired statistical units. A Friedman test detects an overall condition difference ($\chi^2(3){=}33.36$, $p{=}2.71\times10^{-7}$). Table~\ref{tab:memory_ablation_stats} reports two-sided exact sign-flip tests across models, Holm-adjusted over all six condition pairs; paired $t$ intervals provide parametric intervals for the mean model-level differences. These statistics characterize this fixed model panel and do not substitute for item-level McNemar tests or scenario-cluster uncertainty estimates.
 
 \begin{table*}[t]
 \centering
-\caption{Paired model-panel comparisons for the memory-content ablation. ``Wins'' counts models favoring the left condition.}
+\caption{Paired model-panel comparisons for the memory-content ablation. ``Wins'' counts models favoring the left condition; C1--C3 has two ties.}
 \label{tab:memory_ablation_stats}
 \setlength{\tabcolsep}{6pt}
 \small
@@ -1305,12 +1489,12 @@ Because only model-level aggregate accuracies are available for this analysis, w
 \toprule
 \textbf{Contrast} & \textbf{Mean $\Delta$ (pp)} & \textbf{95\% CI (pp)} & \textbf{Wins} & \textbf{Raw $p$} & \textbf{Holm $p$} \\
 \midrule
-C0 $-$ C1 & +5.06  & [+3.30, +6.82]   & 12/12 & 0.00049 & 0.00293 \\
+C0 $-$ C1 & +5.23 & [+3.47, +6.98] & 12/12 & 0.00049 & 0.00293 \\
 C0 $-$ C2 & +17.24 & [+11.00, +23.48] & 12/12 & 0.00049 & 0.00293 \\
-C0 $-$ C3 & +5.43  & [+3.80, +7.06]   & 12/12 & 0.00049 & 0.00293 \\
-C1 $-$ C2 & +12.18 & [+7.28, +17.08]  & 12/12 & 0.00049 & 0.00293 \\
-C1 $-$ C3 & +0.38  & [$-0.09$, +0.84] & 8/12  & 0.11475 & 0.11475 \\
-C3 $-$ C2 & +11.81 & [+6.88, +16.74]  & 12/12 & 0.00049 & 0.00293 \\
+C0 $-$ C3 & +5.65 & [+3.99, +7.31] & 12/12 & 0.00049 & 0.00293 \\
+C1 $-$ C2 & +12.02 & [+7.12, +16.92] & 12/12 & 0.00049 & 0.00293 \\
+C1 $-$ C3 & +0.43 & [$-0.04$, +0.89] & 7/12 & 0.09375 & 0.09375 \\
+C3 $-$ C2 & +11.59 & [+6.72, +16.47] & 12/12 & 0.00049 & 0.00293 \\
 \bottomrule
 \end{tabular}
 \end{table*}
@@ -1510,7 +1694,7 @@ Model outputs are parsed for the \texttt{decision\_choice} field and normalized 
 \subsection{Character Generation Prompt}
 \label{app:prompt_character}
 
-This prompt generates the 11 trait-anchored Big Five character profiles, each with a self-value logic and eight core behavioral patterns. It is used once per character to establish the predefined profile artifact before memory generation.
+We use the following prompt with Claude Opus 4.6 to generate the 11 trait-anchored Big Five character profiles, each with a self-value logic and eight core behavioral patterns. It is used once per character to establish the predefined profile artifact before memory generation.
 
 \begin{tcolorbox}[
   breakable,
