@@ -36,6 +36,10 @@
 \usepackage{tikz}
 % 引入插图宏包（如果你还没加的话）
 \usepackage{graphicx}
+\newcommand{\heartbenchicon}{%
+  \raisebox{-0.2\height}{\includegraphics[height=1.5em]{figures/heart-bench-logo.png}}%
+  \hspace{0.3em}%
+}
 
 % benchmark comparison table colors & commands
 \definecolor{BenchHeaderBg}{RGB}{40, 100, 175}
@@ -68,7 +72,7 @@
 %   \raisebox{-0.2\height}{\includegraphics[height=1em]{figures/hf-logo.pdf}}%
 % }
 
-\title{\ourbench: Do LLMs Make Persona-Consistent Decisions?}
+\title{\heartbenchicon \ourbench: Do LLMs Make Persona-Consistent Decisions?}
 
 \author{}
 
@@ -86,6 +90,7 @@ While LLMs have demonstrated strong task-oriented capabilities, their ability to
 \includegraphics[width=\linewidth]{figures/radar_3configs_v2.pdf}
 \caption{Accuracy for all 12 models, shown separately for the three memory-augmented settings.}
 \label{fig:radar_configs}
+\vspace{-15pt}
 \end{figure}
 
 \section{Introduction}
@@ -97,6 +102,7 @@ Large language models (LLMs) have achieved substantial progress in planning, rea
 \centering
 \footnotesize
 \caption{Comparison of \ourbench with related benchmarks across six dimensions (see Appendix~\ref{app:benchmark_dims} for dimension definitions).
+\vspace{-5pt}
 \cmark~yes;~~\xmark~no;~~\pmark~partial.}
 \label{tab:benchmark_comparison}
 \resizebox{\textwidth}{!}{
@@ -128,6 +134,7 @@ PersonaMem~\cite{jiang2025personamem}    & \xmark & \xmark & \pmark & \cmark & \
 \bottomrule
 \end{tabular}
 }
+\vspace{-10pt}
 \end{table*}
 
 To address this gap, we introduce \ourbench, a controlled benchmark for evaluating memory-grounded persona consistency. \ourbench constructs 11 synthetic characters grounded in Big Five--anchored profiles, each associated with 1,000 structured synthetic autobiographical memories~\cite{singer1995seeing} organized into eight age-defined life-stage bins informed by developmental theories. We further design 64 decision scenarios guided by the DIAMONDS framework~\cite{rauthmann2014diamonds}. Each character--scenario pair is associated with a response that the character is expected to have under the specific scenario. To label ground truth responses, three domain experts independently compare candidate responses, and a senior expert handles every case not unanimously accepted as-is by selecting, revising, rewriting, or discarding the response. The adjudicated character response becomes the keyed reference, while responses associated with other characters in the same scenario provide distractor candidates. This process yields 673 multiple-choice questions; the memory-augmented settings test whether models can use relevant synthetic memories to identify the keyed response. Table~\ref{tab:benchmark_comparison} situates \ourbench relative to representative persona and memory benchmarks across six design dimensions.
@@ -179,6 +186,7 @@ We summarize our contributions as follows:
     \includegraphics[width=1\linewidth]{figures/pipeline_v4.pdf}
     \caption{The pipeline has four stages: character construction, scenario construction, expert review and adjudication of reference responses, and conversion into MCQ format for model evaluation.}
     \label{fig:pipeline}
+    \vspace{-10pt}
 \end{figure*}
 
 
@@ -201,6 +209,7 @@ We define a synthetic character as \(c=(\mathbf{p}, \{m_i\}_{i=1}^{T})\), where 
 \includegraphics[width=0.8\linewidth]{figures/rubin_model.pdf}
 \caption{Five operational dimensions, inspired by Rubin's Basic Systems Model~\cite{rubin2006basic}, used to structure synthetic episodic narratives.}
 \label{fig:rubin}
+\vspace{-10pt}
 \end{figure}
 
 \textbf{Stage 3: Quality Audit.} Each memory is screened against six automated defect criteria covering perspective drift, age-inappropriate retrospection, metadata leakage, duplication, length, and over-psychologization. Of the 11{,}000 memories, 8{,}991 passed the initial automated audit, 1{,}935 passed after automated rewriting, and 74 were escalated to the same four-expert team introduced above. The professor revised 71 memories, all of which subsequently passed the LLM judge; the other three were unanimously accepted by the reviewers as false-positive LLM flags. Accepted memories are then deduplicated, chronologically ordered into a 1,000-entry timeline, and sanitized with gender-neutral labels. Full criteria and repair procedures appear in Appendix~\ref{app:stage_d}, with the final schema and statistics in Appendix~\ref{app:stats}.
@@ -230,6 +239,7 @@ We use Claude Opus 4.6~\cite{anthropic2026opus46} to expand the expert-drafted s
 \includegraphics[width=1\linewidth]{figures/case_study.pdf}
 \caption{A \ourbench instance requiring profile--response alignment beyond surface action matching; detailed analysis is in Appendix~\ref{app:case_study}.}
 \label{fig:case_study}
+\vspace{-10pt}
 \end{figure*}
 
 \subsection{Creating Evaluation Instances}
@@ -254,6 +264,7 @@ Claude-Sonnet-4.6 screened all $673$ assembled MCQs against six option-quality c
 \begin{table*}[t]
 \centering
 \caption{Accuracy on \ourbench. Memory-Aug. Avg. averages the three retrieval-based settings, excluding No-Retrieval. Gemini-3.1-Pro performs best. Scenario-clustered 95\% CIs are in Appendix~\ref{app:statistical_analysis}.}
+\vspace{-5pt}
 \label{tab:main_results}
 \setlength{\tabcolsep}{6pt}
 \small
@@ -284,6 +295,7 @@ Claude-Sonnet-4.6 screened all $673$ assembled MCQs against six option-quality c
 \bottomrule
 \end{tabular}
 }
+\vspace{-10pt}
 \end{table*}
 
 \subsection{Example of \ourbench}
@@ -312,6 +324,7 @@ Reference construction uses richer profile information than evaluation. Accuracy
 \begin{table}[t]
 \centering
 \caption{Memory-content ablation on the 176-item subset. Accuracy is averaged over the 12 LLMs.}
+\vspace{-5pt}
 \label{tab:memory_ablation_summary}
 \setlength{\tabcolsep}{2pt}
 \small
@@ -327,6 +340,7 @@ C3 & Target & Random non-target & 0.343 \\
 \bottomrule
 \end{tabular}
 }
+\vspace{-10pt}
 \end{table}
 
 \paragraph{Retrieval helps, with no significant differences among backends.} Retrieval outperforms No-Retrieval in all 36 Holm-corrected tests, whereas no comparison among the three retrieval backends is significant. Rankings remain strongly correlated across backends ($\rho=0.89\text{--}0.94$), and Mem0 and PersonaDB have lower point estimates than Naive-RAG for 6 and 8 of the 12 models, respectively. Their additional summarization and structural abstraction may obscure latent character cues in the original episodic memories, although the nonsignificant backend comparisons do not establish equivalence.
@@ -370,6 +384,7 @@ C3 & Target & Random non-target & 0.343 \\
 \includegraphics[width=\linewidth]{figures/fig_per_character_radar.pdf}
 \caption{Per-character accuracy averaged across LLMs by memory-augmented setting.}
 \label{fig:per_char_radar}
+\vspace{-10pt}
 \end{figure}
 
 \paragraph{Character-level difficulty and error patterns.} Figure~\ref{fig:per_char_radar} shows substantial variation across characters: C-High (CHAR\_03) reaches 57.3\%, whereas C-Low (CHAR\_04, 26.7\%) and O-Low (CHAR\_10, 26.9\%) are the two hardest characters. N-High (CHAR\_01, 32.4\%) is also among the more difficult characters. Errors are concentrated: among 221 persistent shared-failure items, 84.2\% have at least half of the Naive-RAG models converging on the same non-reference option. Dominant confusions include C-Low$\to$C-High, N-High$\to$N-Low, and O-Low$\to$O-High, indicating structured opposite-pole errors rather than a uniform distribution.
@@ -478,17 +493,17 @@ The benchmark is also limited to 11 characters, 64 scenarios, and single-turn ch
 Table~\ref{tab:benchmark_comparison} in the main text compares \ourbench with related benchmarks across six dimensions. We define each dimension below. These dimensions do not exhaust all aspects of character and memory evaluation; they operationalize design properties relevant to psychology-informed, memory-grounded persona-consistent response selection in controlled scenarios.
 
 \begin{itemize}[leftmargin=1.5em, itemsep=4pt]
-  \item \textbf{Big Five-grounded.} The benchmark explicitly adopts the Big Five (OCEAN) personality framework as the basis for character design---not by merely mentioning personality, but by operationalizing it through structured trait dimensions.
+  \item \textbf{Big Five-grounded.} The benchmark explicitly adopts the Big Five (OCEAN) personality framework as the basis for character design---not by merely mentioning personality, but by operationalizing it through structured trait dimensions. This criterion requires those dimensions to shape character specifications or evaluation targets rather than function only as descriptive metadata.
 
-  \item \textbf{Age-defined life-stage coverage.} The benchmark organizes synthetic memories into age-defined life-stage bins (e.g., childhood, adolescence, adulthood) informed by developmental theories (e.g., Erikson, Levinson). This criterion captures the temporal organization of synthetic memories.
+  \item \textbf{Age-defined life-stage coverage.} The benchmark organizes synthetic memories into age-defined life-stage bins (e.g., childhood, adolescence, adulthood) informed by developmental theories (e.g., Erikson, Levinson). This criterion captures the temporal organization of synthetic memories. The organization must influence memory allocation or evaluation structure rather than appear only as retrospective age metadata attached to otherwise unordered events.
 
-  \item \textbf{Episodic memory.} The benchmark includes or evaluates structured synthetic autobiographical/episodic content---first-person narratives representing events, affective cues, and intended consequences for the character---rather than mere interaction logs or fact stores.
+  \item \textbf{Episodic memory.} The benchmark includes or evaluates structured synthetic autobiographical/episodic content---first-person narratives representing events, affective cues, and intended consequences for the character---rather than mere interaction logs or fact stores. Qualifying evidence must preserve event-level context and subjective perspective so that retrieval supports more than factual identity matching.
 
-  \item \textbf{Scenario eval.} Evaluation requires a model to select a concrete response within a structured situational context. Pure factual recall, question answering, or stylistic consistency checks do not qualify.
+  \item \textbf{Scenario eval.} Evaluation requires a model to select a concrete response within a structured situational context. Pure factual recall, question answering, or stylistic consistency checks do not qualify. This criterion requires the model to act on scenario-specific pressures rather than merely reproduce stored persona facts.
 
-  \item \textbf{Expert annot.} The benchmark's reference labels or quality judgments involve domain experts (e.g., psychologists, clinical researchers) as primary annotators or reviewers---not crowd workers or automated scoring alone.
+  \item \textbf{Expert annot.} The benchmark's reference labels or quality judgments involve domain experts (e.g., psychologists, clinical researchers) as primary annotators or reviewers---not crowd workers or automated scoring alone. Their judgments must materially affect final labels or content rather than serve only as post-hoc procedural verification.
 
-  \item \textbf{Persona-consistent decision.} Evaluation specifically tests whether selected responses are consistent with the predefined character profile and history. Benchmarks that only test whether a model recalls facts or matches a surface stylistic pattern do not qualify.
+  \item \textbf{Persona-consistent decision.} Evaluation specifically tests whether selected responses are consistent with the predefined character profile and history. Benchmarks that only test whether a model recalls facts or matches a surface stylistic pattern do not qualify. The evaluated response must therefore depend on character-specific dispositions or experiences, not only on generic situational appropriateness.
 \end{itemize}
 
 % ============================================================
@@ -528,12 +543,14 @@ CHAR\_11 & Neutral & .50 & .50 & .50 & .50 & .50 & Local journalist \\
 }
 \end{table}
 
-Each of the 11 character profiles is stored as a JSON object in \texttt{characters\_phase11.json}. Beyond the Big Five vector and archetype label reported in Table~\ref{tab:characters}, each profile contains:
+Each of the 11 character profiles is stored as a JSON object in \texttt{characters\_phase11.json}. Beyond the Big Five vector and archetype label reported in Table~\ref{tab:characters}, its stored fields and construction-time use are summarized below:
 
 \begin{itemize}[leftmargin=1.5em, itemsep=2pt]
   \item \textbf{Self-value logic} (1 sentence): the character's core cognitive operating principle, derived from the dominant trait.
   \item \textbf{Core behavioral patterns} (8 items): fixed trait expressions that must appear across all generated memories.
-  \item \textbf{Occupation rationale}: the occupation is chosen to be consistent with the dominant trait so that work-domain memories are ecologically valid.
+  \item \textbf{Occupation rationale}: the occupation is chosen to be consistent with the dominant trait so that work-domain memories are ecologically valid. It also supplies a stable context for recurring professional decisions.
+  \item \textbf{Trait-anchored coverage design}: One $.95$ and one $.10$ anchor per Big Five dimension, together with an all-$.50$ baseline, cover both poles. Non-anchor scores remain nonuniform, preserving coherent multi-trait profiles for character-level comparison. The neutral profile serves as a midpoint reference across dimensions.
+  \item \textbf{Profile persistence across the pipeline}: Each specification remains fixed across its $1{,}000$ memories and corresponding character--scenario instances; life stage, situation, and retrieved evidence vary without redefining the character. The same character identity is therefore preserved across retrieval settings.
 \end{itemize}
 
 \begin{table*}[!t]
