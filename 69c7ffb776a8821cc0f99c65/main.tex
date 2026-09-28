@@ -78,7 +78,7 @@
 \maketitle
 
 \begin{abstract}
-While LLMs have demonstrated strong task-oriented capabilities, their ability to make persona-consistent decisions grounded in long-term memory remains underexplored. We introduce \ourbench, a benchmark of psychology-informed, memory-grounded persona consistency in controlled synthetic settings. \ourbench defines 11 characters using Big Five--anchored profiles and value-based specifications, assigns each character 1,000 synthetic autobiographical memories, and evaluates them across 64 DIAMONDS-guided decision scenarios. Each character--scenario pair is associated with a response that the character is expected to have under the specific scenario. Three domain experts independently compare anonymized candidates, and a senior expert selects, revises, or rewrites the final reference when needed. This process yields 673 multiple-choice questions in which a model selects the option judged most consistent with the predefined character and its history. A separate expert panel audits 176 final items, all of which receive majority support for the existing key. We evaluate 12 LLMs under a No-Retrieval baseline and three memory-augmented settings: Naive-RAG, Mem0, and PersonaDB. The strongest configuration, Gemini-3.1-Pro with Naive-RAG, reaches 63.3\% accuracy, while most models remain below 40\%. These results show substantial difficulty in selecting expert-adjudicated responses consistent with predefined characters and their memories.
+While LLMs have demonstrated strong task-oriented capabilities, their ability to make persona-consistent decisions grounded in long-term memory remains underexplored. We introduce \ourbench, a benchmark of psychology-informed, memory-grounded persona consistency in controlled synthetic settings. \ourbench defines 11 characters using Big Five--anchored profiles and value-based specifications, assigns each character 1,000 synthetic autobiographical memories, and evaluates them across 64 DIAMONDS-guided decision scenarios. Each character--scenario pair is associated with a response that the character is expected to have under the specific scenario. Three domain experts independently compare anonymized candidates, and a senior expert selects, revises, or rewrites the final reference when needed. This process yields 673 multiple-choice questions in which a model selects the option judged most consistent with the predefined character and its history. The same four-expert team audits 176 final items, all of which receive majority support for the existing key. We evaluate 12 LLMs under a No-Retrieval baseline and three memory-augmented settings: Naive-RAG, Mem0, and PersonaDB. The strongest configuration, Gemini-3.1-Pro with Naive-RAG, reaches 63.3\% accuracy, while most models remain below 40\%. These results show substantial difficulty in selecting expert-adjudicated responses consistent with predefined characters and their memories.
 \end{abstract}
 
 \begin{figure}[ht]
@@ -153,7 +153,7 @@ We evaluate 12 LLMs from the GPT, Claude, Gemini, DeepSeek, and Qwen families un
 We summarize our contributions as follows:
 \begin{itemize}[leftmargin=2em]
     \item We introduce a controlled benchmark comprising 11 psychology-informed synthetic characters, 11,000 synthetic autobiographical memories, 64 decision scenarios, and 673 expert-adjudicated MCQs.
-    \item We operationalize memory-grounded persona consistency as agreement with an expert-adjudicated reference response conditioned on a predefined character, history, and scenario, and independently audit 176 items for reference-label reliability.
+    \item We operationalize memory-grounded persona consistency as agreement with an expert-adjudicated reference response conditioned on a predefined character, history, and scenario, and conduct a 176-item reference-label audit with the same expert team.
     \item We evaluate 12 LLMs across No-Retrieval and three memory-augmented settings, quantifying their ability to use encoded character and memory cues within this controlled synthetic setting.
 \end{itemize}
 
@@ -249,7 +249,7 @@ The same four-expert team introduced in Section~\ref{sec:character} reviews and 
 \textbf{Stage 3: Test Instance Assembly.}
 For each retained annotation, the target character's adjudicated response becomes the keyed reference option, while \textit{Claude-Sonnet-4.6}~\cite{anthropic2026sonnet46} selects three distractors from the available adjudicated responses associated with other characters in the same scenario. The selection excludes responses that are either too similar to the reference or obviously irrelevant, avoiding ambiguous or trivial questions. The four options are randomly shuffled to remove positional bias, yielding $673$ MCQs. Full assembly rules are provided in Appendix~\ref{app:mcq_assembly}.
 
-Claude-Sonnet-4.6 screened all $673$ assembled MCQs against six option-quality criteria, and all passed the screen (Appendix~\ref{app:mcq_screening}). Separately, three experts independent of the original construction team assessed a stratified random subset of 176 final MCQs. All three experts supported the existing reference option on 139 items (79.0\%), while two of three supported it on the remaining 37 items (21.0\%); thus, every sampled item received majority support for the existing key. Pre-adjudication inter-rater reliability was high (Fleiss' $\kappa=0.81$; Krippendorff's $\alpha=0.81$). All 37 items without complete agreement entered adjudication, and the adjudicator confirmed that each item and keyed answer was usable as-is. No wording edits or keyed-answer changes were required, and the audit did not alter the evaluated dataset or primary scores. These results support reference-label reliability on the audited subset. The full protocol and results are provided in Appendix~\ref{app:independent_calibration}.
+Claude-Sonnet-4.6 screened all $673$ assembled MCQs against six option-quality criteria, and all passed the screen (Appendix~\ref{app:mcq_screening}). The same four-expert team also assessed a stratified random subset of 176 final MCQs: the three researchers evaluated each item independently, and the senior professor adjudicated disagreements. Pre-adjudication complete three-researcher agreement was 89.2\%: all three researchers supported the existing reference option on 157 of 176 items, while two of three supported it on the remaining 19 items (10.8\%). All 19 items without complete agreement entered adjudication, and the senior professor approved each item with its existing key as-is, yielding 176 approved items in total. No wording edits, keyed-answer changes, or item removals were required, and the audit left the evaluated dataset and primary model scores unchanged. These results provide evidence of within-team reference-label consistency on the audited subset. Details and results of this internal audit are provided in Appendix~\ref{app:reference_label_audit}.
 
 \begin{table*}[t]
 \centering
@@ -265,7 +265,7 @@ Claude-Sonnet-4.6 screened all $673$ assembled MCQs against six option-quality c
 \noalign{\vskip -2pt}
 \multicolumn{6}{l}{\textit{Open-source}}\\[-2pt]
 \midrule
-\quad DeepSeek-V3.2              & 0.285 & 0.412 & 0.425 & 0.428 & 0.422 \\
+\quad DeepSeek-V3.2              & 0.285 & 0.412 & 0.425 & 0.428 & 0.421 \\
 \quad DeepSeek-V4-Flash          & 0.278 & 0.348 & 0.336 & 0.328 & 0.337 \\
 \quad DeepSeek-V4-Pro            & 0.291 & 0.407 & 0.371 & 0.367 & 0.382 \\
 \quad Qwen3.5-35B-A3B            & 0.254 & 0.370 & 0.371 & 0.366 & 0.369 \\
@@ -307,7 +307,7 @@ Reference construction uses richer profile information than evaluation. Accuracy
 
 \subsection{Results and Discussion}
 
-\paragraph{Model choice dominates within the benchmark.} Under Naive-RAG, the spread between the best- and worst-performing models exceeds 30\% (63.3\% vs.\ 33.0\%), whereas the average gap between retrieval methods for a given model is only 1.7\% and never exceeds 4\%. The model- and method-axis Gini mean differences are 0.088 and 0.006, respectively, yielding a difference of 0.082 (95\% CI 0.068--0.096). Gemini-3.1-Pro achieves the best accuracy (63.3\%, 95\% CI 59.2--67.4\%) and ranks first by Memory-Augmented Avg. in all 10{,}000 scenario-bootstrap resamples. All non-Gemini models achieve only 33.2\%--42.2\% Memory-Augmented Avg., showing limited agreement with the expert-adjudicated references for synthetic characters under this setup.
+\paragraph{Model choice dominates within the benchmark.} Under Naive-RAG, the spread between the best- and worst-performing models exceeds 30\% (63.3\% vs.\ 33.0\%), whereas the average gap between retrieval methods for a given model is only 1.7\% and never exceeds 4\%. The model- and method-axis Gini mean differences are 0.088 and 0.006, respectively, yielding a difference of 0.082 (95\% CI 0.068--0.096). Gemini-3.1-Pro achieves the best accuracy (63.3\%, 95\% CI 59.2--67.4\%) and ranks first by Memory-Augmented Avg. in all 10{,}000 scenario-bootstrap resamples. All non-Gemini models achieve only 33.2\%--42.1\% Memory-Augmented Avg., showing limited agreement with the expert-adjudicated references for synthetic characters under this setup.
 
 \begin{table}[t]
 \centering
@@ -331,7 +331,7 @@ C3 & Target & Random non-target & 0.343 \\
 
 \paragraph{Retrieval helps, with no significant differences among backends.} Retrieval outperforms No-Retrieval in all 36 Holm-corrected tests, whereas no comparison among the three retrieval backends is significant. Rankings remain strongly correlated across backends ($\rho=0.89\text{--}0.94$), and Mem0 and PersonaDB have lower point estimates than Naive-RAG for 6 and 8 of the 12 models, respectively. Their additional summarization and structural abstraction may obscure latent character cues in the original episodic memories, although the nonsignificant backend comparisons do not establish equivalence.
 
-\paragraph{Memory ownership and scenario alignment are both informative.} On a fixed 176-item subset, we evaluate the same 12 models under Naive-RAG with $k{=}30$ while varying only the supplied memory assignment: C0 uses target-scenario memories from the target character; C1 uses memories retrieved for another scenario in the same life-stage bin from the target character; C2 uses target-scenario memories from another character; and C3 uses randomly sampled eligible non-target memories from the target character. The scenario, answer options, model, decoding protocol, and number of supplied memories are held fixed; no condition exposes the latent Big~Five vector, Schwartz profile, self-value logic, or behavioral templates. C0 achieves 39.9\% accuracy, exceeding C1, C2, and C3 by 5.23, 17.24, and 5.65 percentage points, respectively, with all 12 models favoring C0 in each contrast. Across paired model units, all three C0 contrasts remain significant under two-sided exact sign-flip tests after Holm correction over six comparisons (adjusted $p{=}0.00293$ for each). Thus, scenario-matched, character-owned memories provide information beyond either arbitrary same-character memories or scenario-matched memories from another character. Full protocol and per-model results are provided in Appendix~\ref{app:memory_ablation}.
+\paragraph{Memory ownership and scenario alignment are both informative.} On a fixed 176-item subset, we evaluate the same 12 models under Naive-RAG with $k{=}30$ while varying only the supplied memory assignment: C0 uses target-scenario memories from the target character; C1 uses memories retrieved for another scenario in the same life-stage bin from the target character; C2 uses target-scenario memories from another character; and C3 uses randomly sampled eligible non-target memories from the target character. The scenario, answer options, model, decoding protocol, and number of supplied memories are held fixed; no condition exposes the latent Big~Five vector, Schwartz profile, self-value logic, or behavioral templates. C0 achieves 39.9\% accuracy, exceeding C1, C2, and C3 by 5.23, 17.24, and 5.65 percentage points, respectively, with all 12 models favoring C0 in each contrast. This consistent pattern across all 12 evaluated models supports the importance of both memory ownership and scenario relevance for effective memory use on this 176-item subset. Full protocol and per-model results are provided in Appendix~\ref{app:memory_ablation}.
 
 % \begin{figure}[t]
 % \centering
@@ -372,7 +372,7 @@ C3 & Target & Random non-target & 0.343 \\
 \label{fig:per_char_radar}
 \end{figure}
 
-\paragraph{Character-level difficulty and error patterns.} Figure~\ref{fig:per_char_radar} shows substantial variation across characters: C-High (CHAR\_03) reaches 57.3\%, whereas C-Low (CHAR\_04, 26.7\%) and O-Low (CHAR\_10, 26.9\%) are the two hardest characters. N-High (CHAR\_01, 32.4\%) is also among the more difficult characters. Errors are concentrated: among 221 persistent shared-failure items, 84.2\% have at least half of the Naive-RAG models converging on the same non-reference option. Dominant confusions include C-Low$\to$C-High, N-High$\to$N-Low, and O-Low$\to$O-High, indicating structured opposite-pole errors rather than a uniform distribution.
+\paragraph{Character-level difficulty.} Figure~\ref{fig:per_char_radar} shows substantial variation across characters: C-High (CHAR\_03) reaches 57.3\%, whereas C-Low (CHAR\_04, 26.7\%) and O-Low (CHAR\_10, 26.9\%) are the two hardest characters. N-High (CHAR\_01, 32.4\%) is also among the more difficult characters.
 
 \FloatBarrier
 \section{Related Work}
@@ -400,7 +400,7 @@ In this work, we presented \ourbench, a controlled benchmark for memory-grounded
 \label{sec:limitations}
 The central limitation is construct scope: \ourbench evaluates agreement with expert-adjudicated references for synthetic characters rather than behavior observed from real people. Expert review supports content plausibility and reference-label reliability. A single keyed option compresses potentially plural, context-dependent behavior, and the static MCQ format does not measure interactive agent behavior. Because several evaluated model families also contributed candidate responses, source-family or stylistic cues may remain despite anonymized expert adjudication and our provenance-stratified analysis.
 
-The benchmark is also limited to 11 characters, 64 scenarios, and single-turn choices, restricting coverage of cultures, demographics, naturalistic interaction, and within-person change. Its expert-intensive construction limits scale, and the independent audit covers 176 of 673 items, supporting a dataset-level reliability estimate rather than item-wise validation of the full benchmark. Future work should incorporate human-authored candidates, distributions over plausible responses, multi-turn settings, and references derived from observed behavior to evaluate external validity.
+The benchmark is also limited to 11 characters, 64 scenarios, and single-turn choices, restricting coverage of cultures, demographics, naturalistic interaction, and within-person change. Its expert-intensive construction limits scale. The reference-label audit covers 176 of 673 items and uses the same four-expert team that participated in construction; it provides evidence of within-team consistency on the audited subset, but does not establish validation by an independent team or item-wise validation of the full benchmark. Future work should incorporate human-authored candidates, distributions over plausible responses, multi-turn settings, and references derived from observed behavior to evaluate external validity.
 
 % \clearpage
 \bibliography{ref}
@@ -906,26 +906,26 @@ MCQs                 & 673 \\
 \toprule
 \textbf{ID} & \textbf{Archetype} & \textbf{Memories} & \textbf{Avg.\ Length (chars)} & \textbf{Avg.\ Intensity} \\
 \midrule
-CHAR\_01 & N-High   & 1,000 & 2856.6 & 0.697 \\
-CHAR\_02 & N-Low    & 1,000 & 3374.9 & 0.499 \\
-CHAR\_03 & C-High   & 1,000 & 3497.3 & 0.640 \\
-CHAR\_04 & C-Low    & 1,000 & 2927.0 & 0.652 \\
-CHAR\_05 & E-High   & 1,000 & 3519.4 & 0.659 \\
-CHAR\_06 & E-Low    & 1,000 & 3326.2 & 0.625 \\
-CHAR\_07 & A-High   & 1,000 & 3445.8 & 0.621 \\
-CHAR\_08 & A-Low    & 1,000 & 2939.0 & 0.598 \\
-CHAR\_09 & O-High   & 1,000 & 3485.6 & 0.659 \\
-CHAR\_10 & O-Low    & 1,000 & 3540.6 & 0.612 \\
-CHAR\_11 & Neutral  & 1,000 & 3405.8 & 0.561 \\
+CHAR\_01 & N-High   & 1,000 & 2856.9 & 0.697 \\
+CHAR\_02 & N-Low    & 1,000 & 3380.2 & 0.499 \\
+CHAR\_03 & C-High   & 1,000 & 3497.9 & 0.640 \\
+CHAR\_04 & C-Low    & 1,000 & 2928.9 & 0.652 \\
+CHAR\_05 & E-High   & 1,000 & 3521.9 & 0.659 \\
+CHAR\_06 & E-Low    & 1,000 & 3326.6 & 0.625 \\
+CHAR\_07 & A-High   & 1,000 & 3446.6 & 0.621 \\
+CHAR\_08 & A-Low    & 1,000 & 2939.4 & 0.598 \\
+CHAR\_09 & O-High   & 1,000 & 3488.7 & 0.659 \\
+CHAR\_10 & O-Low    & 1,000 & 3541.2 & 0.612 \\
+CHAR\_11 & Neutral  & 1,000 & 3414.8 & 0.561 \\
 \midrule
-\textbf{Total / Mean} & --- & \textbf{11,000} & \textbf{3307.2} & \textbf{0.620} \\
+\textbf{Total / Mean} & --- & \textbf{11,000} & \textbf{3303.9} & \textbf{0.620} \\
 \bottomrule
 \end{tabular}
 }
 
 \end{table}
 \paragraph{Per-character statistics.}
-Table~\ref{tab:dataset_stats} reports the finalized per-character memory counts, average \texttt{content\_full} lengths, and mean encoded emotion intensities. All 11 characters reached the target of exactly 1{,}000 memories. The mean narrative length across the corpus is 3{,}307.2 characters, and the mean encoded intensity is 0.620; N-High (CHAR\_01) has the highest value (0.697) and N-Low (CHAR\_02) the lowest (0.499) in this synthetic corpus.
+Table~\ref{tab:dataset_stats} reports the finalized per-character memory counts, average \texttt{content\_full} lengths, and mean encoded emotion intensities. Lengths are computed from the released \texttt{content\_full} strings as Unicode code-point counts, including whitespace and punctuation, without trimming or normalization; averages are rounded only for display. All 11 characters reached the target of exactly 1{,}000 memories. The mean narrative length across the corpus is 3{,}303.9 characters, and the mean encoded intensity is 0.620; N-High (CHAR\_01) has the highest value (0.697) and N-Low (CHAR\_02) the lowest (0.499) in this synthetic corpus.
 
 % \begin{table}[h]
 % \centering
@@ -936,19 +936,19 @@ Table~\ref{tab:dataset_stats} reports the finalized per-character memory counts,
 % \toprule
 % \textbf{ID} & \textbf{Archetype} & \textbf{Memories} & \textbf{Avg.\ Length (chars)} & \textbf{Avg.\ Intensity} \\
 % \midrule
-% CHAR\_01 & N-High   & 1,000 & 2856.6 & 0.697 \\
-% CHAR\_02 & N-Low    & 1,000 & 3374.9 & 0.499 \\
-% CHAR\_03 & C-High   & 1,000 & 3497.3 & 0.640 \\
-% CHAR\_04 & C-Low    & 1,000 & 2927.0 & 0.652 \\
-% CHAR\_05 & E-High   & 1,000 & 3519.4 & 0.659 \\
-% CHAR\_06 & E-Low    & 1,000 & 3326.2 & 0.625 \\
-% CHAR\_07 & A-High   & 1,000 & 3445.8 & 0.621 \\
-% CHAR\_08 & A-Low    & 1,000 & 2939.0 & 0.598 \\
-% CHAR\_09 & O-High   & 1,000 & 3485.6 & 0.659 \\
-% CHAR\_10 & O-Low    & 1,000 & 3540.6 & 0.612 \\
-% CHAR\_11 & Neutral  & 1,000 & 3405.8 & 0.561 \\
+% CHAR\_01 & N-High   & 1,000 & 2856.9 & 0.697 \\
+% CHAR\_02 & N-Low    & 1,000 & 3380.2 & 0.499 \\
+% CHAR\_03 & C-High   & 1,000 & 3497.9 & 0.640 \\
+% CHAR\_04 & C-Low    & 1,000 & 2928.9 & 0.652 \\
+% CHAR\_05 & E-High   & 1,000 & 3521.9 & 0.659 \\
+% CHAR\_06 & E-Low    & 1,000 & 3326.6 & 0.625 \\
+% CHAR\_07 & A-High   & 1,000 & 3446.6 & 0.621 \\
+% CHAR\_08 & A-Low    & 1,000 & 2939.4 & 0.598 \\
+% CHAR\_09 & O-High   & 1,000 & 3488.7 & 0.659 \\
+% CHAR\_10 & O-Low    & 1,000 & 3541.2 & 0.612 \\
+% CHAR\_11 & Neutral  & 1,000 & 3414.8 & 0.561 \\
 % \midrule
-% \textbf{Total / Mean} & --- & \textbf{11,000} & \textbf{3307.2} & \textbf{0.620} \\
+% \textbf{Total / Mean} & --- & \textbf{11,000} & \textbf{3303.9} & \textbf{0.620} \\
 % \bottomrule
 % \end{tabular}
 % \end{table}
@@ -1328,22 +1328,22 @@ Do not infer or claim to know the original answer key. A separate process compar
 \end{tcolorbox}
 
 \paragraph{Routing and resolution.}
-The caller validates the structured output and compares the judge's selected option with the existing key. Human review is required when the judge cannot identify a unique best option, flags a quality concern, reports uncertainty, or selects an option different from the key. Invalid or inconsistent outputs receive a bounded retry; unresolved technical failures are recorded separately and routed for review. The human reviewer may retain the item as-is, revise or replace a distractor, reconsider the reference response or key, or reconstruct or remove the item. Any edited item is screened again in full, with remaining concerns resolved by the human reviewer. Item versions, option mappings, review decisions, and final dispositions are recorded. Screening outcomes are reported separately from the independent expert audit below.
+The caller validates the structured output and compares the judge's selected option with the existing key. Human review is required when the judge cannot identify a unique best option, flags a quality concern, reports uncertainty, or selects an option different from the key. Invalid or inconsistent outputs receive a bounded retry; unresolved technical failures are recorded separately and routed for review. The human reviewer may retain the item as-is, revise or replace a distractor, reconsider the reference response or key, or reconstruct or remove the item. Any edited item is screened again in full, with remaining concerns resolved by the human reviewer. Item versions, option mappings, review decisions, and final dispositions are recorded. Screening outcomes are reported separately from the expert reference-label audit below.
 
 \paragraph{Screening outcome.}
 All $673$ assembled MCQs passed the Claude-Sonnet-4.6 quality screen under the six criteria above.
 
-\subsection{Independent Reference-Label Audit}
-\label{app:independent_calibration}
+\subsection{Reference-Label Audit}
+\label{app:reference_label_audit}
 
-Separate from the construction-stage review above, we conduct an audit-only calibration on 176 final MCQs. We randomly sample two items from each of the $11$ character $\times$ $8$ life-stage-bin strata. Three experts who were independent of the original benchmark-construction team assess each item independently, and one adjudicator reviews every item without complete three-expert agreement. The experts are not shown the generating-model source or the earlier experts' judgments. The audit measures agreement with the existing reference labels and does not change keyed-answer identities, remove items, or affect the primary model scores.
+\paragraph{Internal audit.} Following the construction-stage review above, the same four-expert team reviewed 176 final MCQs, with two items sampled from each of the $11$ character $\times$ $8$ life-stage-bin strata. The three researchers assessed each item independently, and the senior professor adjudicated every item without complete three-researcher agreement. Independent assessment refers to separate ratings by the three researchers within the same team that participated in construction.
 
-Table~\ref{tab:independent_calibration_full} reports the aggregate outcomes. Before adjudication, all three experts supported the existing reference on 139 items (79.0\%), and two of three supported it on the remaining 37 items (21.0\%). Thus, every sampled item received majority support for the existing key. The experts reached complete option-level agreement on 139 items (79.0\%) and an option-level majority judgment on all 176 items (100.0\%). Inter-rater reliability, computed from the three experts' pre-adjudication option selections, was high (Fleiss' $\kappa=0.81$; Krippendorff's $\alpha=0.81$). All 37 items without complete agreement entered adjudication. The adjudicator confirmed that every item and keyed answer was usable as-is, with no wording edits or keyed-answer changes required. Because the audit covers a subset, these figures quantify reference-label reliability on the audited subset rather than certifying every benchmark item independently.
+Table~\ref{tab:reference_label_audit} reports the review outcomes. We summarize initial consistency using the pre-adjudication complete three-researcher agreement rate: all three researchers supported the existing reference on 157 of 176 items (89.2\%). Two of three supported it on the remaining 19 items (10.8\%). All 19 items without complete agreement entered adjudication. The senior professor confirmed that each item and its existing key was usable as-is, yielding 176 approved items in total. No wording edits, keyed-answer changes, or item removals were required, so the evaluated dataset and primary model scores remained unchanged. These figures describe within-team reference-label consistency on the audited subset; they do not constitute validation by an independent expert team or certify every benchmark item.
 
 \begin{table}[t]
 \centering
-\caption{Complete independent reference-label audit results on the 176-item subset. Percentages use 176 as the denominator.}
-\label{tab:independent_calibration_full}
+\caption{Internal reference-label audit on the 176-item subset, assessed by the same four-expert team involved in construction. Initial ratings and post-adjudication outcomes are reported separately. Percentages use 176 as the denominator.}
+\label{tab:reference_label_audit}
 \setlength{\tabcolsep}{3pt}
 \small
 \begin{tabularx}{\linewidth}{Xrr}
@@ -1351,27 +1351,39 @@ Table~\ref{tab:independent_calibration_full} reports the aggregate outcomes. Bef
 \textbf{Metric} & \textbf{Count} & \textbf{Result} \\
 \midrule
 Sampled items & 176 & 100.0\% \\
-Items with complete audit ratings & 176 & 100.0\% \\
 \midrule
-Existing reference supported by 3/3 experts & 139 & 79.0\% \\
-Existing reference supported by 2/3 experts & 37 & 21.0\% \\
-Existing reference supported by 1/3 experts & 0 & 0.0\% \\
-Existing reference supported by 0/3 experts & 0 & 0.0\% \\
-Expert majority supports existing reference & 176 & 100.0\% \\
+Pre-adjudication complete agreement (3/3 support) & 157 & 89.2\% \\
+Pre-adjudication partial agreement (2/3 support) & 19 & 10.8\% \\
 \midrule
-Complete three-expert agreement & 139 & 79.0\% \\
-Items with a majority judgment & 176 & 100.0\% \\
-Fleiss' $\kappa$ (pre-adjudication) & -- & 0.81 \\
-Krippendorff's $\alpha$ (pre-adjudication) & -- & 0.81 \\
-\midrule
-Items entering adjudication & 37 & 21.0\% \\
-Items and keyed answers usable as-is & 176 & 100.0\% \\
+Items entering adjudication & 19 & 10.8\% \\
+Items approved after completion of review & 176 & 100.0\% \\
 Items requiring wording edits & 0 & 0.0\% \\
 Reference labels changed & 0 & 0.0\% \\
+Items removed & 0 & 0.0\% \\
 \bottomrule
 \end{tabularx}
 \end{table}
 
+
+\subsubsection{Planned Blinded Review of Final MCQs}
+\label{app:planned_blinded_review}
+
+The following protocol specifies a planned review of assembled MCQs by the same four-expert team. Its purpose is to assess whether the reference remains the uniquely best-supported option after distractors have been introduced. It is distinct from construction-stage reference-response selection and from the completed internal audit reported above; no results from this planned review are reported here.
+
+\paragraph{Sampling and version control.}
+Before collecting ratings, we will freeze the 673-item benchmark version and randomly sample two items from each of the $11$ character $\times$ $8$ life-stage-bin strata, yielding 176 items. We will record the sampling seed, item IDs, benchmark version, and any overlap with the previous audit sample. Sample membership will be fixed before ratings are inspected, and flagged items will not be replaced to improve the reported outcomes. Aggregate results will describe this equally allocated stratified sample; they will not be presented as item-wise validation of the entire benchmark.
+
+\paragraph{Review materials and masking.}
+Each researcher will receive the target character's predefined personality and value specifications, the scenario, a fixed packet of relevant memory narratives from \texttt{content\_full}, and all four answer options. The same packet will be prepared for all three researchers before rating begins, with memory IDs and the selection procedure recorded. Researchers may consult the target character's complete memory corpus; any additional memories cited will be logged. Review materials will exclude model-generated psychological annotations. The existing answer key, the characters from which distractors originated, generating-model identities, construction-stage judgments, and evaluated models' predictions will be withheld. Access to the character specification serves the experts' item-validation task; it does not change the information available to evaluated models. Because the reviewers participated in construction, masking will not be treated as eliminating prior familiarity or as establishing reviewer independence from construction.
+
+\paragraph{Independent initial ratings.}
+The three researchers will submit ratings separately, without access to one another's judgments before all initial ratings are locked. Each will select the best-supported option or indicate that no unique best option can be identified. They will also record whether other options are equally plausible, whether none is adequately supported, and whether wording ambiguity, conflicting memories, or insufficient information prevents a defensible choice. Each judgment will include a brief rationale with references to the relevant profile or memory evidence. Selecting the existing key will not by itself count as an unqualified pass if the reviewer also flags a substantive concern.
+
+\paragraph{Adjudication and repair.}
+After initial ratings are locked, the review coordinator will compare them with the existing key. An item will pass directly only if all three researchers select that key and none flags a substantive concern. Every other item will be referred to the senior professor, including unanimous selection of a different option and any report of ambiguity or inadequate support. The professor will review the evidence and rationales and record a decision to retain the item, revise its wording or distractors, revise the reference response or key, or remove the item. Retention of the existing key will not be a prerequisite for acceptance. Revised items will undergo the automated option-quality screen and a new round of separate researcher ratings, with remaining concerns adjudicated before inclusion. Initial ratings and subsequent review rounds will be retained as separate records. Changes to evaluation inputs will trigger fresh predictions for affected items under the original evaluation configurations; changes to keys or item inclusion will trigger recomputation of affected scores and aggregate analyses before a revised benchmark version is finalized.
+
+\paragraph{Reporting and interpretation.}
+We will summarize initial consistency using the pre-adjudication complete three-researcher agreement rate, defined as the proportion of sampled items on which all three researchers select the same single option. We will separately report support for the existing key and items flagged as ambiguous or unsupported. Missing ratings and non-unique judgments will be reported explicitly and will not count as complete agreement; the denominator will remain all sampled items. Adjudication and repair outcomes will be reported separately as counts of items retained unchanged, revised, removed, or still unresolved, together with re-review outcomes for revised items. Agreement statistics will use the initial independent ratings, not post-adjudication decisions. This design assesses within-team consistency and the adequacy of assembled items; validation by experts uninvolved in construction remains a separate step.
 
 % ============================================================
 \subsection{Analysis of an Example from \ourbench}
@@ -1390,7 +1402,10 @@ Overall, the example illustrates the intended distinction between a shared surfa
 \label{app:interactive_settings}
 Naive-RAG uses direct vector retrieval as a minimal retrieval baseline, Mem0 introduces structured consolidation of past interactions, and PersonaDB organizes information into persona-specific fields for attribute-aware retrieval. All three frameworks use \textit{Qwen3-Embedding-4B}~\cite{qwen3embedding} as the embedding model and \textit{GPT-5.4-mini}~\cite{openai2026gpt54} as the auxiliary memory-management model for Mem0's consolidation and PersonaDB's persona-attribute organization. This shared configuration isolates the retrieval and memory paradigm from incidental encoder or controller differences.
 
-We set the retrieval depth to $k{=}30$ for Naive-RAG and PersonaDB and $k{=}150$ for Mem0. The larger Mem0 budget compensates for its consolidation step, which decomposes each character memory into approximately five fact-level elements; thus, $k{=}150$ provides retrieved episodic content comparable to $k{=}30$ in the other frameworks. At inference time, every model receives the scenario, answer options, character ID, and occupation. The memory-augmented settings additionally supply the corresponding backend's retrieved output: original narratives for Naive-RAG, consolidated fact-level content for Mem0, and content processed by PersonaDB's persona-oriented memory organization. No setting receives the predefined Big~Five vector, value logic, behavioral patterns, or construction-time psychological annotations as input.
+We set the retrieval depth to $k{=}30$ for Naive-RAG and PersonaDB and $k{=}150$ for Mem0. The larger retrieval count for Mem0 accommodates its fact-level representation and is motivated by the approximate decomposition of each original memory into five fact-level elements. This choice does not guarantee equal token counts or coverage of distinct original memory episodes across frameworks. At inference time, every model receives the scenario, answer options, character ID, and occupation. The memory-augmented settings additionally supply the corresponding backend's retrieved output: original narratives for Naive-RAG, consolidated fact-level content for Mem0, and content processed by PersonaDB's persona-oriented memory organization. No setting receives the predefined Big~Five vector, value logic, behavioral patterns, or construction-time psychological annotations as input.
+
+\paragraph{Temporal eligibility.}
+Formal evaluation uses the same temporal eligibility rule as reference-response construction: only memories whose event age is at or before the current scenario age are eligible. This restriction applies to Naive-RAG, Mem0, and PersonaDB, including the source memories underlying their processed representations. Memories from later ages are excluded from the available history for that evaluation instance. Age metadata is used internally to enforce eligibility and is not supplied as a separate field to the evaluated model.
 
 \paragraph{Evaluation-time field isolation.}
 Although the stored record contains the full schema in Table~\ref{tab:schema}, the source memory content supplied to each backend is selected by the same projection, $f(m)=m[\texttt{content\_full}]$. Each backend then processes and retrieves from this narrative-only input according to its own method. The evaluated model's prompt contains the backend's retrieved output: unchanged narrative content for Naive-RAG, or method-processed content for Mem0 and PersonaDB. Any summaries, facts, or persona attributes produced by these methods are derived from the narratives rather than supplied from the construction-time annotations. Memory identifiers may be retained internally for bookkeeping, but they are not model-visible. The source memory content excludes \texttt{timeline}, \texttt{context}, \texttt{content\_summary}, \texttt{triggers}, \texttt{relevance\_tags}, \texttt{psych\_conclusion}, \texttt{behavior\_policy}, and \texttt{emotion\_signature}; the predefined Big~Five vector, Schwartz profile, self-value logic, and behavioral templates are also withheld. These stored construction-time fields consequently cannot provide direct structured supervision during model evaluation.
@@ -1450,7 +1465,7 @@ The model-axis Gini mean difference is 0.088 (95\% CI 0.075--0.102), compared wi
 \label{app:memory_ablation}
 % ============================================================
 
-For this ablation, we independently draw a stratified random sample of two items from each of the $11$ character $\times$ $8$ life-stage-bin strata, yielding 176 items. This sample is drawn separately from the 176-item subset used for the independent reference-label audit. We isolate memory ownership and retrieval relevance on this fixed subset under Naive-RAG with $k{=}30$. C0 supplies target-scenario memories from the target character; C1 supplies memories retrieved for another scenario in the same life-stage bin from the target character; C2 supplies target-scenario memories from another character; and C3 supplies randomly sampled eligible non-target memories from the target character. Each condition preserves the scenario, answer options, model, decoding configuration, and number of supplied memories. None exposes the latent Big~Five vector, Schwartz profile, self-value logic, or behavioral templates.
+For this ablation, we independently draw a stratified random sample of two items from each of the $11$ character $\times$ $8$ life-stage-bin strata, yielding 176 items. This sample is drawn separately from the 176-item subset used for the reference-label audit. We isolate memory ownership and retrieval relevance on this fixed subset under Naive-RAG with $k{=}30$. C0 supplies target-scenario memories from the target character; C1 supplies memories retrieved for another scenario in the same life-stage bin from the target character; C2 supplies target-scenario memories from another character; and C3 supplies randomly sampled eligible non-target memories from the target character. All four conditions follow the same temporal eligibility rule: the supplied memories must occur at or before the target evaluation scenario age, including memories selected via another scenario or from another character. Each condition preserves the scenario, answer options, model, decoding configuration, and number of supplied memories. None exposes the latent Big~Five vector, Schwartz profile, self-value logic, or behavioral templates.
 
 \begin{table*}[t]
 \centering
@@ -1480,29 +1495,29 @@ Gemini-3.1-Pro       & 65.3 & 53.4 & 26.1 & 53.4 & +11.9 & +39.2 & +11.9 \\
 \end{tabular}
 \end{table*}
 
-We analyze the reported one-decimal model-level accuracies using the 12 evaluated LLMs as paired statistical units. A Friedman test detects an overall condition difference ($\chi^2(3){=}33.36$, $p{=}2.71\times10^{-7}$). Table~\ref{tab:memory_ablation_stats} reports two-sided exact sign-flip tests across models, Holm-adjusted over all six condition pairs; paired $t$ intervals provide parametric intervals for the mean model-level differences. These statistics characterize this fixed model panel and do not substitute for item-level McNemar tests or scenario-cluster uncertainty estimates.
+We summarize the ablation descriptively using mean accuracy differences and the number of models favoring each condition (Table~\ref{tab:memory_ablation_stats}). Differences are computed from the reported one-decimal accuracies. These summaries describe the 12 evaluated models on the fixed 176-item subset; they do not quantify uncertainty over other models or sampled scenarios.
 
 \begin{table*}[t]
 \centering
-\caption{Paired model-panel comparisons for the memory-content ablation. ``Wins'' counts models favoring the left condition; C1--C3 has two ties.}
+\caption{Descriptive model-panel comparisons for the memory-content ablation. ``Wins'' counts models favoring the left condition; C1--C3 has two ties.}
 \label{tab:memory_ablation_stats}
 \setlength{\tabcolsep}{6pt}
 \small
-\begin{tabular}{lrrrrr}
+\begin{tabular}{lrr}
 \toprule
-\textbf{Contrast} & \textbf{Mean $\Delta$ (pp)} & \textbf{95\% CI (pp)} & \textbf{Wins} & \textbf{Raw $p$} & \textbf{Holm $p$} \\
+\textbf{Contrast} & \textbf{Mean $\Delta$ (pp)} & \textbf{Wins} \\
 \midrule
-C0 $-$ C1 & +5.23 & [+3.47, +6.98] & 12/12 & 0.00049 & 0.00293 \\
-C0 $-$ C2 & +17.24 & [+11.00, +23.48] & 12/12 & 0.00049 & 0.00293 \\
-C0 $-$ C3 & +5.65 & [+3.99, +7.31] & 12/12 & 0.00049 & 0.00293 \\
-C1 $-$ C2 & +12.02 & [+7.12, +16.92] & 12/12 & 0.00049 & 0.00293 \\
-C1 $-$ C3 & +0.43 & [$-0.04$, +0.89] & 7/12 & 0.09375 & 0.09375 \\
-C3 $-$ C2 & +11.59 & [+6.72, +16.47] & 12/12 & 0.00049 & 0.00293 \\
+C0 $-$ C1 & +5.23 & 12/12 \\
+C0 $-$ C2 & +17.24 & 12/12 \\
+C0 $-$ C3 & +5.65 & 12/12 \\
+C1 $-$ C2 & +12.02 & 12/12 \\
+C1 $-$ C3 & +0.43 & 7/12 \\
+C3 $-$ C2 & +11.59 & 12/12 \\
 \bottomrule
 \end{tabular}
 \end{table*}
 
-C0 outperforms every control for all 12 models. C1 and C3 are not statistically resolved, while both outperform C2; the nonsignificant C1--C3 contrast does not establish equivalence. The supported partial ordering for this model panel is therefore $\mathrm{C0} > \{\mathrm{C1},\mathrm{C3}\} > \mathrm{C2}$.
+C0 achieves higher accuracy than every control for all 12 models, and both C1 and C3 outperform C2 for every model. The C1--C3 differences are mixed: C1 performs better for seven models, worse for three, and ties for two, with a mean advantage of 0.43 percentage points. The consistent advantage of C0 supports the importance of matching memories to both the target character and scenario within this evaluated subset.
 
 % ============================================================
 \section{Additional Analyses}
@@ -1606,10 +1621,10 @@ Figure~\ref{fig:model_agreement} shows that pairwise answer agreement is general
 
 \textbf{Accuracy varies across life-stage bins.} Figure~\ref{fig:per_stage} reports a descriptive breakdown by the benchmark's age-defined bins. Accuracy is highest at School Age (47.1\%) and lower at Age-30 Transition (37.4\%) and Midlife Transition (37.9\%), with Settling Down at 43.1\%. The pattern may reflect differences in designed scenario composition and memory density. Because bins were not randomized and contain different scenarios, it does not support a developmental or causal interpretation. Gemini-3.1-Pro has the highest accuracy in every displayed bin under this benchmark.
 
-\subsection{Character-Level Error Analysis}
-\label{app:character_error}
+\subsection{Character-Level Accuracy}
+\label{app:character_accuracy}
 
-Character-level accuracy in Figure~\ref{fig:per_char_radar} is computed separately for each memory-augmented setting by pooling predictions from all 12 evaluated LLMs within each target character; the values summarized in the main text average these setting-specific accuracies. We define the 221 persistent shared-failure items as MCQs answered incorrectly by all 12 models in each of the three memory-augmented settings. Within this set, Naive-RAG convergence means that at least six of the 12 models select the same non-reference option. We classify a confusion as opposite-pole when the selected option originates from the character anchored at the opposite end of the target character's defining Big Five dimension.
+Character-level accuracy in Figure~\ref{fig:per_char_radar} is computed separately for each memory-augmented setting by pooling predictions from all 12 evaluated LLMs within each target character; the values summarized in the main text average these setting-specific accuracies.
 
 \section{Prompts}
 \label{app:prompts}
