@@ -267,8 +267,8 @@ Claude-Sonnet-4.6 screened all $673$ assembled MCQs against six option-quality c
 \midrule
 \quad DeepSeek-V3.2              & 0.285 & 0.412 & 0.425 & 0.428 & 0.422 \\
 \quad DeepSeek-V4-Flash          & 0.278 & 0.348 & 0.336 & 0.328 & 0.337 \\
-\quad DeepSeek-V4-Pro            & 0.291 & 0.407 & 0.372 & 0.367 & 0.382 \\
-\quad Qwen3.5-35B-A3B            & 0.254 & 0.370 & 0.372 & 0.366 & 0.369 \\
+\quad DeepSeek-V4-Pro            & 0.291 & 0.407 & 0.371 & 0.367 & 0.382 \\
+\quad Qwen3.5-35B-A3B            & 0.254 & 0.370 & 0.371 & 0.366 & 0.369 \\
 \quad Qwen3.5-122B-A10B          & 0.264 & 0.391 & 0.394 & 0.389 & 0.391 \\
 \quad Qwen3.5-397B-A17B          & 0.275 & 0.403 & 0.406 & 0.404 & 0.404 \\
 \midrule
@@ -276,7 +276,7 @@ Claude-Sonnet-4.6 screened all $673$ assembled MCQs against six option-quality c
 \multicolumn{6}{l}{\textit{Closed-source}}\\[-2pt]
 \midrule
 \quad GPT-5.4-mini               & 0.288 & 0.330 & 0.343 & 0.322 & 0.332 \\
-\quad GPT-5.4                    & 0.278 & 0.372 & 0.366 & 0.351 & 0.363 \\
+\quad GPT-5.4                    & 0.278 & 0.371 & 0.366 & 0.351 & 0.363 \\
 \quad Claude-Haiku-4.5           & 0.245 & 0.357 & 0.363 & 0.376 & 0.365 \\
 \quad Claude-Sonnet-4.6          & 0.257 & 0.401 & 0.389 & 0.401 & 0.397 \\
 \quad Gemini-3-Flash             & 0.253 & 0.563 & 0.541 & 0.525 & 0.543 \\
@@ -299,7 +299,7 @@ Figure~\ref{fig:case_study} illustrates profile--response alignment beyond surfa
 We evaluate 12 representative LLMs, including six open-source models: \textit{DeepSeek-V3.2}~\cite{deepseek_v3_2_2025}, \textit{DeepSeek-V4-Flash}, \textit{DeepSeek-V4-Pro}~\cite{deepseek_v4_2026}, \textit{Qwen3.5-35B-A3B}, \textit{Qwen3.5-122B-A10B}, and \textit{Qwen3.5-397B-A17B}~\cite{qwen35_2026}; and six closed-source models: \textit{GPT-5.4-mini}, \textit{GPT-5.4}~\cite{openai2026gpt54}, \textit{Claude-Haiku-4.5}~\cite{anthropic2025haiku45}, \textit{Claude-Sonnet-4.6}~\cite{anthropic2026sonnet46}, \textit{Gemini-3-Flash}~\cite{google2025gemini3flash}, and \textit{Gemini-3.1-Pro}~\cite{google2026gemini31pro}. All models are evaluated under a unified, deterministic decoding protocol (Appendix~\ref{app:decoding}).
 
 \paragraph{Memory-Augmented Settings.}
-We compare three retrieval-based frameworks---Naive-RAG~\cite{lewis2020retrieval}, Mem0~\cite{chhikara2025mem0}, and PersonaDB~\cite{sun2025persona}---against a \textit{No-Retrieval LLM} baseline. During evaluation, all models receive the scenario, answer options, character ID, and occupation. For all three memory-augmented settings, both the memory backend and the model-facing prompt use only the de-identified \texttt{content\_full} narrative; no other stored memory field enters the evaluation pipeline. All retrieval frameworks use the same embedding and auxiliary memory-management models, with retrieval budgets calibrated to provide comparable episodic content. The underlying Big~Five vector, value logic, behavioral patterns, and structured psychological annotations are withheld to prevent direct reference-label leakage. Full implementation and field-isolation details are provided in Appendix~\ref{app:interactive_settings}; the model-facing evaluation template is reproduced in Appendix~\ref{app:prompt_evaluation}.
+We compare three retrieval-based frameworks---Naive-RAG~\cite{lewis2020retrieval}, Mem0~\cite{chhikara2025mem0}, and PersonaDB~\cite{sun2025persona}---against a \textit{No-Retrieval LLM} baseline. During evaluation, all models receive the scenario, answer options, character ID, and occupation. All three memory backends take only the de-identified \texttt{content\_full} narratives as their source memory content. Naive-RAG supplies retrieved narratives to the evaluated model, whereas Mem0 and PersonaDB supply the retrieved content produced by their respective memory-processing methods. All retrieval frameworks use the same embedding and auxiliary memory-management models, with retrieval budgets calibrated to provide comparable episodic content. The predefined Big~Five vector, value logic, behavioral patterns, and construction-time psychological annotations are withheld; models must infer persona cues from the supplied memory evidence. Full implementation and field-isolation details are provided in Appendix~\ref{app:interactive_settings}; the model-facing evaluation template is reproduced in Appendix~\ref{app:prompt_evaluation}.
 
 \paragraph{Evaluation Metrics.} We report \textit{accuracy}, defined as the proportion of the 673 MCQs for which a model selects the expert-adjudicated keyed option. Only the model's \texttt{decision\_choice} field is scored; the accompanying free-text rationale fields are not compared with the reference response and do not enter the metric. This metric quantifies agreement with \ourbench references. Statistical procedures are detailed in Appendix~\ref{app:statistical_analysis}.
 Reference construction uses richer profile information than evaluation. Accuracy therefore jointly reflects retrieval coverage, recovery of persona cues, and agreement with expert-adjudicated references; it should not be interpreted as decision quality given an explicit profile (Appendix~\ref{app:interactive_settings}).
@@ -805,7 +805,7 @@ The audit step screens each memory against the following six defect criteria, im
 
   \item \textbf{Semantic Duplication.} Redundant life episodes within the same developmental age window. This is detected using a cosine similarity threshold of $> 0.85$ over TF-IDF vector representations of the narratives; 
 
-  \item \textbf{Length Violation.} \texttt{content\_full} below 2{,}000 characters (insufficient Rubin coverage) or above 4{,}500 characters (excessive verbosity).
+  \item \textbf{Length Violation.} \texttt{content\_full} exceeding 10{,}000 characters. The 2{,}000--4{,}500-character range is a generation target rather than a hard acceptance criterion.
 
   \item \textbf{Schema-Vocabulary Inflation.} Use of high-register psychoanalytic terms (e.g., ``abandonment schema'', ``dysregulation'') in low-intensity episodes ($< 0.4$), indicating over-psychologization.
 \end{enumerate}
@@ -829,7 +829,7 @@ The following examples illustrate the revision directions for three of the 71 ma
 
 \begin{table*}[!t]
 \centering
-\caption{Memory schema field specification. \textbf{S} = Structural (core identity and narrative fields); \textbf{R} = Retrieval-index (fields used for benchmark construction); \textbf{P} = Psychological annotation (fields encoding personality and affect). Only \texttt{content\_full} supplies memory content to evaluation-time backends and prompts; all \textbf{R} and \textbf{P} fields are excluded.}
+\caption{Memory schema field specification. \textbf{S} = Structural (core identity and narrative fields); \textbf{R} = Retrieval-index (fields used for benchmark construction); \textbf{P} = Psychological annotation (fields encoding personality and affect). Only \texttt{content\_full} supplies source memory content to evaluation-time backends; all stored \textbf{R} and \textbf{P} fields are excluded. Model-facing memory content depends on the backend: retrieved narratives for Naive-RAG and processed content for Mem0 and PersonaDB.}
 \label{tab:schema}
 \small
 \setlength{\tabcolsep}{5pt}
@@ -868,6 +868,7 @@ P & emotion\_signature & \textit{\{primary, secondary,}        & Affective signa
 
 Table~\ref{tab:schema} specifies all ten fields of the unified memory schema. Fields are grouped by functional role: structural (S), retrieval-index (R), and psychological annotation (P). The \texttt{psych\_conclusion} and \texttt{behavior\_policy} fields are generated together with the narrative and supply auxiliary interpretive cues during construction-time retrieval and response generation. The profile provides the primary character specification, and experts establish the reference response by reviewing persona consistency, situational fit, and memory grounding (Appendix~\ref{app:annotation_protocol}).
 The \texttt{context} and \texttt{content\_summary} ranges are generation targets, whereas the audit applies more permissive hard-failure thresholds to identify severe metadata leakage.
+Likewise, the \texttt{content\_full} range is a generation target; the length audit flags narratives exceeding 10{,}000 characters.
 
 
 % ---- A.6 Dataset Statistics ----
@@ -1389,13 +1390,13 @@ Overall, the example illustrates the intended distinction between a shared surfa
 \label{app:interactive_settings}
 Naive-RAG uses direct vector retrieval as a minimal retrieval baseline, Mem0 introduces structured consolidation of past interactions, and PersonaDB organizes information into persona-specific fields for attribute-aware retrieval. All three frameworks use \textit{Qwen3-Embedding-4B}~\cite{qwen3embedding} as the embedding model and \textit{GPT-5.4-mini}~\cite{openai2026gpt54} as the auxiliary memory-management model for Mem0's consolidation and PersonaDB's persona-attribute organization. This shared configuration isolates the retrieval and memory paradigm from incidental encoder or controller differences.
 
-We set the retrieval depth to $k{=}30$ for Naive-RAG and PersonaDB and $k{=}150$ for Mem0. The larger Mem0 budget compensates for its consolidation step, which decomposes each character memory into approximately five fact-level elements; thus, $k{=}150$ provides retrieved episodic content comparable to $k{=}30$ in the other frameworks. At inference time, every model receives the scenario, answer options, character ID, and occupation, while retrieval-based settings additionally receive only retrieved \texttt{content\_full} narratives. No setting exposes the latent Big~Five vector, value logic, behavioral patterns, or structured psychological annotations.
+We set the retrieval depth to $k{=}30$ for Naive-RAG and PersonaDB and $k{=}150$ for Mem0. The larger Mem0 budget compensates for its consolidation step, which decomposes each character memory into approximately five fact-level elements; thus, $k{=}150$ provides retrieved episodic content comparable to $k{=}30$ in the other frameworks. At inference time, every model receives the scenario, answer options, character ID, and occupation. The memory-augmented settings additionally supply the corresponding backend's retrieved output: original narratives for Naive-RAG, consolidated fact-level content for Mem0, and content processed by PersonaDB's persona-oriented memory organization. No setting receives the predefined Big~Five vector, value logic, behavioral patterns, or construction-time psychological annotations as input.
 
 \paragraph{Evaluation-time field isolation.}
-Although the stored record contains the full schema in Table~\ref{tab:schema}, every evaluation pipeline first applies the same projection, $f(m)=m[\texttt{content\_full}]$. Naive-RAG, Mem0, and PersonaDB are therefore each constructed solely from the de-identified first-person narrative in \texttt{content\_full}, and only retrieved \texttt{content\_full} narratives are serialized into the evaluated model's prompt. Memory identifiers may be retained internally for bookkeeping, but they are not model-visible. The evaluation pipeline excludes \texttt{timeline}, \texttt{context}, \texttt{content\_summary}, \texttt{triggers}, \texttt{relevance\_tags}, \texttt{psych\_conclusion}, \texttt{behavior\_policy}, and \texttt{emotion\_signature}, as well as the Big~Five vector, Schwartz profile, self-value logic, and behavioral templates. These construction-time fields consequently cannot provide direct structured supervision during model evaluation.
+Although the stored record contains the full schema in Table~\ref{tab:schema}, the source memory content supplied to each backend is selected by the same projection, $f(m)=m[\texttt{content\_full}]$. Each backend then processes and retrieves from this narrative-only input according to its own method. The evaluated model's prompt contains the backend's retrieved output: unchanged narrative content for Naive-RAG, or method-processed content for Mem0 and PersonaDB. Any summaries, facts, or persona attributes produced by these methods are derived from the narratives rather than supplied from the construction-time annotations. Memory identifiers may be retained internally for bookkeeping, but they are not model-visible. The source memory content excludes \texttt{timeline}, \texttt{context}, \texttt{content\_summary}, \texttt{triggers}, \texttt{relevance\_tags}, \texttt{psych\_conclusion}, \texttt{behavior\_policy}, and \texttt{emotion\_signature}; the predefined Big~Five vector, Schwartz profile, self-value logic, and behavioral templates are also withheld. These stored construction-time fields consequently cannot provide direct structured supervision during model evaluation.
 
 \paragraph{Information asymmetry and interpretation.}
-Reference candidates and expert adjudication use the full predefined profile and activated memories, whereas evaluated models are not shown the latent Big~Five vector, Schwartz values, self-value logic, behavioral patterns, or structured psychological fields. They receive only the character ID, occupation, scenario, answer options, and, in memory-augmented settings, retrieved \texttt{content\_full} narratives. Accuracy therefore jointly reflects retrieval coverage, recovery of persona cues from narrative memories, and agreement with a reference constructed from richer information; it does not isolate decision quality given an explicit profile. Controls using an explicit profile alone, memories alone, an explicit profile plus retrieved or oracle memories, and human judgments under matched inputs would be required to separate these factors. We therefore interpret the results as profile-hidden, retrieval-dependent persona-consistent response selection rather than intrinsic persona-consistent decision ability.
+Reference candidates and expert adjudication use the full predefined profile and activated memories, whereas evaluated models are not shown the predefined Big~Five vector, Schwartz values, self-value logic, behavioral patterns, or construction-time psychological fields. They receive only the character ID, occupation, scenario, answer options, and, in memory-augmented settings, the backend's retrieved memory content derived from \texttt{content\_full}. Accuracy therefore jointly reflects memory processing and retrieval coverage, recovery of persona cues from the supplied memory content, and agreement with a reference constructed from richer information; it does not isolate decision quality given an explicit profile. Controls using an explicit profile alone, memories alone, an explicit profile plus retrieved or oracle memories, and human judgments under matched inputs would be required to separate these factors. We therefore interpret the results as profile-hidden, retrieval-dependent persona-consistent response selection rather than intrinsic persona-consistent decision ability.
 
 % ============================================================
 \section{Decoding Configuration}
@@ -1619,7 +1620,7 @@ This appendix presents the model-facing evaluation template and the system-promp
 \subsection{Model Evaluation Prompt}
 \label{app:prompt_evaluation}
 
-The evaluation prompt serializes the input in a fixed order: basic character information, retrieved autobiographical memories, the current scenario, the trigger event, the task instruction, and four shuffled response options. The memory block is populated in the three memory-augmented settings and omitted in the No-Retrieval condition. The template below preserves the complete block structure and required JSON output schema; bracketed placeholders replace item-specific content and repeated memory entries. The released implementation contains the exact executable prompt strings.
+The evaluation prompt serializes the input in a fixed order: basic character information, retrieved memory content, the current scenario, the trigger event, the task instruction, and four shuffled response options. The memory block contains retrieved original narratives for Naive-RAG and retrieved method-processed content for Mem0 and PersonaDB; it is omitted in the No-Retrieval condition. The template below preserves the complete block structure and required JSON output schema; bracketed placeholders replace item-specific content and repeated memory entries. The released implementation contains the exact executable prompt strings.
 
 \begin{tcolorbox}[
   breakable,
@@ -1923,7 +1924,7 @@ The user prompt is short and per-draft: it provides the life-stage bin, the domi
 \subsection{Annotation Prompts}
 \label{app:prompt_annotation}
 
-This section describes benchmark-construction prompts only. None of these prompts or their structured psychological fields is used by the Naive-RAG, Mem0, or PersonaDB evaluation pipeline, for which the sole memory input is \texttt{content\_full}.
+This section describes benchmark-construction prompts only. None of these prompts or their structured psychological fields is supplied to the Naive-RAG, Mem0, or PersonaDB evaluation pipeline. The sole source memory content supplied to each backend is \texttt{content\_full}; the evaluated model receives the retrieved output of that backend, including method-processed content in Mem0 and PersonaDB.
 
 The candidate-response construction pipeline runs in three stages, each driven by a dedicated system prompt. Stage~1 performs a permissive binary relevance screen of every memory whose age falls at or before the scenario age; Stage~2 refines the survivors down to a fixed budget (default 50); Stage~3 role-plays the character to produce a first-person rationale and final response. The user prompts for each stage concatenate character information, the current scenario, the (candidate) memory list, and a closing instruction; only the system prompts are reproduced here for brevity.
 
