@@ -613,12 +613,12 @@ Overall, the task does not test whether the model recognizes that a principled i
 
 \begin{figure}[h]
 \centering
-\includegraphics[width=0.75\linewidth]{figures/model_agreement.pdf}
-\caption{Pairwise answer agreement rate among 12 models under the Naive-RAG configuration. Diagonal entries are masked. White separator lines delineate model families (Gemini, Claude, GPT, DeepSeek, Qwen).}
+\includegraphics[width=1\linewidth]{figures/model_agreement.pdf}
+\caption{Pairwise same-option agreement (\%) for an extended set of 16 models under Naive-RAG@30. Each pair is evaluated on its 659--673 jointly valid answers from the 673-question dataset; invalid answers are excluded. GPT-6-Luna uses its first run. Diagonal entries (100\%) are masked. Label colors and white separators identify model families.}
 \label{fig:model_agreement}
 \end{figure}
 
-Figure~\ref{fig:model_agreement} reveals that pairwise answer agreement is substantially higher within model families than across them. The two Gemini models agree on 65.0\% of questions, and the three Qwen3.5 variants reach up to 66.7\%; in contrast, the overall cross-model mean is only 51.4\%. The lowest cross-family pairs involve Gemini-3.1-Pro and GPT-5.4-mini (35.0\%), indicating that strong and weak models diverge most sharply on the hardest personality-consistent decisions. Notably, Claude-Sonnet-4.6 clusters more closely with GPT-5.4 and Qwen3.5-397B (around 58--59\%) than with its own family partner Claude-Haiku-4.5 (54.0\%), suggesting that raw capability level may be a stronger predictor of behavioural alignment than shared training lineage. Taken together, the low inter-model agreement---even among the strongest models---suggests that current LLMs have not converged on a unified strategy for personality-consistent reasoning, leaving substantial room for improvement.
+Figure~\ref{fig:model_agreement} summarizes an extended 16-model analysis, adding Gemini-3.8-Flash, Claude-Sonnet-5.5, GPT-5.6-Sol, and GPT-6-Luna to the original 12-model set. Agreement among the three Gemini models ranges from 65.2\% to 78.3\%, with Gemini-3.1-Pro and Gemini-3.8-Flash forming the highest-agreement pair (527/673). The three Qwen3.5 variants agree on 60.2--66.6\% of jointly valid questions, and GPT-5.6-Sol and GPT-6-Luna agree on 66.7\%. The mean across all 120 distinct model pairs is 51.8\%; the lowest is Gemini-3.1-Pro versus GPT-5.4-mini (35.1\%, 236/672). Restricting every pair to the same 649 questions with valid answers from all 16 models changes any agreement rate by at most 1.15 percentage points. These are descriptive comparisons of existing runs: historical API and newer CLI runs differ in evaluation interface, generation settings, and output validation. Agreement does not by itself identify the underlying reasoning strategies or their causes.
 
 
 % ============================================================

@@ -78,20 +78,20 @@
 \maketitle
 
 \begin{abstract}
-While LLMs have demonstrated strong task-oriented capabilities, their ability to make persona-consistent decisions grounded in long-term memory remains underexplored. We introduce \ourbench, a benchmark of psychology-informed, memory-grounded persona consistency in controlled synthetic settings. \ourbench defines 11 characters using Big Five--anchored profiles and value-based specifications, assigns each character 1,000 synthetic autobiographical memories, and evaluates them across 64 DIAMONDS-guided decision scenarios. Each character--scenario pair is associated with a response that the character is expected to have under the specific scenario. Three domain experts independently compare anonymized candidates, and a senior expert selects, revises, or rewrites the final reference when needed. This process yields 673 multiple-choice questions in which a model selects the option judged most consistent with the predefined character and its history. The same four-expert team audits 176 final items, all of which receive majority support for the existing key. We evaluate 12 LLMs under a No-Retrieval baseline and three memory-augmented settings: Naive-RAG, Mem0, and PersonaDB. The strongest configuration, Gemini-3.1-Pro with Naive-RAG, reaches 63.3\% accuracy, while most models remain below 40\%. These results show substantial difficulty in selecting expert-adjudicated responses consistent with predefined characters and their memories.
+While LLMs have demonstrated strong task-oriented capabilities, their ability to make persona-consistent decisions grounded in long-term memory remains underexplored. We introduce \ourbench, a benchmark of psychology-informed, memory-grounded persona consistency in controlled synthetic settings. \ourbench defines 11 characters using Big Five--anchored profiles and value-based specifications, assigns each character 1,000 synthetic autobiographical memories, and evaluates them across 64 DIAMONDS-guided decision scenarios. Each character--scenario pair is associated with a response that the character is expected to have under the specific scenario. Three domain experts independently compare anonymized candidates, and a senior expert selects, revises, or rewrites the final reference when needed. This process yields 673 multiple-choice questions in which a model selects the option judged most consistent with the predefined character and its history. The same four-expert team audits 176 final items, all of which receive majority support for the existing key. We evaluate 16 LLMs: 12 in a complete comparison of No-Retrieval, Naive-RAG, Mem0, and PersonaDB, and four additional models under Naive-RAG. Gemini-3.1-Pro leads the original complete four-setting comparison at 63.3\% Naive-RAG accuracy. These results show substantial difficulty in selecting expert-adjudicated responses consistent with predefined characters and their memories.
 \end{abstract}
 
 \begin{figure}[ht]
 \centering
 \includegraphics[width=\linewidth]{figures/radar_3configs_v2.pdf}
-\caption{Accuracy for all 12 models, shown separately for the three memory-augmented settings.}
+\caption{Accuracy for the original 12-model set, shown separately for the three memory-augmented settings. The four additional Naive-RAG-only models are excluded from this cross-setting figure.}
 \label{fig:radar_configs}
 \end{figure}
 
 \section{Introduction}
 \label{sec:Introduction}
 
-Large language models (LLMs) have achieved substantial progress in planning, reasoning, and action~\cite{anthropic2026claudeopus47,openai2026gpt55,google2026gemini31pro}. As LLM agents are increasingly deployed in entertainment~\cite{chen2024persona,tseng2024two}, AI companionship~\cite{maples2024loneliness,phang2025investigating}, and persona-cloning systems~\cite{wei2025ai,lee2026creating}, users increasingly expect persistent and personalized behavior. These applications require more than conversational fluency and memory recall: a system should use a character's traits, values, and prior experiences consistently when choosing how to respond. Existing evaluations, however, primarily target dialogue, explicit reasoning, or memory retrieval. This leaves a narrower but important question unresolved: \emph{Given a predefined character, its history, and a scenario, can an LLM select a persona-consistent response?}
+Large language models (LLMs) have achieved substantial progress in planning, reasoning, and action~\cite{anthropic2026claudeopus47,openai2026gpt55,google2026gemini31pro}. As LLM agents are increasingly deployed in entertainment~\cite{chen2024persona,tseng2024two}, AI companionship~\cite{maples2024loneliness,phang2025investigating}, and persona-cloning systems~\cite{wei2025ai,lee2026creating}, users increasingly expect persistent and personalized behavior. These applications require more than conversational fluency and memory recall: a system should use a character's traits, values, and prior experiences consistently when choosing how to respond. Recent evaluations examine both persona-conditioned behavior and history-based personalization (Section~\ref{sec:related_work}). We focus on a controlled question: \emph{Given a predefined character, its history, and a scenario, can an LLM select a persona-consistent response?}
 % As LLMs become increasingly integrated into entertainment \cite{tseng2024two}, social networking \cite{?}, and emotional companionship \cite{chen2024persona}, user expectations for anthropomorphic AI agents have evolved from merely task assistant to providing long-term emotional companionship. When these capabilities are realized and effectively synergized, AI agents may acquire the foundational prerequisites for more advanced forms of affective intelligence---a critical milestone in the pursuit of higher artificial Emotional Intelligence (EI) \cite{?}.
 \begin{table*}[t]
 \centering
@@ -130,7 +130,7 @@ PersonaMem~\cite{jiang2025personamem}    & \xmark & \xmark & \pmark & \cmark & \
 }
 \end{table*}
 
-To address this gap, we introduce \ourbench, a controlled benchmark for evaluating memory-grounded persona consistency. \ourbench constructs 11 synthetic characters grounded in Big Five--anchored profiles, each associated with 1,000 structured synthetic autobiographical memories~\cite{singer1995seeing} organized into eight age-defined life-stage bins informed by developmental theories. We further design 64 decision scenarios guided by the DIAMONDS framework~\cite{rauthmann2014diamonds}. Each character--scenario pair is associated with a response that the character is expected to have under the specific scenario. To label ground truth responses, three domain experts independently compare candidate responses, and a senior expert handles every case not unanimously accepted as-is by selecting, revising, rewriting, or discarding the response. The adjudicated character response becomes the keyed reference, while responses associated with other characters in the same scenario provide distractor candidates. This process yields 673 multiple-choice questions; the memory-augmented settings test whether models can use relevant synthetic memories to identify the keyed response. Table~\ref{tab:benchmark_comparison} situates \ourbench relative to representative persona and memory benchmarks across six design dimensions.
+To study this question, we introduce \ourbench, a controlled benchmark for evaluating memory-grounded persona consistency. \ourbench constructs 11 synthetic characters grounded in Big Five--anchored profiles, each associated with 1,000 structured synthetic autobiographical memories~\cite{singer1995seeing} organized into eight age-defined life-stage bins informed by developmental theories. We further design 64 decision scenarios guided by the DIAMONDS framework~\cite{rauthmann2014diamonds}. Each character--scenario pair is associated with a response that the character is expected to have under the specific scenario. To label ground truth responses, three domain experts independently compare candidate responses, and a senior expert handles every case not unanimously accepted as-is by selecting, revising, rewriting, or discarding the response. The adjudicated character response becomes the keyed reference, while responses associated with other characters in the same scenario provide distractor candidates. This process yields 673 multiple-choice questions; the memory-augmented settings test whether models can use relevant synthetic memories to identify the keyed response. Table~\ref{tab:benchmark_comparison} situates \ourbench relative to representative persona and memory benchmarks across six design dimensions.
 
 %Throughout this paper, \emph{psychology-informed} describes the theoretical frameworks used to construct the benchmark; it does not imply that the synthetic characters instantiate human psychological processes. We operationalize \emph{persona consistency} as agreement between a model's selected option and an expert-adjudicated reference response conditioned on a predefined synthetic character profile, history, and scenario. Accordingly, \ourbench assesses consistency within this controlled construction rather than human likeness, genuine emotion, or predictive validity for real human behavior.
 
@@ -147,14 +147,14 @@ To address this gap, we introduce \ourbench, a controlled benchmark for evaluati
 
 %Each scenario simulates a realistic interaction loop in which an agent must interpret contextual information, integrate long-term memory, and make value-consistent decisions under uncertainty. This design allows us to move beyond surface-level recall tasks toward evaluating whether agents can maintain coherent identity, adapt to evolving contexts, and exhibit consistent value-oriented behavior over time.
 
-We evaluate 12 LLMs from the GPT, Claude, Gemini, DeepSeek, and Qwen families under a No-Retrieval baseline and three memory-augmented settings: Naive-RAG~\cite{lewis2020retrieval}, Mem0~\cite{chhikara2025mem0}, and PersonaDB~\cite{sun2025persona}. The strongest configuration, Gemini-3.1-Pro with Naive-RAG, reaches 63.3\% accuracy, while most models remain below 40\%. Within this controlled benchmark, the evaluated models therefore show limited ability to use encoded character and memory cues to select the expert-adjudicated response.
+We evaluate 16 LLMs from the GPT, Claude, Gemini, DeepSeek, and Qwen families. The original 12-model set covers No-Retrieval and three memory-augmented settings: Naive-RAG~\cite{lewis2020retrieval}, Mem0~\cite{chhikara2025mem0}, and PersonaDB~\cite{sun2025persona}; four additional models are evaluated under Naive-RAG. Gemini-3.1-Pro leads the original comparison at 63.3\% Naive-RAG accuracy. The additional runs use different evaluation interfaces and are reported as a descriptive extension (Appendix~\ref{app:decoding}). Within this controlled benchmark, the evaluated models therefore show limited ability to use encoded character and memory cues to select the expert-adjudicated response.
 
 
 We summarize our contributions as follows:
 \begin{itemize}[leftmargin=2em]
     \item We introduce a controlled benchmark comprising 11 psychology-informed synthetic characters, 11,000 synthetic autobiographical memories, 64 decision scenarios, and 673 expert-adjudicated MCQs.
     \item We operationalize memory-grounded persona consistency as agreement with an expert-adjudicated reference response conditioned on a predefined character, history, and scenario, and conduct a 176-item reference-label audit with the same expert team.
-    \item We evaluate 12 LLMs across No-Retrieval and three memory-augmented settings, quantifying their ability to use encoded character and memory cues within this controlled synthetic setting.
+    \item We evaluate 16 LLMs, comprising a complete four-setting comparison of 12 models and a Naive-RAG extension with four additional models, quantifying their ability to use encoded character and memory cues within this controlled synthetic setting.
 \end{itemize}
 
 
@@ -253,7 +253,7 @@ Claude-Sonnet-4.6 screened all $673$ assembled MCQs against six option-quality c
 
 \begin{table*}[t]
 \centering
-\caption{Accuracy on \ourbench. Memory-Aug. Avg. averages the three retrieval-based settings, excluding No-Retrieval. Gemini-3.1-Pro performs best. Scenario-clustered 95\% CIs are in Appendix~\ref{app:statistical_analysis}.}
+\caption{Accuracy on \ourbench. The original 12 models cover all four settings; rows for four additional models are reserved for forthcoming results, with -- denoting pending entries. Memory-Aug. Avg. requires all three retrieval-based settings and excludes No-Retrieval. Bold indicates the best currently populated result in each setting or average column. Scenario-clustered 95\% CIs for the original 12 models are in Appendix~\ref{app:statistical_analysis}.}
 \label{tab:main_results}
 \setlength{\tabcolsep}{6pt}
 \small
@@ -277,10 +277,14 @@ Claude-Sonnet-4.6 screened all $673$ assembled MCQs against six option-quality c
 \midrule
 \quad GPT-5.4-mini               & 0.288 & 0.330 & 0.343 & 0.322 & 0.332 \\
 \quad GPT-5.4                    & 0.278 & 0.371 & 0.366 & 0.351 & 0.363 \\
+\quad GPT-5.6-Sol                 & -- & -- & -- & -- & -- \\
+\quad GPT-6-Luna                  & -- & -- & -- & -- & -- \\
 \quad Claude-Haiku-4.5           & 0.245 & 0.357 & 0.363 & 0.376 & 0.365 \\
 \quad Claude-Sonnet-4.6          & 0.257 & 0.401 & 0.389 & 0.401 & 0.397 \\
+\quad Claude-Sonnet-5.5           & -- & -- & -- & -- & -- \\
 \quad Gemini-3-Flash             & 0.253 & 0.563 & 0.541 & 0.525 & 0.543 \\
 \quad Gemini-3.1-Pro             & 0.264 & \textbf{0.633} & \textbf{0.624} & \textbf{0.624} & \textbf{0.627} \\
+\quad Gemini-3.8-Flash            & -- & -- & -- & -- & -- \\
 \bottomrule
 \end{tabular}
 }
@@ -296,7 +300,7 @@ Figure~\ref{fig:case_study} illustrates profile--response alignment beyond surfa
 \subsection{Experimental Setup}
 
 \paragraph{Model Selection.}
-We evaluate 12 representative LLMs, including six open-source models: \textit{DeepSeek-V3.2}~\cite{deepseek_v3_2_2025}, \textit{DeepSeek-V4-Flash}, \textit{DeepSeek-V4-Pro}~\cite{deepseek_v4_2026}, \textit{Qwen3.5-35B-A3B}, \textit{Qwen3.5-122B-A10B}, and \textit{Qwen3.5-397B-A17B}~\cite{qwen35_2026}; and six closed-source models: \textit{GPT-5.4-mini}, \textit{GPT-5.4}~\cite{openai2026gpt54}, \textit{Claude-Haiku-4.5}~\cite{anthropic2025haiku45}, \textit{Claude-Sonnet-4.6}~\cite{anthropic2026sonnet46}, \textit{Gemini-3-Flash}~\cite{google2025gemini3flash}, and \textit{Gemini-3.1-Pro}~\cite{google2026gemini31pro}. All models are evaluated under a unified, deterministic decoding protocol (Appendix~\ref{app:decoding}).
+We evaluate 16 LLMs in total. The original 12-model set includes six open-source models: \textit{DeepSeek-V3.2}~\cite{deepseek_v3_2_2025}, \textit{DeepSeek-V4-Flash}, \textit{DeepSeek-V4-Pro}~\cite{deepseek_v4_2026}, \textit{Qwen3.5-35B-A3B}, \textit{Qwen3.5-122B-A10B}, and \textit{Qwen3.5-397B-A17B}~\cite{qwen35_2026}; and six closed-source models: \textit{GPT-5.4-mini}, \textit{GPT-5.4}~\cite{openai2026gpt54}, \textit{Claude-Haiku-4.5}~\cite{anthropic2025haiku45}, \textit{Claude-Sonnet-4.6}~\cite{anthropic2026sonnet46}, \textit{Gemini-3-Flash}~\cite{google2025gemini3flash}, and \textit{Gemini-3.1-Pro}~\cite{google2026gemini31pro}. These original 12 models use \texttt{high} reasoning/thinking effort under a shared decoding protocol. We additionally evaluate \textit{Gemini-3.8-Flash}, \textit{GPT-5.6-Sol}, \textit{GPT-6-Luna}, and \textit{Claude-Sonnet-5.5} under Naive-RAG only. The four added models extend the model coverage but are excluded from analyses that require complete results across settings (Appendix~\ref{app:decoding}).
 
 \paragraph{Memory-Augmented Settings.}
 We compare three retrieval-based frameworks---Naive-RAG~\cite{lewis2020retrieval}, Mem0~\cite{chhikara2025mem0}, and PersonaDB~\cite{sun2025persona}---against a \textit{No-Retrieval LLM} baseline. During evaluation, all models receive the scenario, answer options, character ID, and occupation. All three memory backends take only the de-identified \texttt{content\_full} narratives as their source memory content. Naive-RAG supplies retrieved narratives to the evaluated model, whereas Mem0 and PersonaDB supply the retrieved content produced by their respective memory-processing methods. All retrieval frameworks use the same embedding and auxiliary memory-management models, with retrieval budgets calibrated to provide comparable episodic content. The predefined Big~Five vector, value logic, behavioral patterns, and construction-time psychological annotations are withheld; models must infer persona cues from the supplied memory evidence. Full implementation and field-isolation details are provided in Appendix~\ref{app:interactive_settings}; the model-facing evaluation template is reproduced in Appendix~\ref{app:prompt_evaluation}.
@@ -307,11 +311,11 @@ Reference construction uses richer profile information than evaluation. Accuracy
 
 \subsection{Results and Discussion}
 
-\paragraph{Model choice dominates within the benchmark.} Under Naive-RAG, the spread between the best- and worst-performing models exceeds 30\% (63.3\% vs.\ 33.0\%), whereas the average gap between retrieval methods for a given model is only 1.7\% and never exceeds 4\%. The model- and method-axis Gini mean differences are 0.088 and 0.006, respectively, yielding a difference of 0.082 (95\% CI 0.068--0.096). Gemini-3.1-Pro achieves the best accuracy (63.3\%, 95\% CI 59.2--67.4\%) and ranks first by Memory-Augmented Avg. in all 10{,}000 scenario-bootstrap resamples. All non-Gemini models achieve only 33.2\%--42.1\% Memory-Augmented Avg., showing limited agreement with the expert-adjudicated references for synthetic characters under this setup.
+\paragraph{Model choice dominates within the benchmark.} Within the original 12-model comparison, under Naive-RAG, the spread between the best- and worst-performing models exceeds 30\% (63.3\% vs.\ 33.0\%), whereas the average gap between retrieval methods for a given model is only 1.7\% and never exceeds 4\%. The model- and method-axis Gini mean differences are 0.088 and 0.006, respectively, yielding a difference of 0.082 (95\% CI 0.068--0.096). Gemini-3.1-Pro achieves the best accuracy in this original set (63.3\%, 95\% CI 59.2--67.4\%) and ranks first by Memory-Augmented Avg. in all 10{,}000 scenario-bootstrap resamples. The non-Gemini models in this original set achieve only 33.2\%--42.1\% Memory-Augmented Avg., showing limited agreement with the expert-adjudicated references for synthetic characters under this setup.
 
 \begin{table}[t]
 \centering
-\caption{Memory-content ablation on the 176-item subset. Accuracy is averaged over the 12 LLMs.}
+\caption{Memory-content ablation on the 176-item subset. Accuracy is averaged over the original 12 LLMs; the four added models are not included.}
 \label{tab:memory_ablation_summary}
 \setlength{\tabcolsep}{2pt}
 \small
@@ -329,9 +333,9 @@ C3 & Target & Random non-target & 0.343 \\
 }
 \end{table}
 
-\paragraph{Retrieval helps, with no significant differences among backends.} Retrieval outperforms No-Retrieval in all 36 Holm-corrected tests, whereas no comparison among the three retrieval backends is significant. Rankings remain strongly correlated across backends ($\rho=0.89\text{--}0.94$), and Mem0 and PersonaDB have lower point estimates than Naive-RAG for 6 and 8 of the 12 models, respectively. Their additional summarization and structural abstraction may obscure latent character cues in the original episodic memories, although the nonsignificant backend comparisons do not establish equivalence.
+\paragraph{Retrieval helps, with no significant differences among backends.} In the original 12-model set, retrieval outperforms No-Retrieval in all 36 Holm-corrected tests, whereas no comparison among the three retrieval backends is significant. Rankings remain strongly correlated across backends ($\rho=0.89\text{--}0.94$), and Mem0 and PersonaDB have lower point estimates than Naive-RAG for 6 and 8 of the 12 models, respectively. Their additional summarization and structural abstraction may obscure latent character cues in the original episodic memories, although the nonsignificant backend comparisons do not establish equivalence.
 
-\paragraph{Memory ownership and scenario alignment are both informative.} On a fixed 176-item subset, we evaluate the same 12 models under Naive-RAG with $k{=}30$ while varying only the supplied memory assignment: C0 uses target-scenario memories from the target character; C1 uses memories retrieved for another scenario in the same life-stage bin from the target character; C2 uses target-scenario memories from another character; and C3 uses randomly sampled eligible non-target memories from the target character. The scenario, answer options, model, decoding protocol, and number of supplied memories are held fixed; no condition exposes the latent Big~Five vector, Schwartz profile, self-value logic, or behavioral templates. C0 achieves 39.9\% accuracy, exceeding C1, C2, and C3 by 5.23, 17.24, and 5.65 percentage points, respectively, with all 12 models favoring C0 in each contrast. This consistent pattern across all 12 evaluated models supports the importance of both memory ownership and scenario relevance for effective memory use on this 176-item subset. Full protocol and per-model results are provided in Appendix~\ref{app:memory_ablation}.
+\paragraph{Memory ownership and scenario alignment are both informative.} On a fixed 176-item subset, we evaluate the original 12 models under Naive-RAG with $k{=}30$ while varying only the supplied memory assignment: C0 uses target-scenario memories from the target character; C1 uses memories retrieved for another scenario in the same life-stage bin from the target character; C2 uses target-scenario memories from another character; and C3 uses randomly sampled eligible non-target memories from the target character. The scenario, answer options, model, decoding protocol, and number of supplied memories are held fixed; no condition exposes the latent Big~Five vector, Schwartz profile, self-value logic, or behavioral templates. C0 achieves 39.9\% accuracy, exceeding C1, C2, and C3 by 5.23, 17.24, and 5.65 percentage points, respectively, with all 12 models favoring C0 in each contrast. This consistent pattern across all 12 evaluated models supports the importance of both memory ownership and scenario relevance for effective memory use on this 176-item subset. Full protocol and per-model results are provided in Appendix~\ref{app:memory_ablation}.
 
 % \begin{figure}[t]
 % \centering
@@ -363,38 +367,32 @@ C3 & Target & Random non-target & 0.343 \\
 % \vspace{-15pt}
 % \end{figure}
 
-\paragraph{Gemini's lead persists across reference-response provenance subsets.} Because Gemini-origin candidates account for 497 of the 673 adjudicated references, same-family annotation bias is a natural concern. Gemini-3.1-Pro and Gemini-3-Flash nevertheless remain the top two models by Memory-Augmented Avg. on the Gemini-origin (63.3\% and 54.2\%), Claude-origin (61.6\% and 56.1\%), and GPT-origin subsets (59.3\% and 50.0\%), with source-specific ranking correlations of $\rho=0.666$--$0.809$. On non-Gemini-origin items, the Gemini family retains a 17.3-point advantage. Provenance interactions are nonsignificant in both scenario-clustered difference-in-differences (4.9 points, 95\% CI $-1.1$--$10.8$, adjusted $p{=}0.3395$) and item-fixed-effect analyses (5.4 points, 95\% CI $-0.6$--$11.5$, adjusted $p{=}0.2759$). These analyses do not detect a statistically significant family-specific provenance interaction, although they do not establish the absence of source bias (Appendix~\ref{app:gt_source_results}).
+\paragraph{Gemini's lead persists across reference-response provenance subsets.} Because Gemini-origin candidates account for 497 of the 673 adjudicated references, same-family annotation bias is a natural concern. Within the original 12-model set, Gemini-3.1-Pro and Gemini-3-Flash remain the top two models by Memory-Augmented Avg. on the Gemini-origin (63.3\% and 54.2\%), Claude-origin (61.6\% and 56.1\%), and GPT-origin subsets (59.3\% and 50.0\%), with source-specific ranking correlations of $\rho=0.666$--$0.809$. On non-Gemini-origin items, the Gemini family retains a 17.3-point advantage. Provenance interactions are nonsignificant in both scenario-clustered difference-in-differences (4.9 points, 95\% CI $-1.1$--$10.8$, adjusted $p{=}0.3395$) and item-fixed-effect analyses (5.4 points, 95\% CI $-0.6$--$11.5$, adjusted $p{=}0.2759$). These analyses do not detect a statistically significant family-specific provenance interaction, although they do not establish the absence of source bias (Appendix~\ref{app:gt_source_results}).
 
 \begin{figure}[t]
 \centering
 \includegraphics[width=\linewidth]{figures/fig_per_character_radar.pdf}
-\caption{Per-character accuracy averaged across LLMs by memory-augmented setting.}
+\caption{Per-character accuracy averaged across the original 12 LLMs by memory-augmented setting. The four added Naive-RAG-only models are not included.}
 \label{fig:per_char_radar}
 \end{figure}
 
-\paragraph{Character-level difficulty.} Figure~\ref{fig:per_char_radar} shows substantial variation across characters: C-High (CHAR\_03) reaches 57.3\%, whereas C-Low (CHAR\_04, 26.7\%) and O-Low (CHAR\_10, 26.9\%) are the two hardest characters. N-High (CHAR\_01, 32.4\%) is also among the more difficult characters.
+\paragraph{Character-level difficulty.} Figure~\ref{fig:per_char_radar} summarizes the original 12-model set and shows substantial variation across characters: C-High (CHAR\_03) reaches 57.3\%, whereas C-Low (CHAR\_04, 26.7\%) and O-Low (CHAR\_10, 26.9\%) are the two hardest characters. N-High (CHAR\_01, 32.4\%) is also among the more difficult characters.
 
 \FloatBarrier
 \section{Related Work}
+\label{sec:related_work}
 
-\subsection{Persona Modeling in LLM Systems}
-The Big Five (OCEAN) framework~\cite{mccrae1992introduction} is a prominent account of stable individual differences, with predictive validity across cultures~\cite{mccrae1997personality} and the lifespan~\cite{roberts2007power}. Human-personality research also describes behavioral states that vary with situational demands~\cite{fleeson2001toward}, autobiographical experiences organized around self-relevant goals~\cite{conway2000construction}, and developmental schemas associated with later reactions~\cite{young2006schema}. These theories motivate the structured synthetic artifacts in our benchmark.
+\paragraph{Persona-conditioned behavior.}
+Related evaluations cover role-playing and trait expression~\cite{shao2023character,jiang2024personallm}; MRBench diagnoses persona-knowledge use in dialogue~\cite{wang2026memoryroleplaying}. CustomerSim evaluates whether simulated shoppers' decisions satisfy persona-specific constraints~\cite{pruksachatkun2026customersim}, while AgentPersonaBench tests adherence to traits embedded in supplied profiles across survey, chat, web, and app tasks~\cite{huang2026agentpersonabench}.
 
-Current LLM persona systems follow two broad lines. The first injects static role descriptions or trait vectors at inference time, as in Character-LLM~\cite{shao2023character}, PersonaLLM~\cite{jiang2024personallm}, PersonaAgent~\cite{zhang2025personaagent}, and RGMem~\cite{tian2025rgmem}. The second develops long-term memory infrastructure, including MemGPT~\cite{packer2023memgpt}, HippoRAG~\cite{gutierrez2024hipporag}, Mem0~\cite{chhikara2025mem0}, and A-MEM~\cite{xu2025mem}. Existing systems usually provide either static profiles or long-term memory stores; few benchmarks test response selection conditioned jointly on a predefined trait/value profile and its synthetic memory history.
+\paragraph{History-based personalization.}
+Conversational-memory benchmarks include LoCoMo and LongMemEval~\cite{maharana2024evaluating,wu2024longmemeval}. Recent benchmarks extend to preference use: PERMA tracks event-driven preferences with MCQ and interactive tasks~\cite{liu2026perma}; AlpsBench evaluates memory management and response alignment using real dialogues~\cite{xiao2026alpsbench}; and PersonaMem-v3 combines psychology-grounded personas with cross-platform user understanding, recommendations, and proactive tasks~\cite{jiang2026personamemv3}. PerMemBench evaluates user-specific memory retention~\cite{in2026personalizethenstore}, while IMLogic/RootMem targets implicit logical memory retrieval and personalized responses~\cite{ding2026rootmemories}. UserToolBench closely relates to our profile-hidden setting, evaluating inferred preferences through clarification and tool-call trajectories~\cite{yin2026usertoolbench}.
 
-\subsection{Benchmarks for Persona- and Psychology-Informed Evaluation}
-
-\textbf{Psychometric evaluation of LLMs.}
-Prompted LLMs can simulate Big Five questionnaire responses with reasonable reliability~\cite{serapio2023personality}, and related work uses MBTI or Big Five scales to characterize model behavior. However, these approaches treat psychometric instruments as stimuli rather than testing persona-consistent decisions in controlled scenarios. They also evaluate context-free snapshots rather than response selection conditioned jointly on a profile and a structured synthetic history~\cite{mcadams2001psychology,pasupathi2007developing}.
-
-\paragraph{Persona and memory benchmarks.}
-Conversational persona benchmarks generally test factual or stylistic consistency. Long-horizon benchmarks such as LoCoMo~\cite{maharana2024evaluating} and LongMemEval~\cite{wu2024longmemeval} extend evaluation to multi-session dialogue but primarily assess recall. CloneMem~\cite{hu2026clonemem}, RealMem~\cite{bian2026realmem}, and KnowMeBench~\cite{wu2026knowme} use richer personal evidence, yet their central targets remain recall, preference inference, or goal consistency. In contrast, \ourbench evaluates memory-grounded persona-consistent response selection under controlled scenarios structured by DIAMONDS~\cite{rauthmann2014diamonds}.
-
-\paragraph{Data substrates and evaluation depth.}
-Synthetic chat logs and task-oriented interactions often lack the perceptual, affective, and introspective detail represented in autobiographical memories~\cite{rubin2006basic}, making memory-grounded character reasoning difficult to distinguish from surface pattern matching. Existing benchmarks also rarely combine content-rich episodic narratives with explicitly age-indexed synthetic histories~\cite{mcadams2001psychology}. \ourbench addresses this gap by using dimensions inspired by Rubin's Basic Systems Model~\cite{rubin2006basic} to structure generated memories and organizing them into eight age-defined life-stage bins informed by developmental theories~\cite{erikson1963childhood,levinson1978seasons}.
+\paragraph{Scope of \ourbench.}
+We cross shared DIAMONDS-guided scenarios with predefined Big Five/value profiles and age-indexed synthetic autobiographical histories. Trait/value specifications guide expert references but are withheld at evaluation; memory-augmented models infer persona cues from retrieved, temporally eligible narratives. Models select the target character's response among expert-adjudicated, same-scenario alternatives from different characters. This complements AgentPersonaBench's supplied-profile tests and user-assistance benchmarks. Memory-ownership and scenario-alignment ablations probe this reference-agreement task (Table~\ref{tab:memory_ablation_summary}); human behavioral validity remains untested.
 
 \section{Conclusion}
-In this work, we presented \ourbench, a controlled benchmark for memory-grounded, persona-consistent response selection in LLMs. It combines 11 predefined synthetic characters, 11{,}000 synthetic autobiographical memories, 64 shared decision scenarios, and 673 MCQs keyed by expert-adjudicated reference responses. Across 12 models and four evaluation settings, agreement with these references remains limited; the memory-content ablation further shows higher accuracy when supplied memories match both the target character and the scenario. The shared-scenario structure supports controlled comparisons of retrieval, memory representation, and persona-conditioned response selection methods. We intend \ourbench as a testbed for persona consistency and memory grounding.
+In this work, we presented \ourbench, a controlled benchmark for memory-grounded, persona-consistent response selection in LLMs. It combines 11 predefined synthetic characters, 11{,}000 synthetic autobiographical memories, 64 shared decision scenarios, and 673 MCQs keyed by expert-adjudicated reference responses. Across 16 models, with a complete four-setting comparison for the original 12 and additional Naive-RAG results for four, agreement with these references remains limited; the memory-content ablation further shows higher accuracy when supplied memories match both the target character and the scenario. The shared-scenario structure supports controlled comparisons of retrieval, memory representation, and persona-conditioned response selection methods. We intend \ourbench as a testbed for persona consistency and memory grounding.
 
 \section*{Limitations}
 \label{sec:limitations}
@@ -770,9 +768,9 @@ Memories are generated using Claude Sonnet 4.6 via the Anthropic Messages API. E
 \begin{enumerate}[leftmargin=1.5em, itemsep=2pt]
   \item \textbf{Character constraints}: full Big Five vector, occupation, self-value logic, and all eight core behavioral patterns from Appendix~\ref{app:stage_a}.
   \item \textbf{Age-bin context}: target age window, life-stage-bin label, and the associated construction guidance from Table~\ref{tab:stage_dist} (Appendix~\ref{app:stage_b}).
-  \item \textbf{Rubin coverage}: per-dimension guidance requiring organic integration of all five dimensions without explicit section labels.
+  \item \textbf{Narrative-dimension coverage}: guidance requiring organic integration of our five operational dimensions, inspired by Rubin's basic-systems account~\cite{rubin2006basic}, without explicit section labels.
   Unlike a short fact record (e.g., ``failed a job interview''), each \texttt{content\_full} narrative is generated to represent multiple facets of an episode rather than only its propositional summary.
-  The five dimensions are:
+  These dimensions are design choices for this benchmark, not a five-dimensional taxonomy proposed by Rubin. They are:
   \begin{enumerate}[leftmargin=1.5em, itemsep=1pt]
     \item \textit{Sensory detail}---generated sights, sounds, smells, or tactile cues that situate the narrative in a specific time and place;
     \item \textit{Dialogue reconstruction}---generated verbatim or near-verbatim exchanges that represent interpersonal dynamics and relational positioning beyond a short event summary;
@@ -847,7 +845,7 @@ S & context          & \textit{15--30 chars}          & Compact situational sett
 \rowcolor{blue!8}
 S & content\_summary & \textit{20--40 chars}          & One-sentence event gist; used for fast retrieval pre-filtering. \\
 \rowcolor{blue!8}
-S & content\_full    & \textit{2{,}000--4{,}500 chars}    & First-person narrative embedding all five Rubin dimensions. \\
+S & content\_full    & \textit{2{,}000--4{,}500 chars}    & First-person narrative embedding our five operational narrative dimensions. \\
 \midrule
 \rowcolor{green!8}
 R & triggers         & \textit{4 keywords}            & Cue words that activate this memory during simulation. \\
@@ -1416,18 +1414,21 @@ Reference candidates and expert adjudication use the full predefined profile and
 % ============================================================
 \section{Decoding Configuration}
 \label{app:decoding}
-All evaluated models expose API-configurable decoding parameters, including the sampling temperature and the reasoning/thinking mode, both of which we control through each model's OpenAI-compatible chat-completion endpoint. We apply a common observable decoding protocol across the twelve models: (i) reasoning/thinking effort is set to its minimum---or disabled where the API permits---so that each model uses its standard chat-completion mode; (ii) sampling temperature is set to $0$ with no top-$p$/top-$k$ truncation or multiple sampling; and (iii) exactly one response is retained per (model, setting, question), with no aggregation over repeated runs. This is the most deterministic configuration supported by the evaluated APIs and reduces sampling-related variation. Provider-specific reasoning controls need not be computationally equivalent, so score differences should be interpreted as performance under this shared protocol rather than pure intrinsic capability gaps.
+For the original 12-model set, we configure reasoning/thinking effort as \texttt{high} through their OpenAI-compatible chat-completion endpoints. This setting is shared across No-Retrieval, Naive-RAG, Mem0, and PersonaDB, and is also used in the memory-content ablation. Sampling temperature is set to $0$ with no top-$p$/top-$k$ truncation or multiple sampling. Exactly one response is retained per (model, setting, question), with no aggregation over repeated runs. Provider-specific reasoning controls need not be computationally equivalent, so score differences should be interpreted as performance under this shared protocol rather than pure intrinsic capability gaps.
+
+\paragraph{Additional Naive-RAG evaluations.}
+The four added models are evaluated under Naive-RAG with $k{=}30$ using newer CLI runs. These runs differ from the original API runs in evaluation interface, generation settings, and output validation; they are treated as a descriptive extension rather than as part of the original shared-protocol comparison. GPT-6-Luna uses its first run throughout the added-model results. No No-Retrieval, Mem0, PersonaDB, or memory-content ablation results are reported for these four models. Their available reference-source results are reported in Appendix~\ref{app:gt_source_results}; main-table totals remain pending. The answer-agreement analysis uses jointly valid answers for each model pair.
 
 % ============================================================
 \section{Statistical Analysis and Confidence Intervals}
 \label{app:statistical_analysis}
 % ============================================================
 
-Table~\ref{tab:accuracy_ci} reports scenario-clustered 95\% CIs for all 48 model--setting cells. Because multiple character instances derive from the same base scenario, we resample the 64 scenarios as clusters, retaining all associated instances in each of 10{,}000 bootstrap replicates, and report percentile 95\% CIs. Pairwise significance is assessed using 100{,}000 scenario-level paired sign-flip permutations. Holm correction is applied separately to the 36 retrieval-versus-No-Retrieval comparisons, the 36 comparisons among retrieval backends, and the 66 model-pair comparisons based on Memory-Augmented Avg. These intervals quantify uncertainty over benchmark scenarios rather than variation across repeated API calls or decoding seeds.
+Table~\ref{tab:accuracy_ci} reports scenario-clustered 95\% CIs for the 48 model--setting cells in the original 12-model set. All tests, multiplicity corrections, ranking analyses, and Gini summaries in this section retain that original set; the four additional Naive-RAG-only models are excluded. Because multiple character instances derive from the same base scenario, we resample the 64 scenarios as clusters, retaining all associated instances in each of 10{,}000 bootstrap replicates, and report percentile 95\% CIs. Pairwise significance is assessed using 100{,}000 scenario-level paired sign-flip permutations. Holm correction is applied separately to the 36 retrieval-versus-No-Retrieval comparisons, the 36 comparisons among retrieval backends, and the 66 model-pair comparisons based on Memory-Augmented Avg. These intervals quantify uncertainty over benchmark scenarios rather than variation across repeated API calls or decoding seeds.
 
 \begin{table*}[t]
 \centering
-\caption{Accuracy (\%) with scenario-clustered 95\% bootstrap CIs.}
+\caption{Accuracy (\%) with scenario-clustered 95\% bootstrap CIs for the original 12-model set. Rows for the four additional models are reserved; -- denotes pending results or intervals.}
 \label{tab:accuracy_ci}
 \setlength{\tabcolsep}{4.5pt}
 \scriptsize
@@ -1448,10 +1449,14 @@ Qwen3.5-397B-A17B   & 27.5 [24.3, 30.9] & 40.3 [36.5, 44.1] & 40.6 [36.5, 44.8] 
 \midrule
 GPT-5.4-mini        & 28.8 [25.3, 32.8] & 33.0 [29.1, 37.3] & 34.3 [30.6, 38.2] & 32.2 [28.8, 35.9] \\
 GPT-5.4             & 27.8 [24.9, 30.7] & 37.1 [33.5, 40.8] & 36.6 [33.3, 39.8] & 35.1 [31.7, 38.3] \\
+GPT-5.6-Sol             & -- & -- & -- & -- \\
+GPT-6-Luna              & -- & -- & -- & -- \\
 Claude-Haiku-4.5    & 24.5 [21.9, 27.1] & 35.7 [32.2, 39.2] & 36.3 [33.0, 39.8] & 37.6 [33.7, 41.4] \\
 Claude-Sonnet-4.6   & 25.7 [23.0, 28.4] & 40.1 [36.3, 44.1] & 38.9 [35.4, 42.7] & 40.1 [36.9, 43.6] \\
+Claude-Sonnet-5.5       & -- & -- & -- & -- \\
 Gemini-3-Flash      & 25.3 [22.1, 28.5] & 56.3 [51.6, 61.0] & 54.1 [49.3, 58.7] & 52.5 [48.6, 56.4] \\
 Gemini-3.1-Pro      & 26.4 [23.5, 29.3] & \textbf{63.3 [59.2, 67.4]} & \textbf{62.4 [58.1, 66.5]} & \textbf{62.4 [58.2, 66.5]} \\
+Gemini-3.8-Flash        & -- & -- & -- & -- \\
 \bottomrule
 \end{tabular}
 \end{table*}
@@ -1465,11 +1470,11 @@ The model-axis Gini mean difference is 0.088 (95\% CI 0.075--0.102), compared wi
 \label{app:memory_ablation}
 % ============================================================
 
-For this ablation, we independently draw a stratified random sample of two items from each of the $11$ character $\times$ $8$ life-stage-bin strata, yielding 176 items. This sample is drawn separately from the 176-item subset used for the reference-label audit. We isolate memory ownership and retrieval relevance on this fixed subset under Naive-RAG with $k{=}30$. C0 supplies target-scenario memories from the target character; C1 supplies memories retrieved for another scenario in the same life-stage bin from the target character; C2 supplies target-scenario memories from another character; and C3 supplies randomly sampled eligible non-target memories from the target character. All four conditions follow the same temporal eligibility rule: the supplied memories must occur at or before the target evaluation scenario age, including memories selected via another scenario or from another character. Each condition preserves the scenario, answer options, model, decoding configuration, and number of supplied memories. None exposes the latent Big~Five vector, Schwartz profile, self-value logic, or behavioral templates.
+Currently available memory-content ablation results cover the original 12-model set; rows for the four added models are reserved pending results. For this ablation, we independently draw a stratified random sample of two items from each of the $11$ character $\times$ $8$ life-stage-bin strata, yielding 176 items. This sample is drawn separately from the 176-item subset used for the reference-label audit. We isolate memory ownership and retrieval relevance on this fixed subset under Naive-RAG with $k{=}30$. C0 supplies target-scenario memories from the target character; C1 supplies memories retrieved for another scenario in the same life-stage bin from the target character; C2 supplies target-scenario memories from another character; and C3 supplies randomly sampled eligible non-target memories from the target character. All four conditions follow the same temporal eligibility rule: the supplied memories must occur at or before the target evaluation scenario age, including memories selected via another scenario or from another character. Each condition preserves the scenario, answer options, model, decoding configuration, and number of supplied memories. None exposes the latent Big~Five vector, Schwartz profile, self-value logic, or behavioral templates.
 
 \begin{table*}[t]
 \centering
-\caption{Per-model accuracy (\%) in the memory-content ablation. Differences are in percentage points. Differences and summary statistics are computed from the reported one-decimal accuracies.}
+\caption{Per-model accuracy (\%) in the memory-content ablation, with placeholder rows for the four additional models (--). Differences are in percentage points. Differences and summary statistics use the reported one-decimal accuracies of the original 12 models only.}
 \label{tab:memory_ablation_full}
 \setlength{\tabcolsep}{3.5pt}
 \scriptsize
@@ -1485,21 +1490,25 @@ Qwen3.5-122B-A10B    & 33.5 & 31.2 & 23.3 & 30.1 & +2.3 & +10.2 & +3.4 \\
 Qwen3.5-397B-A17B    & 34.7 & 31.8 & 23.3 & 30.7 & +2.9 & +11.4 & +4.0 \\
 GPT-5.4-mini         & 32.4 & 29.0 & 20.5 & 28.4 & +3.4 & +11.9 & +4.0 \\
 GPT-5.4              & 31.8 & 27.8 & 19.3 & 28.4 & +4.0 & +12.5 & +3.4 \\
+GPT-5.6-Sol             & -- & -- & -- & -- & -- & -- & -- \\
+GPT-6-Luna              & -- & -- & -- & -- & -- & -- & -- \\
 Claude-Haiku-4.5     & 31.8 & 25.6 & 24.4 & 26.1 & +6.2 & +7.4 & +5.7 \\
 Claude-Sonnet-4.6    & 41.5 & 34.7 & 24.4 & 33.5 & +6.8 & +17.1 & +8.0 \\
+Claude-Sonnet-5.5       & -- & -- & -- & -- & -- & -- & -- \\
 Gemini-3-Flash       & 56.3 & 48.3 & 23.9 & 47.7 & +8.0 & +32.4 & +8.6 \\
 Gemini-3.1-Pro       & 65.3 & 53.4 & 26.1 & 53.4 & +11.9 & +39.2 & +11.9 \\
+Gemini-3.8-Flash        & -- & -- & -- & -- & -- & -- & -- \\
 \midrule
 \textbf{Mean}       & \textbf{39.9} & \textbf{34.7} & \textbf{22.7} & \textbf{34.3} & \textbf{+5.2} & \textbf{+17.2} & \textbf{+5.7} \\
 \bottomrule
 \end{tabular}
 \end{table*}
 
-We summarize the ablation descriptively using mean accuracy differences and the number of models favoring each condition (Table~\ref{tab:memory_ablation_stats}). Differences are computed from the reported one-decimal accuracies. These summaries describe the 12 evaluated models on the fixed 176-item subset; they do not quantify uncertainty over other models or sampled scenarios.
+We summarize the ablation descriptively using mean accuracy differences and the number of models favoring each condition (Table~\ref{tab:memory_ablation_stats}). Differences are computed from the reported one-decimal accuracies. These summaries describe the original 12 models on the fixed 176-item subset; they do not quantify uncertainty over other models or sampled scenarios.
 
 \begin{table*}[t]
 \centering
-\caption{Descriptive model-panel comparisons for the memory-content ablation. ``Wins'' counts models favoring the left condition; C1--C3 has two ties.}
+\caption{Descriptive comparisons across the original 12 models for the memory-content ablation. ``Wins'' counts models favoring the left condition; C1--C3 has two ties.}
 \label{tab:memory_ablation_stats}
 \setlength{\tabcolsep}{6pt}
 \small
@@ -1531,7 +1540,7 @@ Table~\ref{tab:gt_source_results} reports accuracy after stratifying the 673 eva
 
 \begin{table*}[!t]
 \centering
-\caption{Accuracy stratified by the model-family provenance of the selected reference-response candidate. Bold indicates the best result within each subset and setting.}
+\caption{Accuracy stratified by the model-family provenance of the selected reference-response candidate. Bold indicates the best result within each subset and setting, including ties. The four added models have Naive-RAG results only; -- denotes unavailable results. GPT-6-Luna uses its first run. The rank-stability and provenance-interaction analyses below retain the original 12-model set.}
 \label{tab:gt_source_results}
 \setlength{\tabcolsep}{5pt}
 \scriptsize
@@ -1549,10 +1558,14 @@ Table~\ref{tab:gt_source_results} reports accuracy after stratifying the 673 eva
 \quad Qwen3.5-397B-A17B          & 0.260 & 0.386 & 0.376 & 0.378 & 0.380 \\
 \quad GPT-5.4-mini               & 0.264 & 0.300 & 0.316 & 0.304 & 0.307 \\
 \quad GPT-5.4                    & 0.268 & 0.364 & 0.364 & 0.344 & 0.357 \\
+\quad GPT-5.6-Sol                 & -- & 0.511 & -- & -- & -- \\
+\quad GPT-6-Luna                  & -- & 0.447 & -- & -- & -- \\
 \quad Claude-Haiku-4.5           & 0.233 & 0.364 & 0.354 & 0.378 & 0.365 \\
 \quad Claude-Sonnet-4.6          & 0.231 & 0.382 & 0.374 & 0.384 & 0.380 \\
+\quad Claude-Sonnet-5.5           & -- & 0.414 & -- & -- & -- \\
 \quad Gemini-3-Flash             & 0.249 & 0.563 & 0.537 & 0.527 & 0.542 \\
 \quad Gemini-3.1-Pro             & 0.264 & \textbf{0.642} & \textbf{0.626} & \textbf{0.632} & \textbf{0.633} \\
+\quad Gemini-3.8-Flash            & -- & \textbf{0.642} & -- & -- & -- \\
 \midrule
 \multicolumn{6}{l}{\textit{Claude-origin reference subset} ($n=126$)} \\
 \midrule
@@ -1564,10 +1577,14 @@ Table~\ref{tab:gt_source_results} reports accuracy after stratifying the 673 eva
 \quad Qwen3.5-397B-A17B          & 0.325 & 0.492 & 0.508 & 0.484 & 0.495 \\
 \quad GPT-5.4-mini               & \textbf{0.373} & 0.468 & 0.452 & 0.397 & 0.439 \\
 \quad GPT-5.4                    & 0.317 & 0.429 & 0.405 & 0.397 & 0.410 \\
+\quad GPT-5.6-Sol                 & -- & 0.500 & -- & -- & -- \\
+\quad GPT-6-Luna                  & -- & 0.524 & -- & -- & -- \\
 \quad Claude-Haiku-4.5           & 0.246 & 0.333 & 0.373 & 0.397 & 0.368 \\
 \quad Claude-Sonnet-4.6          & 0.286 & 0.476 & 0.444 & 0.452 & 0.457 \\
+\quad Claude-Sonnet-5.5           & -- & 0.452 & -- & -- & -- \\
 \quad Gemini-3-Flash             & 0.254 & 0.571 & 0.571 & 0.540 & 0.561 \\
-\quad Gemini-3.1-Pro             & 0.278 & \textbf{0.595} & \textbf{0.635} & \textbf{0.619} & \textbf{0.616} \\
+\quad Gemini-3.1-Pro             & 0.278 & 0.595 & \textbf{0.635} & \textbf{0.619} & \textbf{0.616} \\
+\quad Gemini-3.8-Flash            & -- & \textbf{0.683} & -- & -- & -- \\
 \midrule
 \multicolumn{6}{l}{\textit{GPT-origin reference subset} ($n=50$)} \\
 \midrule
@@ -1579,19 +1596,23 @@ Table~\ref{tab:gt_source_results} reports accuracy after stratifying the 673 eva
 \quad Qwen3.5-397B-A17B          & 0.300 & 0.340 & 0.440 & 0.460 & 0.413 \\
 \quad GPT-5.4-mini               & 0.320 & 0.280 & 0.340 & 0.320 & 0.313 \\
 \quad GPT-5.4                    & 0.280 & 0.300 & 0.280 & 0.300 & 0.293 \\
+\quad GPT-5.6-Sol                 & -- & 0.580 & -- & -- & -- \\
+\quad GPT-6-Luna                  & -- & 0.460 & -- & -- & -- \\
 \quad Claude-Haiku-4.5           & 0.360 & 0.340 & 0.420 & 0.300 & 0.353 \\
 \quad Claude-Sonnet-4.6          & \textbf{0.440} & 0.400 & 0.400 & 0.440 & 0.413 \\
+\quad Claude-Sonnet-5.5           & -- & 0.460 & -- & -- & -- \\
 \quad Gemini-3-Flash             & 0.280 & 0.540 & 0.500 & 0.460 & 0.500 \\
 \quad Gemini-3.1-Pro             & 0.240 & \textbf{0.640} & \textbf{0.580} & \textbf{0.560} & \textbf{0.593} \\
+\quad Gemini-3.8-Flash            & -- & \textbf{0.640} & -- & -- & -- \\
 \bottomrule
 \end{tabular}
 \end{table*}
 
 \textbf{Rank stability.}
-Scenario-clustered bootstrap resampling confirms that the two Gemini models jointly occupy the top two positions in 100\% of resamples on the Gemini-origin subset, 92.7\% on the Claude-origin subset, and 71.7\% on the GPT-origin subset. The source-specific rankings are positively correlated: the pairwise Spearman correlations are $\rho{=}0.741$ for Gemini versus Claude (95\% CI 0.392--0.881), $\rho{=}0.809$ for Gemini versus GPT (95\% CI 0.308--0.900), and $\rho{=}0.666$ for Claude versus GPT (95\% CI 0.200--0.853).
+Within the original 12-model set, scenario-clustered bootstrap resampling confirms that Gemini-3.1-Pro and Gemini-3-Flash jointly occupy the top two positions in 100\% of resamples on the Gemini-origin subset, 92.7\% on the Claude-origin subset, and 71.7\% on the GPT-origin subset. The source-specific rankings are positively correlated: the pairwise Spearman correlations are $\rho{=}0.741$ for Gemini versus Claude (95\% CI 0.392--0.881), $\rho{=}0.809$ for Gemini versus GPT (95\% CI 0.308--0.900), and $\rho{=}0.666$ for Claude versus GPT (95\% CI 0.200--0.853).
 
 \textbf{Provenance-interaction analysis.}
-For each model family, we define its relative advantage as the difference between the family mean of model-level Memory-Augmented Avg. values and the corresponding mean for models outside the family, and compare this gap between home-source and non-home-source items. The Gemini family has a 22.2-point advantage on Gemini-origin items and a 17.3-point advantage on non-Gemini-origin items, yielding a difference-in-differences estimate of 4.9 points (95\% scenario-clustered CI $-1.1$--$10.8$, Holm-adjusted $p{=}0.3395$). The corresponding interactions for Claude ($-0.6$ points, 95\% CI $-4.7$--$3.6$, adjusted $p{=}0.7893$) and GPT ($-4.1$ points, 95\% CI $-12.0$--$4.0$, adjusted $p{=}0.6343$) are likewise not significant. As a robustness check, an item-fixed-effect linear probability model controlling for model-by-retrieval-setting effects estimates the Gemini-family-by-Gemini-source interaction at 5.4 points (95\% bootstrap CI $-0.6$--$11.5$, adjusted $p{=}0.2759$). These analyses find no statistically significant family-specific provenance interaction, although non-significance does not establish equivalence or eliminate source-style artifacts.
+Using only the original 12-model set, for each model family we define its relative advantage as the difference between the family mean of model-level Memory-Augmented Avg. values and the corresponding mean for models outside the family, and compare this gap between home-source and non-home-source items. The Gemini family has a 22.2-point advantage on Gemini-origin items and a 17.3-point advantage on non-Gemini-origin items, yielding a difference-in-differences estimate of 4.9 points (95\% scenario-clustered CI $-1.1$--$10.8$, Holm-adjusted $p{=}0.3395$). The corresponding interactions for Claude ($-0.6$ points, 95\% CI $-4.7$--$3.6$, adjusted $p{=}0.7893$) and GPT ($-4.1$ points, 95\% CI $-12.0$--$4.0$, adjusted $p{=}0.6343$) are likewise not significant. As a robustness check, an item-fixed-effect linear probability model controlling for model-by-retrieval-setting effects estimates the Gemini-family-by-Gemini-source interaction at 5.4 points (95\% bootstrap CI $-0.6$--$11.5$, adjusted $p{=}0.2759$). These analyses find no statistically significant family-specific provenance interaction, although non-significance does not establish equivalence or eliminate source-style artifacts.
 
 % ============================================================
 \subsection{Model--Model Agreement Analysis}
@@ -1600,12 +1621,12 @@ For each model family, we define its relative advantage as the difference betwee
 
 \begin{figure}[h]
 \centering
-\includegraphics[width=0.75\linewidth]{figures/model_agreement.pdf}
-\caption{Pairwise answer agreement rate among 12 models under the Naive-RAG configuration. Diagonal entries are masked. White separator lines delineate model families (Gemini, Claude, GPT, DeepSeek, Qwen).}
+\includegraphics[width=1\linewidth]{figures/model_agreement.pdf}
+\caption{Pairwise same-option agreement (\%) for an extended set of 16 models under Naive-RAG@30. Each pair is evaluated on its 659--673 jointly valid answers from the 673-question dataset; invalid answers are excluded. GPT-6-Luna uses its first run. Diagonal entries (100\%) are masked. Label colors and white separators identify model families.}
 \label{fig:model_agreement}
 \end{figure}
 
-Figure~\ref{fig:model_agreement} shows that pairwise answer agreement is generally higher within model families than across them. The two Gemini models agree on 65.0\% of questions, and the three Qwen3.5 variants reach up to 66.7\%; the overall cross-model mean is 51.4\%. The lowest reported cross-family pair is Gemini-3.1-Pro and GPT-5.4-mini (35.0\%). Claude-Sonnet-4.6 agrees more often with GPT-5.4 and Qwen3.5-397B (around 58--59\%) than with Claude-Haiku-4.5 (54.0\%). These descriptive patterns show that evaluated models often select different options; they do not by themselves identify the underlying reasoning strategies or their causes.
+Figure~\ref{fig:model_agreement} summarizes an extended 16-model analysis, adding Gemini-3.8-Flash, Claude-Sonnet-5.5, GPT-5.6-Sol, and GPT-6-Luna to the original 12-model set. Agreement among the three Gemini models ranges from 65.2\% to 78.3\%, with Gemini-3.1-Pro and Gemini-3.8-Flash forming the highest-agreement pair (527/673). The three Qwen3.5 variants agree on 60.2--66.6\% of jointly valid questions, and GPT-5.6-Sol and GPT-6-Luna agree on 66.7\%. The mean across all 120 distinct model pairs is 51.8\%; the lowest is Gemini-3.1-Pro versus GPT-5.4-mini (35.1\%, 236/672). Restricting every pair to the same 649 questions with valid answers from all 16 models changes any agreement rate by at most 1.15 percentage points. These are descriptive comparisons of existing runs: historical API and newer CLI runs differ in evaluation interface, generation settings, and output validation. Agreement does not by itself identify the underlying reasoning strategies or their causes.
 
 % ============================================================
 \subsection{Age-Defined Life-Stage Performance Analysis}
@@ -1615,16 +1636,16 @@ Figure~\ref{fig:model_agreement} shows that pairwise answer agreement is general
 \begin{figure*}[h]
 \centering
 \includegraphics[width=\linewidth, trim=0 10 0 0 clip]{figures/per_stage_accuracy.pdf}
-\caption{Accuracy by age-defined life-stage bin across the No-Retrieval baseline and three memory-augmented settings. Each line represents the best-in-family model.}
+\caption{Accuracy by age-defined life-stage bin across the No-Retrieval baseline and three memory-augmented settings. Each line represents the best-in-family model within the original 12-model set; the four added Naive-RAG-only models are excluded.}
 \label{fig:per_stage}
 \end{figure*}
 
-\textbf{Accuracy varies across life-stage bins.} Figure~\ref{fig:per_stage} reports a descriptive breakdown by the benchmark's age-defined bins. Accuracy is highest at School Age (47.1\%) and lower at Age-30 Transition (37.4\%) and Midlife Transition (37.9\%), with Settling Down at 43.1\%. The pattern may reflect differences in designed scenario composition and memory density. Because bins were not randomized and contain different scenarios, it does not support a developmental or causal interpretation. Gemini-3.1-Pro has the highest accuracy in every displayed bin under this benchmark.
+\textbf{Accuracy varies across life-stage bins.} Figure~\ref{fig:per_stage} reports a descriptive breakdown for the original 12-model set by the benchmark's age-defined bins. Accuracy is highest at School Age (47.1\%) and lower at Age-30 Transition (37.4\%) and Midlife Transition (37.9\%), with Settling Down at 43.1\%. The pattern may reflect differences in designed scenario composition and memory density. Because bins were not randomized and contain different scenarios, it does not support a developmental or causal interpretation. Gemini-3.1-Pro has the highest accuracy in every displayed bin under this benchmark.
 
 \subsection{Character-Level Accuracy}
 \label{app:character_accuracy}
 
-Character-level accuracy in Figure~\ref{fig:per_char_radar} is computed separately for each memory-augmented setting by pooling predictions from all 12 evaluated LLMs within each target character; the values summarized in the main text average these setting-specific accuracies.
+Character-level accuracy in Figure~\ref{fig:per_char_radar} is computed separately for each memory-augmented setting by pooling predictions from the original 12 LLMs within each target character; the values summarized in the main text average these setting-specific accuracies. The four added Naive-RAG-only models are excluded so that all three settings retain the same model set.
 
 \section{Prompts}
 \label{app:prompts}
@@ -1634,6 +1655,8 @@ This appendix presents the model-facing evaluation template and the system-promp
 
 \subsection{Model Evaluation Prompt}
 \label{app:prompt_evaluation}
+
+The original 12 evaluation models use this template with reasoning/thinking effort configured as \texttt{high} at the API level, consistently across all evaluation settings and the memory-content ablation (Appendix~\ref{app:decoding}).
 
 The evaluation prompt serializes the input in a fixed order: basic character information, retrieved memory content, the current scenario, the trigger event, the task instruction, and four shuffled response options. The memory block contains retrieved original narratives for Naive-RAG and retrieved method-processed content for Mem0 and PersonaDB; it is omitted in the No-Retrieval condition. The template below preserves the complete block structure and required JSON output schema; bracketed placeholders replace item-specific content and repeated memory entries. The released implementation contains the exact executable prompt strings.
 
@@ -1756,7 +1779,7 @@ Generate a complete character profile for a virtual human in a personality resea
 \subsection{Memory Generation Prompt}
 \label{app:prompt_memory}
 
-This prompt generates the 11,000 episodic memories (1,000 per character) spanning ages 6--50. It enforces coverage of Rubin's five dimensions, strict temporal perspective lock, age-stratified language, and the ABCD intensity model.
+This prompt generates the 11,000 episodic memories (1,000 per character) spanning ages 6--50. It enforces coverage of five operational narrative dimensions designed in this study and inspired by Rubin's basic-systems account~\cite{rubin2006basic}, strict temporal perspective lock, age-stratified language, and the ABCD intensity model. The five dimensions are not a taxonomy directly proposed by Rubin. The ``Theoretical Framework'' heading in the reproduced construction prompt below is retained as a construction-time label and refers to our operationalization.
 
 \begin{tcolorbox}[
   breakable,
